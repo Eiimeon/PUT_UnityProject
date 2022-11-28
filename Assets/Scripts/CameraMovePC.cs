@@ -19,19 +19,19 @@ public class CameraMovePC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKey(KeyCode.D))
         {
             transform.position -= speed * Vector3.right * Time.deltaTime * Camera.fieldOfView /60;
         }
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.Q))
         {
             transform.position += speed * Vector3.right * Time.deltaTime * Camera.fieldOfView / 60;
         }
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.Z))
         {
             transform.position -= speed * Vector3.forward * Time.deltaTime * Camera.fieldOfView / 60;
         }
-        if (Input.GetKey(KeyCode.Z))
+        if (Input.GetKey(KeyCode.S))
         {
             transform.position += speed * Vector3.forward * Time.deltaTime * Camera.fieldOfView / 60;
         }
