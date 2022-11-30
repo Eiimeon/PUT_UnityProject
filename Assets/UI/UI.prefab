@@ -303,10 +303,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75860d8c5429a9849a1c3d0999e5c44f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UI_Choice: {fileID: 274829127185186564}
+  UI_Emissary: {fileID: 7949946877768123841}
+  buffer: []
   choiceCounter: -1
-  leftAdvisor: {fileID: 0}
-  rightAdvisor: {fileID: 0}
+  leftAdvisor: {fileID: 5391297376994524758}
+  rightAdvisor: {fileID: 1869762699692864677}
+  emissary: {fileID: 2003805022853508334}
   displayedText: {fileID: 3617235759689826777}
+  emissaryText: {fileID: 3240659899496298912}
   midText: "Appuyez sur un conseiller pour \xE9couter ce qu'il a \xE0 vous dire.
     Restez appuy\xE9(e) pour construire le b\xE2timent qu'il vous sugg\xE8re"
   currLeftPlace: {fileID: 0}
@@ -612,7 +617,7 @@ GameObject:
   - component: {fileID: 6351631245257679311}
   - component: {fileID: 2003805022853508334}
   m_Layer: 5
-  m_Name: leftAdvisor
+  m_Name: emissary
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
