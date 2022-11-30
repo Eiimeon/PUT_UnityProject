@@ -25,7 +25,8 @@ public class UI_Manager : MonoBehaviour
 
     public Dictionary<string, Place> places = new Dictionary<string, Place>();
 
-    public string[,] level = { { "Forum","Nécropole" } , { "Temple", "Domus" } , { "Domus", "Thermes" } };
+    public string[,] level = { { "Forum","Nécropole" } , { "Temple", "Domus" } , { "Domus", "Buffer" } , { "Égouts", "Thermes" } , { "Buffer", "Fontaine" } , { "Thermes", "Buffer" } , { "Théâtre", "Fontaine" } , { "Buffer", "Buffer" } , { "Remparts", "Teinturerie" } , { "Buffer", "Buffer" } };
+    public List<string> buffer = new List<string>();
     public int choiceCounter = -1; // Car le premier MoveToNextChoices fera passer à 0
 
     public Image leftAdvisor;
@@ -104,15 +105,33 @@ public class UI_Manager : MonoBehaviour
 
     private string GetKeyFromLevel(bool left,int counter)
     {
+        string levelKey;
         
         if (left)
         {
-            return level[counter, 0];
+            levelKey = level[counter, 0];
         }
         else
         {
-            return level[counter, 1];
+            levelKey =  level[counter, 1];
         }
+
+        if (levelKey == "Buffer")
+        {
+            if (buffer.Contains("Nécropole"))
+            {
+                levelKey = "Nécropole";
+            }
+            else if (buffer.Contains("Égouts"))
+            {
+                levelKey = "Égouts";
+            }
+            else
+            {
+                levelKey = buffer[0];
+            }
+        }
+        return levelKey;
     }
 
     private void MoveToNextChoices()
@@ -181,12 +200,14 @@ public class UI_Manager : MonoBehaviour
         { 
             canChoose = false;
             Debug.Log("Choic gauche");
+            buffer.Add(currRightKey);
             MoveToNextChoices();
         }
         if (DTimer > 1 & canChoose) 
         { 
             canChoose=false;
             Debug.Log("Choic droite");
+            buffer.Add(currLeftKey);
             MoveToNextChoices();
         }
     }
