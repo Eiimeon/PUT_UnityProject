@@ -25,7 +25,7 @@ public class UI_Manager : MonoBehaviour
 
     public Dictionary<string, Place> places = new Dictionary<string, Place>();
 
-    public string[,] level = { { "Forum","Nécropole"} };
+    public string[,] level = { { "Forum","Nécropole" } , { "Temple", "Domus" } , { "Domus", "Thermes" } };
     public int choiceCounter = -1; // Car le premier MoveToNextChoices fera passer à 0
 
     public Image leftAdvisor;
@@ -50,7 +50,10 @@ public class UI_Manager : MonoBehaviour
     public string currLeftText;
     public string currRightText;
 
-    // Timers
+    // Mechanics
+
+    bool canChoose = true;
+
     float QTimer = 0;
     float DTimer = 0;
 
@@ -115,7 +118,7 @@ public class UI_Manager : MonoBehaviour
     private void MoveToNextChoices()
     {
         Debug.Log(choiceCounter);
-        //choiceCounter++;
+        choiceCounter++;
         Debug.Log(choiceCounter);
 
         currLeftKey = GetKeyFromLevel(true, choiceCounter);
@@ -129,6 +132,8 @@ public class UI_Manager : MonoBehaviour
         currLeftText = currLeftPlace.texts[currLeftPlace.counter%currLeftPlace.texts.Length];
         currRightText = currRightPlace.texts[currRightPlace.counter % currRightPlace.texts.Length];
         Debug.Log(currLeftText + "    " + currRightText);
+
+        displayedText.text = midText;
     }
 
     void Start()
@@ -143,28 +148,46 @@ public class UI_Manager : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.X))
         {
-            displayedText.text = currLeftText;
             QTimer += Time.deltaTime;
-        }
-        else
-        {
-            QTimer = 0; 
         }
         if (Input.GetKey(KeyCode.C))
         {
-            displayedText.text = currRightText;
             DTimer += Time.deltaTime;
         }
-        else
+
+        if (Input.GetKeyDown(KeyCode.X))
         {
-            DTimer = 0;
+            displayedText.text = currLeftText;
         }
-        if (Input.GetKey(KeyCode.Space))
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            displayedText.text = currRightText;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             displayedText.text = midText;
         }
 
-        if (QTimer > 1) { Debug.Log("Choic gauche"); }
-        if (DTimer > 1) { Debug.Log("Choic droite"); }
+        if (Input.GetKeyUp(KeyCode.X) || Input.GetKeyUp(KeyCode.C))
+        {
+            canChoose = true;
+            QTimer = 0;
+            DTimer = 0;
+        }
+
+        if (QTimer > 1 & canChoose) 
+        { 
+            canChoose = false;
+            Debug.Log("Choic gauche");
+            MoveToNextChoices();
+        }
+        if (DTimer > 1 & canChoose) 
+        { 
+            canChoose=false;
+            Debug.Log("Choic droite");
+            MoveToNextChoices();
+        }
     }
 }
