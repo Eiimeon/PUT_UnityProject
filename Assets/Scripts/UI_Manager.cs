@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.PostProcessing.HistogramMonitor;
 
 public class UI_Manager : MonoBehaviour
 {
@@ -26,22 +27,53 @@ public class UI_Manager : MonoBehaviour
 
         public void setBuilding3D(GameObject _building3D)
         {
-            this.building3D = _building3D;
+            building3D = _building3D;
         }
 
         public void IncreaseCount() { counter++; }
 
         public void BuildBuilding()
         {
-            this.building3D.SetActive(true);
+            building3D.SetActive(true);
+        }
+
+        
+    }
+
+    public class Emissary
+    {
+        public string[] introTexts;
+        public string[] failureTexts;
+        public string[] successTexts;
+        public string[] specialSuccessTexts;
+
+        public Image emissaryImage;
+
+        public Emissary(string[] _it, string[] _ft, string[] st, string[] sst)
+        {
+            this.introTexts = _it;
+            this.failureTexts = _ft;
+            this.successTexts = st;
+            this.specialSuccessTexts = sst;
+        }
+        public Emissary(string[] _texts, Image _image)
+        {
+            //this.texts = _texts;
+            this.emissaryImage = _image;
         }
     }
 
-    public GameObject buildings3D;
-    public Transform[] allBuildings3D; 
+    //public GameObject buildings3D;
+    //public Transform[] allBuildings3D; 
 
     public GameObject UI_Choice;
     public GameObject UI_Emissary;
+    public GameObject UI_City;
+
+    public GameObject[] allBuildings3D;
+
+    public List<Emissary> emissaryList;
+    public int emissaryIndex = 0;
 
     public Dictionary<string, Place> places = new Dictionary<string, Place>();
 
@@ -94,24 +126,23 @@ public class UI_Manager : MonoBehaviour
 
     private void BuildBuildings3DArray()
     {
-        allBuildings3D = buildings3D.GetComponentsInChildren<Transform>();
-        foreach (Transform child in allBuildings3D)
+        foreach (GameObject child in allBuildings3D)
         {
-            child.gameObject.SetActive(false);
+            child.SetActive(false);
         }
     }
     private void BuildDictionnary()
     {
         string[] currTexts = { "Je vous suggère de construire un FORUM au centre de la ville. C'est un lieu d'échange où les citoyens pourraient se retrouver pour échanger sur les problématiques de la cité." };
         Place currPlace = new Place(currTexts);
-        currPlace.setBuilding3D(allBuildings3D[0].gameObject);
+        currPlace.setBuilding3D(allBuildings3D[0]);
         places["Forum"] = currPlace;
 
         currTexts = new string[] { "La cité est naissante, mais les gens ne savent pas où enterrer leurs morts, s'il vous plait, construisez une NÉCROPOLE juste au delà des limites de la cité.",
                                     "La situation devient urgente, ça fait des années que les gens enterrent leurs morts à l'arrache, construisez une NÉCROPOLE bon sang !",
                                     "Le peuple en a marre ! Construisez une NÉCROPOLE ! Ca suffit de devoir enterrer nos morts comme des clochards !" };
         currPlace = new Place(currTexts);
-        currPlace.setBuilding3D(allBuildings3D[1].gameObject);
+        currPlace.setBuilding3D(allBuildings3D[1]);
         places["Nécropole"] = currPlace;
 
         currTexts = new string[] { "Nous avons obtenu les droits pour créer à Toulouse un TEMPLE dédié à la triade capitoline ! C'est extêmement prestigieux ! Il y a Minerve, déesse de la sagesse, Junon déesse du foyer, et surtout Jupiter, dieu des dieux !\r\n" };
@@ -166,6 +197,33 @@ public class UI_Manager : MonoBehaviour
         currPlace = new Place(currTexts);
         currPlace.setBuilding3D(allBuildings3D[11].gameObject);
         places["Teinturerie"] = currPlace;
+    }
+
+    private void BuildEmissaries()
+    {
+        emissaryList.Add(new Emissary(
+            new string[] {"Haha ! C'est du bel ouvrage ! Tu vois petit gars, ça c'est les bases d'une grande ville, de grandes routes perpendiculaires, et surtout de grandes portes pour montrer qu'ici, c'est chez nous !",
+                            "Tu as de la chance que l'empereur ait décidé de financer la reconstruction de Tolosa et accepté ma requête de te placer ici. Mais ne te méprends pas, superviser l'urbanisme d'une cité est une grande responsabilité.",
+                            "[Fondu au noir. La construction des portes est achevée]",
+                            "Je laisse la ville entre tes mains, je reviendrai dans 5 ans. J'espère que cette ville sera devenue un vrai cité à mon retour. Fais centraliser l'activité politique de Tolosa, et alors l'empereur sera content."},
+            new string[] { "On a reçu des échos jusqu'à Rome ! Tolosa est une vrai petite cité maintenant ! Je suis fier de toi, maintenant j'en ai le cœur net, je peux valider sans crainte la décision de l'empereur de faire don de remparts à ta ville !" },
+            new string[] { },
+            new string[] { }));
+        emissaryList.Add(new Emissary(
+            new string[] { },
+            new string[] { },
+            new string[] { },
+            new string[] { }));
+        emissaryList.Add(new Emissary(
+            new string[] { },
+            new string[] { },
+            new string[] { },
+            new string[] { }));
+        emissaryList.Add(new Emissary(
+            new string[] { },
+            new string[] { },
+            new string[] { },
+            new string[] { }));
     }
 
     private string GetKeyFromLevel(bool left,int counter)
@@ -310,26 +368,48 @@ public class UI_Manager : MonoBehaviour
         
     }
 
-    private void SwitchMode()
+    private void beginEmissarySection(int emissaryIndex)
     {
-        if (Input.GetKeyDown(KeyCode.M))
+        SwitchMode(true);
+    }
+
+    private void SwitchMode(bool emissary = false)
+    {
+        if (!emissaryMode && !emissary)
         {
-            Debug.Log("pressed M");
-            if (choiceMode)
+            if (Input.GetKeyDown(KeyCode.M))
             {
-                
-                choiceMode = false;
-                cityMode = true;
-                UI_Choice.SetActive(false);
-                Debug.Log("choice loop");
-            }
-            if (cityMode)
-            {
-                cityMode = false;
-                choiceMode = true;
-                UI_Choice.SetActive(true);
+                if (choiceMode)
+                {
+                    choiceMode = false;
+                    cityMode = true;
+                }
+                else if (cityMode)
+                {
+                    cityMode = false;
+                    choiceMode = true;
+                }
             }
         }
+        else if (!emissaryMode && emissary)
+        {
+            cityMode = false;
+            choiceMode = false;
+            emissaryMode = true;
+        }
+        else if (emissaryMode && !emissary)
+        {
+            emissaryMode = false;
+            cityMode = false;
+            choiceMode = true;
+        }
+        else if ( emissaryMode && emissary ){
+            Debug.Log("Normalement, ça n'arrive pas");
+        }
+        UI_Choice.SetActive(choiceMode);
+        UI_Emissary.SetActive(emissaryMode);
+        UI_City.SetActive(cityMode);
+
     }
 
     void Start()
@@ -343,7 +423,14 @@ public class UI_Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SwitchMode();
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            SwitchMode(!emissaryMode);
+        }
+        if (Input.GetKeyDown(KeyCode.M) && !emissaryMode)
+        {
+            SwitchMode();
+        }
         if (choiceMode)
         {
             MakeAChoice();
