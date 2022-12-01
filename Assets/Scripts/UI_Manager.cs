@@ -12,6 +12,7 @@ public class UI_Manager : MonoBehaviour
         public int counter = 0;
         public string[] texts;
         public Image advisorImage;
+        public GameObject building3D;
 
         public Place()
         {
@@ -23,8 +24,21 @@ public class UI_Manager : MonoBehaviour
             texts = _texts;
         }
 
+        public void setBuilding3D(GameObject _building3D)
+        {
+            this.building3D = _building3D;
+        }
+
         public void IncreaseCount() { counter++; }
+
+        public void BuildBuilding()
+        {
+            this.building3D.SetActive(true);
+        }
     }
+
+    public GameObject buildings3D;
+    public Transform[] allBuildings3D; 
 
     public GameObject UI_Choice;
     public GameObject UI_Emissary;
@@ -32,7 +46,7 @@ public class UI_Manager : MonoBehaviour
     public Dictionary<string, Place> places = new Dictionary<string, Place>();
 
     //public string[,] level = { { "Forum","Nécropole" } }; // short level for engame test
-    public string[,] level = { { "Forum", "Nécropole" }, { "Temple", "Domus" }, { "Domus", "Buffer" }, { "Égouts", "Thermes" }, { "Buffer", "Fontaine" }, { "Thermes", "Buffer" }, { "Théâtre", "Fontaine" }, { "Buffer", "Buffer" }, { "Remparts", "Teinturerie" }, { "Buffer", "Buffer" } };
+    public string[,] level = { { "Forum", "Nécropole" }, { "Temple", "Domus" }, { "Domus", "Buffer" }, { "Égouts", "Thermes1" }, { "Buffer", "Fontaine1" }, { "Thermes2", "Buffer" }, { "Théâtre", "Fontaine2" }, { "Buffer", "Buffer" }, { "Remparts", "Teinturerie" }, { "Buffer", "Buffer" } };
     public List<string> buffer = new List<string>();
     public List<string> deadKeys = new List<string>();
     
@@ -72,55 +86,85 @@ public class UI_Manager : MonoBehaviour
 
     // Flags
 
-    bool canMakeACoice = true;
+    public bool choiceMode = true;
+    public bool cityMode = false;
+    public bool emissaryMode = false;
 
     // Start is called before the first frame update
 
+    private void BuildBuildings3DArray()
+    {
+        allBuildings3D = buildings3D.GetComponentsInChildren<Transform>();
+        foreach (Transform child in allBuildings3D)
+        {
+            child.gameObject.SetActive(false);
+        }
+    }
     private void BuildDictionnary()
     {
         string[] currTexts = { "Je vous suggère de construire un FORUM au centre de la ville. C'est un lieu d'échange où les citoyens pourraient se retrouver pour échanger sur les problématiques de la cité." };
         Place currPlace = new Place(currTexts);
+        currPlace.setBuilding3D(allBuildings3D[0].gameObject);
         places["Forum"] = currPlace;
 
         currTexts = new string[] { "La cité est naissante, mais les gens ne savent pas où enterrer leurs morts, s'il vous plait, construisez une NÉCROPOLE juste au delà des limites de la cité.",
                                     "La situation devient urgente, ça fait des années que les gens enterrent leurs morts à l'arrache, construisez une NÉCROPOLE bon sang !",
                                     "Le peuple en a marre ! Construisez une NÉCROPOLE ! Ca suffit de devoir enterrer nos morts comme des clochards !" };
         currPlace = new Place(currTexts);
+        currPlace.setBuilding3D(allBuildings3D[1].gameObject);
         places["Nécropole"] = currPlace;
 
         currTexts = new string[] { "Nous avons obtenu les droits pour créer à Toulouse un TEMPLE dédié à la triade capitoline ! C'est extêmement prestigieux ! Il y a Minerve, déesse de la sagesse, Junon déesse du foyer, et surtout Jupiter, dieu des dieux !\r\n" };
         currPlace = new Place(currTexts);
+        currPlace.setBuilding3D(allBuildings3D[2].gameObject);
         places["Temple"] = currPlace;
 
         currTexts = new string[] { "Je pense que vous devriez créer un quartier résidentiel autour d'une DOMUS romaine. Ce sont des maisons à la pointe du bon goût !",
                                     "Ce premier quartier avec DOMUS romaine est fabuleux ! Ne nous arrêtons pas en si bon chemin ! Je vous sous entends évidemment d'en créer un deuxième !" };
         currPlace = new Place(currTexts);
+        currPlace.setBuilding3D(allBuildings3D[3].gameObject);
         places["Domus"] = currPlace;
 
         currTexts = new string[] { "La construction de l'aqueduc nous a apporté plein d'eau, on va pouvoir mettre en place un réseau d'ÉGOUTS avec les techniques romaines pour assainir la ville.",
                                     "La ville a plein d'eau et pourtant l'hygiène est toujours pourrie, ça ne va pas du tout, faut vraiment construire un réseau d'ÉGOUTS !",
                                     "Construisez un réseau d'ÉGOUTS ! C'est inadmissible ! Enfin ! On peut pas avoir autant d'eau et avoir des rues qui puent la mort !" };
         currPlace = new Place(currTexts);
+        currPlace.setBuilding3D(allBuildings3D[4].gameObject);
         places["Égouts"] = currPlace;
 
         currTexts = new string[] { "Nous pourrions agrémenter le forum de THERMES. Ces bains publics sont d'une part un lieu de relaxation, mais aussi un excellent lieu dans lequel aborder les discutions politiques." };
         currPlace = new Place(currTexts);
-        places["Thermes"] = currPlace;
+        currPlace.setBuilding3D(allBuildings3D[5].gameObject);
+        places["Thermes1"] = currPlace;
+
+        currTexts = new string[] { "Nous pourrions agrémenter le forum de THERMES. Ces bains publics sont d'une part un lieu de relaxation, mais aussi un excellent lieu dans lequel aborder les discutions politiques." };
+        currPlace = new Place(currTexts);
+        currPlace.setBuilding3D(allBuildings3D[6].gameObject);
+        places["Thermes2"] = currPlace;
 
         currTexts = new string[] { "Avec toute cette eau, nous allons pouvoir faire de magnifiques FONTAINES ! Avec de fort belles sculptures racontant d'héroïques mythes romains !" };
         currPlace = new Place(currTexts);
-        places["Fontaine"] = currPlace;
+        currPlace.setBuilding3D(allBuildings3D[7].gameObject);
+        places["Fontaine1"] = currPlace;
+
+        currTexts = new string[] { "Avec toute cette eau, nous allons pouvoir faire de magnifiques FONTAINES ! Avec de fort belles sculptures racontant d'héroïques mythes romains !" };
+        currPlace = new Place(currTexts);
+        currPlace.setBuilding3D(allBuildings3D[8].gameObject);
+        places["Fontaine2"] = currPlace;
 
         currTexts = new string[] { "Notre cité a une population importante désormais, je vous suggère de construire un gigantesque THÉATRE, qui pourrait accueillir la moitié de la population Toulousaine, afin de montrer des pièces romaines." };
         currPlace = new Place(currTexts);
+        currPlace.setBuilding3D(allBuildings3D[9].gameObject);
         places["Théâtre"] = currPlace;
 
         currTexts = new string[] { "Les REMPARTS de Tibère commencent à dater un peu, nous pourrions leur redonner une petite jeunesse en y ajouter des ornements et des dorures ! Ca ne protège de rien, mais ça en jette !" };
         currPlace = new Place(currTexts);
+        currPlace.setBuilding3D(allBuildings3D[10].gameObject);
         places["Remparts"] = currPlace;
 
         currTexts = new string[] { "Nous avons les ressources aux alentours pour nous lancer dans le commerce de pigments et créer une TEINTURERIE. Ce nouveau commerce permettrait à Toulouse de gagner en renommée aux alentours." };
         currPlace = new Place(currTexts);
+        currPlace.setBuilding3D(allBuildings3D[11].gameObject);
         places["Teinturerie"] = currPlace;
     }
 
@@ -218,7 +262,7 @@ public class UI_Manager : MonoBehaviour
         canChoose = false;
         if (QTimer > 1)
         {
-            Debug.Log(currBuffer != currRightKey);
+            currLeftPlace.BuildBuilding();
             if (!deadKeys.Contains(currRightKey))
             {
                 buffer.Add(currRightKey);
@@ -226,7 +270,7 @@ public class UI_Manager : MonoBehaviour
         }
         if (DTimer > 1)
         {
-            Debug.Log("Choic droite");
+            currRightPlace.BuildBuilding();
             if (!deadKeys.Contains(currLeftKey))
             {
                 buffer.Add(currLeftKey);
@@ -266,8 +310,31 @@ public class UI_Manager : MonoBehaviour
         
     }
 
+    private void SwitchMode()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            Debug.Log("pressed M");
+            if (choiceMode)
+            {
+                
+                choiceMode = false;
+                cityMode = true;
+                UI_Choice.SetActive(false);
+                Debug.Log("choice loop");
+            }
+            if (cityMode)
+            {
+                cityMode = false;
+                choiceMode = true;
+                UI_Choice.SetActive(true);
+            }
+        }
+    }
+
     void Start()
     {
+        BuildBuildings3DArray();
         BuildDictionnary();
         displayedText.text = midText;
         MoveToNextChoices();
@@ -276,7 +343,8 @@ public class UI_Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (canMakeACoice)
+        SwitchMode();
+        if (choiceMode)
         {
             MakeAChoice();
         }
