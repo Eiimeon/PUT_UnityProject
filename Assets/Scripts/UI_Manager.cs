@@ -42,6 +42,10 @@ public class UI_Manager : MonoBehaviour
 
     public class Emissary
     {
+        public bool firstAppearance = true;
+
+        public int speechCounter = 0;
+
         public string[] introTexts;
         public string[] failureTexts;
         public string[] successTexts;
@@ -72,8 +76,9 @@ public class UI_Manager : MonoBehaviour
 
     public GameObject[] allBuildings3D;
 
-    public List<Emissary> emissaryList;
+    public List<Emissary> emissaryList = new List<Emissary>();
     public int emissaryIndex = 0;
+    public string successState = "success";
 
     public Dictionary<string, Place> places = new Dictionary<string, Place>();
 
@@ -94,6 +99,8 @@ public class UI_Manager : MonoBehaviour
     public string midText = "Appuyez sur un conseiller pour écouter ce qu'il a à vous dire. Restez appuyé(e) pour construire le bâtiment qu'il vous suggère";
 
     // "curr variables"
+
+    public Emissary currEmissary;
 
     string currLeftKey;
     string currRightKey;
@@ -201,29 +208,45 @@ public class UI_Manager : MonoBehaviour
 
     private void BuildEmissaries()
     {
-        emissaryList.Add(new Emissary(
+        Emissary temp = new Emissary(
             new string[] {"Haha ! C'est du bel ouvrage ! Tu vois petit gars, ça c'est les bases d'une grande ville, de grandes routes perpendiculaires, et surtout de grandes portes pour montrer qu'ici, c'est chez nous !",
                             "Tu as de la chance que l'empereur ait décidé de financer la reconstruction de Tolosa et accepté ma requête de te placer ici. Mais ne te méprends pas, superviser l'urbanisme d'une cité est une grande responsabilité.",
                             "[Fondu au noir. La construction des portes est achevée]",
                             "Je laisse la ville entre tes mains, je reviendrai dans 5 ans. J'espère que cette ville sera devenue un vrai cité à mon retour. Fais centraliser l'activité politique de Tolosa, et alors l'empereur sera content."},
             new string[] { "On a reçu des échos jusqu'à Rome ! Tolosa est une vrai petite cité maintenant ! Je suis fier de toi, maintenant j'en ai le cœur net, je peux valider sans crainte la décision de l'empereur de faire don de remparts à ta ville !" },
-            new string[] { },
-            new string[] { }));
-        emissaryList.Add(new Emissary(
-            new string[] { },
-            new string[] { },
-            new string[] { },
-            new string[] { }));
-        emissaryList.Add(new Emissary(
-            new string[] { },
-            new string[] { },
-            new string[] { },
-            new string[] { }));
-        emissaryList.Add(new Emissary(
-            new string[] { },
-            new string[] { },
-            new string[] { },
-            new string[] { }));
+            new string[] { "Sérieusement ?! Je te laisse 5 ans, et tout ce que fais c'est une pauvre nécropole ?! Tu comprends bien que je ne peux pas mentir dans mon rapport.. L'empereur voulait t'offrir des remparts pour ta ville, mais après avoir vu ça, je pense qu'il va surtout t'offrir un aller simple pour la légion étrangère." },
+            new string[] { "" });
+        emissaryList.Add(temp);
+
+        temp = new Emissary(
+            new string[] {"Haha ! C'est du bel ouvrage ! Tu vois petit gars, ça c'est les bases d'une grande ville, de grandes routes perpendiculaires, et surtout de grandes portes pour montrer qu'ici, c'est chez nous !",
+                            "Tu as de la chance que l'empereur ait décidé de financer la reconstruction de Tolosa et accepté ma requête de te placer ici. Mais ne te méprends pas, superviser l'urbanisme d'une cité est une grande responsabilité.",
+                            "[Fondu au noir. La construction des portes est achevée]",
+                            "Je laisse la ville entre tes mains, je reviendrai dans 5 ans. J'espère que cette ville sera devenue un vrai cité à mon retour. Fais centraliser l'activité politique de Tolosa, et alors l'empereur sera content."},
+            new string[] { "On a reçu des échos jusqu'à Rome ! Tolosa est une vrai petite cité maintenant ! Je suis fier de toi, maintenant j'en ai le cœur net, je peux valider sans crainte la décision de l'empereur de faire don de remparts à ta ville !" },
+            new string[] { "Sérieusement ?! Je te laisse 5 ans, et tout ce que fais c'est une pauvre nécropole ?! Tu comprends bien que je ne peux pas mentir dans mon rapport.. L'empereur voulait t'offrir des remparts pour ta ville, mais après avoir vu ça, je pense qu'il va surtout t'offrir un aller simple pour la légion étrangère." },
+            new string[] { "" });
+        emissaryList.Add(temp);
+
+        temp = new Emissary(
+        new string[] {"Haha ! C'est du bel ouvrage ! Tu vois petit gars, ça c'est les bases d'une grande ville, de grandes routes perpendiculaires, et surtout de grandes portes pour montrer qu'ici, c'est chez nous !",
+                            "Tu as de la chance que l'empereur ait décidé de financer la reconstruction de Tolosa et accepté ma requête de te placer ici. Mais ne te méprends pas, superviser l'urbanisme d'une cité est une grande responsabilité.",
+                            "[Fondu au noir. La construction des portes est achevée]",
+                            "Je laisse la ville entre tes mains, je reviendrai dans 5 ans. J'espère que cette ville sera devenue un vrai cité à mon retour. Fais centraliser l'activité politique de Tolosa, et alors l'empereur sera content."},
+        new string[] { "On a reçu des échos jusqu'à Rome ! Tolosa est une vrai petite cité maintenant ! Je suis fier de toi, maintenant j'en ai le cœur net, je peux valider sans crainte la décision de l'empereur de faire don de remparts à ta ville !" },
+        new string[] { "Sérieusement ?! Je te laisse 5 ans, et tout ce que fais c'est une pauvre nécropole ?! Tu comprends bien que je ne peux pas mentir dans mon rapport.. L'empereur voulait t'offrir des remparts pour ta ville, mais après avoir vu ça, je pense qu'il va surtout t'offrir un aller simple pour la légion étrangère." },
+        new string[] { "" });
+        emissaryList.Add(temp);
+
+        temp = new Emissary(
+            new string[] {"Haha ! C'est du bel ouvrage ! Tu vois petit gars, ça c'est les bases d'une grande ville, de grandes routes perpendiculaires, et surtout de grandes portes pour montrer qu'ici, c'est chez nous !",
+                            "Tu as de la chance que l'empereur ait décidé de financer la reconstruction de Tolosa et accepté ma requête de te placer ici. Mais ne te méprends pas, superviser l'urbanisme d'une cité est une grande responsabilité.",
+                            "[Fondu au noir. La construction des portes est achevée]",
+                            "Je laisse la ville entre tes mains, je reviendrai dans 5 ans. J'espère que cette ville sera devenue un vrai cité à mon retour. Fais centraliser l'activité politique de Tolosa, et alors l'empereur sera content."},
+            new string[] { "On a reçu des échos jusqu'à Rome ! Tolosa est une vrai petite cité maintenant ! Je suis fier de toi, maintenant j'en ai le cœur net, je peux valider sans crainte la décision de l'empereur de faire don de remparts à ta ville !" },
+            new string[] { "Sérieusement ?! Je te laisse 5 ans, et tout ce que fais c'est une pauvre nécropole ?! Tu comprends bien que je ne peux pas mentir dans mon rapport.. L'empereur voulait t'offrir des remparts pour ta ville, mais après avoir vu ça, je pense qu'il va surtout t'offrir un aller simple pour la légion étrangère." },
+            new string[] { "" });
+        emissaryList.Add(temp);
     }
 
     private string GetKeyFromLevel(bool left,int counter)
@@ -368,9 +391,49 @@ public class UI_Manager : MonoBehaviour
         
     }
 
+    private void setSuccessState()
+    {
+
+    }
+
     private void beginEmissarySection(int emissaryIndex)
     {
         SwitchMode(true);
+        currEmissary = emissaryList[emissaryIndex];
+        if (currEmissary.firstAppearance)
+        {
+            emissaryText.text = currEmissary.introTexts[0];
+        }
+        else
+        {
+            setSuccessState();
+            switch (successState)
+            {
+                case "success":
+                    emissaryText.text = currEmissary.successTexts[0];
+                    break;
+                case "specialSuccess":
+                    emissaryText.text = currEmissary.specialSuccessTexts[0];
+                    break;
+                case "failure":
+                    emissaryText.text = currEmissary.failureTexts[0];
+                    break;
+            }
+        }
+    }
+
+    private void endEmissarySection()
+    {
+        currEmissary.speechCounter = 0;
+        if (currEmissary.firstAppearance)
+        {
+            currEmissary.firstAppearance = false;
+        }
+        else
+        {
+            emissaryIndex++;
+        }
+        SwitchMode(false);
     }
 
     private void SwitchMode(bool emissary = false)
@@ -418,6 +481,10 @@ public class UI_Manager : MonoBehaviour
         BuildDictionnary();
         displayedText.text = midText;
         MoveToNextChoices();
+        BuildEmissaries();
+        currEmissary = emissaryList[0];
+        Debug.Log(currEmissary);
+        beginEmissarySection(emissaryIndex);
     }
 
     // Update is called once per frame
@@ -434,6 +501,24 @@ public class UI_Manager : MonoBehaviour
         if (choiceMode)
         {
             MakeAChoice();
+        }
+        if (emissaryMode)
+        {
+            if (currEmissary.firstAppearance)
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    currEmissary.speechCounter++;
+                    if (currEmissary.speechCounter < currEmissary.introTexts.Length) 
+                    {
+                        emissaryText.text = currEmissary.introTexts[currEmissary.speechCounter];
+                    }
+                    else
+                    {
+                        endEmissarySection();
+                    }
+                }
+            }
         }
     }
 }
