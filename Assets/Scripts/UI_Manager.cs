@@ -47,18 +47,20 @@ public class UI_Manager : MonoBehaviour
         public int speechCounter = 0;
 
         public string[] introTexts;
+
+        public string[] endTexts;
         public string[] failureTexts;
         public string[] successTexts;
         public string[] specialSuccessTexts;
 
         public Image emissaryImage;
 
-        public Emissary(string[] _it, string[] _ft, string[] st, string[] sst)
+        public Emissary(string[] _it, string[] _st, string[] _ft, string[] _sst)
         {
             this.introTexts = _it;
             this.failureTexts = _ft;
-            this.successTexts = st;
-            this.specialSuccessTexts = sst;
+            this.successTexts = _st;
+            this.specialSuccessTexts = _sst;
         }
         public Emissary(string[] _texts, Image _image)
         {
@@ -84,6 +86,7 @@ public class UI_Manager : MonoBehaviour
 
     //public string[,] level = { { "Forum","Nécropole" } }; // short level for engame test
     public string[,] level = { { "Forum", "Nécropole" }, { "Temple", "Domus" }, { "Domus", "Buffer" }, { "Égouts", "Thermes1" }, { "Buffer", "Fontaine1" }, { "Thermes2", "Buffer" }, { "Théâtre", "Fontaine2" }, { "Buffer", "Buffer" }, { "Remparts", "Teinturerie" }, { "Buffer", "Buffer" } };
+    public List<string> built = new List<string>();
     public List<string> buffer = new List<string>();
     public List<string> deadKeys = new List<string>();
     
@@ -124,6 +127,8 @@ public class UI_Manager : MonoBehaviour
     float DTimer = 0;
 
     // Flags
+
+    public bool monitorFirstAppearance;
 
     public bool choiceMode = true;
     public bool cityMode = false;
@@ -219,37 +224,37 @@ public class UI_Manager : MonoBehaviour
         emissaryList.Add(temp);
 
         temp = new Emissary(
-            new string[] {"Haha ! C'est du bel ouvrage ! Tu vois petit gars, ça c'est les bases d'une grande ville, de grandes routes perpendiculaires, et surtout de grandes portes pour montrer qu'ici, c'est chez nous !",
-                            "Tu as de la chance que l'empereur ait décidé de financer la reconstruction de Tolosa et accepté ma requête de te placer ici. Mais ne te méprends pas, superviser l'urbanisme d'une cité est une grande responsabilité.",
-                            "[Fondu au noir. La construction des portes est achevée]",
-                            "Je laisse la ville entre tes mains, je reviendrai dans 5 ans. J'espère que cette ville sera devenue un vrai cité à mon retour. Fais centraliser l'activité politique de Tolosa, et alors l'empereur sera content."},
-            new string[] { "On a reçu des échos jusqu'à Rome ! Tolosa est une vrai petite cité maintenant ! Je suis fier de toi, maintenant j'en ai le cœur net, je peux valider sans crainte la décision de l'empereur de faire don de remparts à ta ville !" },
-            new string[] { "Sérieusement ?! Je te laisse 5 ans, et tout ce que fais c'est une pauvre nécropole ?! Tu comprends bien que je ne peux pas mentir dans mon rapport.. L'empereur voulait t'offrir des remparts pour ta ville, mais après avoir vu ça, je pense qu'il va surtout t'offrir un aller simple pour la légion étrangère." },
-            new string[] { "" });
+            new string[] { "Hm...","...","Oui...","...","Euh...","...",
+                            "Les portes sont conformes, je reconnais là le style de feu Auguste.",
+                            "...","Toutefois votre ville n'est guère plus romaine que ça. Il va falloir faire mieux. Je vous laisse un peu moins d'une décennie."},
+            new string[] { "Hm, je vois que vous avez fait des efforts. On se sent un peu plus en territoire romain ici. Je suis en route pour l'Italie, mais je peux vous dire que l'Empereur vous sera favorable." },
+            new string[] { "Eh bien, une domus ? C'est tout ce vous à proposer ? Je suis en route pour l'Italie, je ne manquerai pas de dire à l'empereur que je n'ai rien à lui dire" },
+            new string[] { "Hm, je vois que vous avez fait des efforts. On se sent un peu plus en territoire rom...",
+                            "!!!",
+                            "Oh mais vous avez un temple dédié à la triade capitoline ?! Il est si beau, il me rappelle celui de Rome ! Ce que j'ai hâte d'y retourner.. Croyez moi, je ne manquerai pas de louanger votre cité à l'empereur !"});
         emissaryList.Add(temp);
 
         temp = new Emissary(
-        new string[] {"Haha ! C'est du bel ouvrage ! Tu vois petit gars, ça c'est les bases d'une grande ville, de grandes routes perpendiculaires, et surtout de grandes portes pour montrer qu'ici, c'est chez nous !",
-                            "Tu as de la chance que l'empereur ait décidé de financer la reconstruction de Tolosa et accepté ma requête de te placer ici. Mais ne te méprends pas, superviser l'urbanisme d'une cité est une grande responsabilité.",
-                            "[Fondu au noir. La construction des portes est achevée]",
-                            "Je laisse la ville entre tes mains, je reviendrai dans 5 ans. J'espère que cette ville sera devenue un vrai cité à mon retour. Fais centraliser l'activité politique de Tolosa, et alors l'empereur sera content."},
-        new string[] { "On a reçu des échos jusqu'à Rome ! Tolosa est une vrai petite cité maintenant ! Je suis fier de toi, maintenant j'en ai le cœur net, je peux valider sans crainte la décision de l'empereur de faire don de remparts à ta ville !" },
-        new string[] { "Sérieusement ?! Je te laisse 5 ans, et tout ce que fais c'est une pauvre nécropole ?! Tu comprends bien que je ne peux pas mentir dans mon rapport.. L'empereur voulait t'offrir des remparts pour ta ville, mais après avoir vu ça, je pense qu'il va surtout t'offrir un aller simple pour la légion étrangère." },
+        new string[] { "Alors comme ça le grand Canigula a aidé votre ville à financer son aqueduc ?",
+                        "Quel grand magnanime !",
+                        "Comme c'est excitant, vous allez pouvoir faire des tonnes de jolies choses avec toute cette eau !",
+                        "N'est-ce pas ?" },
+        new string[] { "Oh comme c'est beau ! Tous ces bâtiments sont si grâcieux …","... Du moment qu'on ne regarde pas avec le nez." },
+        new string[] { "Ca manque un peu d'eau par ici.","Ne vous inquiétez pas, en prison vous aurez toute l'eau de vos larmes" },
+        new string[] { "Oh comme c'est beau ! Tous ces bâtiments sont si grâcieux …","... et vous avez même enlevé la vieille odeur de rat crevé." });
+        emissaryList.Add(temp);
+
+        temp = new Emissary(
+        new string[] { "" },
+        new string[] { "" },
+        new string[] { "" },
         new string[] { "" });
-        emissaryList.Add(temp);
-
-        temp = new Emissary(
-            new string[] {"Haha ! C'est du bel ouvrage ! Tu vois petit gars, ça c'est les bases d'une grande ville, de grandes routes perpendiculaires, et surtout de grandes portes pour montrer qu'ici, c'est chez nous !",
-                            "Tu as de la chance que l'empereur ait décidé de financer la reconstruction de Tolosa et accepté ma requête de te placer ici. Mais ne te méprends pas, superviser l'urbanisme d'une cité est une grande responsabilité.",
-                            "[Fondu au noir. La construction des portes est achevée]",
-                            "Je laisse la ville entre tes mains, je reviendrai dans 5 ans. J'espère que cette ville sera devenue un vrai cité à mon retour. Fais centraliser l'activité politique de Tolosa, et alors l'empereur sera content."},
-            new string[] { "On a reçu des échos jusqu'à Rome ! Tolosa est une vrai petite cité maintenant ! Je suis fier de toi, maintenant j'en ai le cœur net, je peux valider sans crainte la décision de l'empereur de faire don de remparts à ta ville !" },
-            new string[] { "Sérieusement ?! Je te laisse 5 ans, et tout ce que fais c'est une pauvre nécropole ?! Tu comprends bien que je ne peux pas mentir dans mon rapport.. L'empereur voulait t'offrir des remparts pour ta ville, mais après avoir vu ça, je pense qu'il va surtout t'offrir un aller simple pour la légion étrangère." },
-            new string[] { "" });
         emissaryList.Add(temp);
     }
 
-    private string GetKeyFromLevel(bool left,int counter)
+
+
+        private string GetKeyFromLevel(bool left,int counter)
     {     
         if (left)
         {
@@ -347,6 +352,7 @@ public class UI_Manager : MonoBehaviour
             if (!deadKeys.Contains(currRightKey))
             {
                 buffer.Add(currRightKey);
+                built.Add(currLeftKey);
             }
         }
         if (DTimer > 1)
@@ -391,12 +397,12 @@ public class UI_Manager : MonoBehaviour
         
     }
 
-    private void setSuccessState()
+    private void SetSuccessState()
     {
 
     }
 
-    private void beginEmissarySection(int emissaryIndex)
+    private void BeginEmissarySection(int emissaryIndex)
     {
         SwitchMode(true);
         currEmissary = emissaryList[emissaryIndex];
@@ -406,34 +412,44 @@ public class UI_Manager : MonoBehaviour
         }
         else
         {
-            setSuccessState();
+            SetSuccessState();
             switch (successState)
             {
                 case "success":
-                    emissaryText.text = currEmissary.successTexts[0];
+                    currEmissary.endTexts = currEmissary.successTexts;
                     break;
                 case "specialSuccess":
-                    emissaryText.text = currEmissary.specialSuccessTexts[0];
+                    currEmissary.endTexts = currEmissary.specialSuccessTexts;
                     break;
                 case "failure":
-                    emissaryText.text = currEmissary.failureTexts[0];
+                    currEmissary.endTexts = currEmissary.failureTexts;
                     break;
             }
+            emissaryText.text = currEmissary.endTexts[0];
         }
     }
 
-    private void endEmissarySection()
+    private void EndEmissarySection()
     {
         currEmissary.speechCounter = 0;
         if (currEmissary.firstAppearance)
         {
             currEmissary.firstAppearance = false;
+            SwitchMode(false);
         }
         else
         {
-            emissaryIndex++;
+            if (successState == "failure")
+            {
+                currEmissary.firstAppearance = true;
+            }
+            else
+            {
+                emissaryIndex++;
+            }
+            SwitchMode(false);
+            BeginEmissarySection(emissaryIndex);
         }
-        SwitchMode(false);
     }
 
     private void SwitchMode(bool emissary = false)
@@ -483,8 +499,9 @@ public class UI_Manager : MonoBehaviour
         MoveToNextChoices();
         BuildEmissaries();
         currEmissary = emissaryList[0];
+        monitorFirstAppearance = currEmissary.firstAppearance;
         Debug.Log(currEmissary);
-        beginEmissarySection(emissaryIndex);
+        BeginEmissarySection(emissaryIndex);
     }
 
     // Update is called once per frame
@@ -492,7 +509,8 @@ public class UI_Manager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            SwitchMode(!emissaryMode);
+            //SwitchMode(!emissaryMode);
+            BeginEmissarySection(emissaryIndex);
         }
         if (Input.GetKeyDown(KeyCode.M) && !emissaryMode)
         {
@@ -515,7 +533,22 @@ public class UI_Manager : MonoBehaviour
                     }
                     else
                     {
-                        endEmissarySection();
+                        EndEmissarySection();
+                    }
+                }
+            }
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    currEmissary.speechCounter++;
+                    if (currEmissary.speechCounter < currEmissary.endTexts.Length)
+                    {
+                        emissaryText.text = currEmissary.endTexts[currEmissary.speechCounter];
+                    }
+                    else
+                    {
+                        EndEmissarySection();
                     }
                 }
             }
