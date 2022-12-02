@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -87,11 +88,14 @@ public class UI_Manager : MonoBehaviour
     //public string[,] level = { { "Forum","Nécropole" } }; // short level for engame test
     public string[,] level = { { "Forum", "Nécropole" }, { "Temple", "Domus" }, { "Domus", "Buffer" }, { "Égouts", "Thermes1" }, { "Buffer", "Fontaine1" }, { "Thermes2", "Buffer" }, { "Théâtre", "Fontaine2" }, { "Buffer", "Buffer" }, { "Remparts", "Teinturerie" }, { "Buffer", "Buffer" } };
     public List<string> built = new List<string>();
+    public List<string> builtThisLevel = new List<string>();
     public List<string> buffer = new List<string>();
     public List<string> deadKeys = new List<string>();
     
     public int choiceCounter = -1; // Car le premier MoveToNextChoices fera passer à 0
+    public int[] levelStarts = { 1, 3, 6, 10 };
 
+    public Image blackPanel;
     public Image leftAdvisor;
     public Image rightAdvisor;
     public Image emissary;
@@ -134,7 +138,7 @@ public class UI_Manager : MonoBehaviour
     public bool cityMode = false;
     public bool emissaryMode = false;
 
-    // Start is called before the first frame update
+    public bool fading = false;
 
     private void BuildBuildings3DArray()
     {
@@ -245,16 +249,16 @@ public class UI_Manager : MonoBehaviour
         emissaryList.Add(temp);
 
         temp = new Emissary(
-        new string[] { "" },
-        new string[] { "" },
-        new string[] { "" },
-        new string[] { "" });
+        new string[] { "Là c'est la tirade de l'empereur" },
+        new string[] { "ok tier" },
+        new string[] { "nul" },
+        new string[] { "wah tema la cité bimillénaire" });
         emissaryList.Add(temp);
     }
 
 
 
-        private string GetKeyFromLevel(bool left,int counter)
+    private string GetKeyFromLevel(bool left,int counter)
     {     
         if (left)
         {
@@ -349,15 +353,19 @@ public class UI_Manager : MonoBehaviour
         if (QTimer > 1)
         {
             currLeftPlace.BuildBuilding();
+            built.Add(currLeftKey);
+            builtThisLevel.Add(currLeftKey);
             if (!deadKeys.Contains(currRightKey))
             {
                 buffer.Add(currRightKey);
-                built.Add(currLeftKey);
+                
             }
         }
         if (DTimer > 1)
         {
             currRightPlace.BuildBuilding();
+            built.Add(currRightKey);
+            builtThisLevel.Add(currRightKey);
             if (!deadKeys.Contains(currLeftKey))
             {
                 buffer.Add(currLeftKey);
@@ -370,7 +378,6 @@ public class UI_Manager : MonoBehaviour
     private void MoveToNextChoices()
     {
         choiceCounter++;
-
         if (choiceCounter < level.Length/2)
         {
             currLeftKey = GetKeyFromLevel(true, choiceCounter);
@@ -392,9 +399,10 @@ public class UI_Manager : MonoBehaviour
         }
         else
         {
+            checkLevelSwitch();
             displayedText.text = "c'est fini";
         }
-        
+        checkLevelSwitch();
     }
 
     private void SetSuccessState()
@@ -405,27 +413,34 @@ public class UI_Manager : MonoBehaviour
     private void BeginEmissarySection(int emissaryIndex)
     {
         SwitchMode(true);
-        currEmissary = emissaryList[emissaryIndex];
-        if (currEmissary.firstAppearance)
+        if (emissaryIndex < emissaryList.Count)
         {
-            emissaryText.text = currEmissary.introTexts[0];
+            currEmissary = emissaryList[emissaryIndex];
+            if (currEmissary.firstAppearance)
+            {
+                emissaryText.text = currEmissary.introTexts[0];
+            }
+            else
+            {
+                SetSuccessState();
+                switch (successState)
+                {
+                    case "success":
+                        currEmissary.endTexts = currEmissary.successTexts;
+                        break;
+                    case "specialSuccess":
+                        currEmissary.endTexts = currEmissary.specialSuccessTexts;
+                        break;
+                    case "failure":
+                        currEmissary.endTexts = currEmissary.failureTexts;
+                        break;
+                }
+                emissaryText.text = currEmissary.endTexts[0];
+            }
         }
         else
         {
-            SetSuccessState();
-            switch (successState)
-            {
-                case "success":
-                    currEmissary.endTexts = currEmissary.successTexts;
-                    break;
-                case "specialSuccess":
-                    currEmissary.endTexts = currEmissary.specialSuccessTexts;
-                    break;
-                case "failure":
-                    currEmissary.endTexts = currEmissary.failureTexts;
-                    break;
-            }
-            emissaryText.text = currEmissary.endTexts[0];
+            emissaryText.text = "c'est fini";
         }
     }
 
@@ -448,6 +463,50 @@ public class UI_Manager : MonoBehaviour
                 emissaryIndex++;
             }
             SwitchMode(false);
+            BeginEmissarySection(emissaryIndex);
+        }
+    }
+
+    private void EmissaryMode()
+    {
+        if (currEmissary.firstAppearance)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                currEmissary.speechCounter++;
+                if (currEmissary.speechCounter < currEmissary.introTexts.Length)
+                {
+                    emissaryText.text = currEmissary.introTexts[currEmissary.speechCounter];
+                }
+                else
+                {
+                    EndEmissarySection();
+                }
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                currEmissary.speechCounter++;
+                if (currEmissary.speechCounter < currEmissary.endTexts.Length)
+                {
+                    emissaryText.text = currEmissary.endTexts[currEmissary.speechCounter];
+                }
+                else
+                {
+                    EndEmissarySection();
+                }
+            }
+        }
+    }
+
+    private void checkLevelSwitch()
+    {
+        if (levelStarts.Contains(choiceCounter))
+        {
+            SetSuccessState();
+            builtThisLevel.Clear();
             BeginEmissarySection(emissaryIndex);
         }
     }
@@ -491,6 +550,38 @@ public class UI_Manager : MonoBehaviour
 
     }
 
+    // Aesthethic methodes 
+    public void FadeToBlack()
+    {
+        //Debug.Log("Enter FTB");
+        //bool fading = true;
+        Color color = blackPanel.GetComponent<Image>().color;
+        Debug.Log(color.a);
+        //blackPanel.GetComponent<Image>().color = new Color(color.r, color.g, color.b,1);
+        float lerpSpeed = 100;
+
+        if (fading)
+        {
+            Debug.Log("Fading");
+            Color.Lerp(blackPanel.GetComponent<Image>().color, new Color(color.r, color.g, color.b, 1), lerpSpeed * Time.deltaTime);
+        }
+        else
+        {
+            Color.Lerp(blackPanel.GetComponent<Image>().color, new Color(color.r, color.g, color.b, 0), lerpSpeed * Time.deltaTime);
+        }
+
+        /*while (blackPanel.GetComponent<Image>().color.a < 0.95)
+        {
+            Debug.Log("shadowing");
+            Color.Lerp(blackPanel.GetComponent<Image>().color, new Color(color.r, color.g, color.b, 1), lerpSpeed * Time.deltaTime); 
+        }*/
+        /*while (alpha > 0.05)
+        {
+            Mathf.Lerp(alpha, 0, lerpSpeed * Time.deltaTime);
+        }*/
+        //yield return null;
+    }
+
     void Start()
     {
         BuildBuildings3DArray();
@@ -507,6 +598,11 @@ public class UI_Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            //StartCoroutine(FadeToBlack());
+            fading = !fading;
+        }
         if (Input.GetKeyDown(KeyCode.E))
         {
             //SwitchMode(!emissaryMode);
@@ -522,36 +618,9 @@ public class UI_Manager : MonoBehaviour
         }
         if (emissaryMode)
         {
-            if (currEmissary.firstAppearance)
-            {
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    currEmissary.speechCounter++;
-                    if (currEmissary.speechCounter < currEmissary.introTexts.Length) 
-                    {
-                        emissaryText.text = currEmissary.introTexts[currEmissary.speechCounter];
-                    }
-                    else
-                    {
-                        EndEmissarySection();
-                    }
-                }
-            }
-            else
-            {
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    currEmissary.speechCounter++;
-                    if (currEmissary.speechCounter < currEmissary.endTexts.Length)
-                    {
-                        emissaryText.text = currEmissary.endTexts[currEmissary.speechCounter];
-                    }
-                    else
-                    {
-                        EndEmissarySection();
-                    }
-                }
-            }
+            EmissaryMode();
         }
+        // "coroutines" du bled
+        // FadeToBlack();
     }
 }
