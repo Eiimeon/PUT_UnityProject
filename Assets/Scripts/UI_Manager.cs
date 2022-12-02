@@ -256,7 +256,7 @@ public class UI_Manager : MonoBehaviour
         emissaryList.Add(temp);
     }
 
-
+    // ###################################################################
 
     private string GetKeyFromLevel(bool left,int counter)
     {     
@@ -550,8 +550,42 @@ public class UI_Manager : MonoBehaviour
 
     }
 
-    // Aesthethic methodes 
-    public void FadeToBlack()
+    // Coroutines ################################################## 
+
+    public IEnumerator Wait(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+    }
+    public IEnumerator FadeTo(float targetAlpha, float duration, Action after = null, bool unfade = false)
+    {
+        float timer = 0f;
+        Color initialColor = blackPanel.GetComponent<Image>().color;
+        while (timer<duration) 
+        {
+            Debug.Log(timer);
+            timer += Time.deltaTime;
+            //blackPanel.GetComponent<Image>().color = Color.Lerp(initialColor, new Color(0, 0, 0, targetAlpha), timer / duration);
+            blackPanel.GetComponent<Image>().color = Color.Lerp(blackPanel.GetComponent<Image>().color, new Color(0, 0, 0, targetAlpha), timer / duration);
+            yield return null;
+        }
+        /*while (Mathf.Abs(blackPanel.GetComponent<Image>().color.a - targetAlpha)>0.005)
+        {
+            Debug.Log(timer);
+            timer += Time.deltaTime;
+            blackPanel.GetComponent<Image>().color = Color.Lerp(blackPanel.GetComponent<Image>().color, new Color(0, 0, 0, targetAlpha), 10 * Time.deltaTime);
+            yield return new WaitForEndOfFrame();
+        }*/
+        if (after!=null)
+        {
+            after();
+        }
+        if (unfade)
+        {
+            yield return new WaitForSeconds(0.5f);
+            StartCoroutine(FadeTo(1 - targetAlpha, duration));
+        }
+    }
+    /*public void FadeToBlack()
     {
         //Debug.Log("Enter FTB");
         //bool fading = true;
@@ -578,9 +612,9 @@ public class UI_Manager : MonoBehaviour
         /*while (alpha > 0.05)
         {
             Mathf.Lerp(alpha, 0, lerpSpeed * Time.deltaTime);
-        }*/
+        }
         //yield return null;
-    }
+    }*/
 
     void Start()
     {
@@ -600,7 +634,7 @@ public class UI_Manager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            //StartCoroutine(FadeToBlack());
+            StartCoroutine(FadeTo(1f,1,null,true));
             fading = !fading;
         }
         if (Input.GetKeyDown(KeyCode.E))
