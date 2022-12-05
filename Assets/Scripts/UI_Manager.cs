@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UnityEditor.Rendering.BuiltIn.ShaderGraph;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.PostProcessing.HistogramMonitor;
@@ -13,7 +14,7 @@ public class UI_Manager : MonoBehaviour
     {
         public int counter = 0;
         public string[] texts;
-        public Image advisorImage;
+        public Sprite advisorSprite;
         public GameObject building3D;
 
         public Place()
@@ -54,20 +55,92 @@ public class UI_Manager : MonoBehaviour
         public string[] successTexts;
         public string[] specialSuccessTexts;
 
-        public Image emissaryImage;
+        public Image[] emissaryImage;
 
         public Emissary(string[] _it, string[] _st, string[] _ft, string[] _sst)
         {
-            this.introTexts = _it;
-            this.failureTexts = _ft;
-            this.successTexts = _st;
-            this.specialSuccessTexts = _sst;
+            introTexts = _it;
+            failureTexts = _ft;
+            successTexts = _st;
+            specialSuccessTexts = _sst;
         }
-        public Emissary(string[] _texts, Image _image)
+        public Emissary(string[] _texts, Image[] _image)
         {
             //this.texts = _texts;
-            this.emissaryImage = _image;
+            emissaryImage = _image;
         }
+    }
+
+    public class Level
+    {
+        public int levelIndex = 0;
+        public string[,] placeKeys;
+        public Emissary emissaire;
+        public List<string> built = new List<string>();
+
+        public Level(string[,] placeKeys, Emissary emissaire)
+        {
+            this.placeKeys = placeKeys;
+            this.emissaire = emissaire;
+        }
+
+        /*private void BeginEmissarySection(int emissaryIndex)
+        {
+            SwitchMode(true);
+            if (emissaryIndex < emissaryList.Count)
+            {
+                currEmissary = emissaryList[emissaryIndex];
+                if (currEmissary.firstAppearance)
+                {
+                    emissaryText.text = currEmissary.introTexts[0];
+                }
+                else
+                {
+                    SetSuccessState();
+                    switch (successState)
+                    {
+                        case "success":
+                            currEmissary.endTexts = currEmissary.successTexts;
+                            break;
+                        case "specialSuccess":
+                            currEmissary.endTexts = currEmissary.specialSuccessTexts;
+                            break;
+                        case "failure":
+                            currEmissary.endTexts = currEmissary.failureTexts;
+                            break;
+                    }
+                    emissaryText.text = currEmissary.endTexts[0];
+                }
+            }
+            else
+            {
+                emissaryText.text = "c'est fini";
+            }
+        }
+
+        private void EndEmissarySection()
+        {
+            currEmissary.speechCounter = 0;
+            if (currEmissary.firstAppearance)
+            {
+                currEmissary.firstAppearance = false;
+                SwitchMode(false);
+            }
+            else
+            {
+                if (successState == "failure")
+                {
+                    currEmissary.firstAppearance = true;
+                }
+                else
+                {
+                    emissaryIndex++;
+                }
+                SwitchMode(false);
+                BeginEmissarySection(emissaryIndex);
+            }
+        }*/
+
     }
 
     //public GameObject buildings3D;
@@ -87,6 +160,7 @@ public class UI_Manager : MonoBehaviour
 
     //public string[,] level = { { "Forum","Nécropole" } }; // short level for engame test
     public string[,] level = { { "Forum", "Nécropole" }, { "Temple", "Domus" }, { "Domus", "Buffer" }, { "Égouts", "Thermes1" }, { "Buffer", "Fontaine1" }, { "Thermes2", "Buffer" }, { "Théâtre", "Fontaine2" }, { "Buffer", "Buffer" }, { "Remparts", "Teinturerie" }, { "Buffer", "Buffer" } };
+    public List<Level> levels = new List<Level>();
     public List<string> built = new List<string>();
     public List<string> builtThisLevel = new List<string>();
     public List<string> buffer = new List<string>();
@@ -109,16 +183,13 @@ public class UI_Manager : MonoBehaviour
 
     public Emissary currEmissary;
 
-    string currLeftKey;
-    string currRightKey;
+    string currLeftKey; // currLevel.placeKeys[currLevel.index,0]
+    string currRightKey; // currLevel.placeKeys[currLevel.index,1]
 
-    public Place currLeftPlace;
-    public Place currRightPlace;
+    public Place currLeftPlace; // places[currLevel.placeKeys[currLevel.index,0]]
+    public Place currRightPlace; // places[currLevel.placeKeys[currLevel.index,1]]
 
-    Sprite currLeftAdvisor;
-    Sprite currRightAdvisor;
-
-    public string currLeftText;
+    public string currLeftText; // places[currLevel.placeKeys[currLevel.index,0].text]
     public string currRightText;
 
     public string currBuffer;
@@ -254,6 +325,14 @@ public class UI_Manager : MonoBehaviour
         new string[] { "nul" },
         new string[] { "wah tema la cité bimillénaire" });
         emissaryList.Add(temp);
+    }
+
+    private void BuildLevels()
+    {
+        levels.Add(new Level(new string[,] { { "Forum","Nécropole"} } ,emissaryList[0]) );
+        levels.Add(new Level(new string[,] { { "Temple", "Domus" },{ "Domus","Buffer"} }, emissaryList[1]));
+        levels.Add(new Level(new string[,] { { "Égouts", "Thermes1" }, { "Buffer", "Fontaine1" }, { "Thermes2", "Buffer" } }, emissaryList[2]));
+        levels.Add(new Level(new string[,] { { "Théâtre", "Fontaine2" }, { "Buffer", "Buffer" }, { "Remparts", "Teinturerie" }, { "Buffer", "Buffer" } }, emissaryList[3]));
     }
 
     // ###################################################################
@@ -585,48 +664,18 @@ public class UI_Manager : MonoBehaviour
             StartCoroutine(FadeTo(1 - targetAlpha, duration));
         }
     }
-    /*public void FadeToBlack()
-    {
-        //Debug.Log("Enter FTB");
-        //bool fading = true;
-        Color color = blackPanel.GetComponent<Image>().color;
-        Debug.Log(color.a);
-        //blackPanel.GetComponent<Image>().color = new Color(color.r, color.g, color.b,1);
-        float lerpSpeed = 100;
-
-        if (fading)
-        {
-            Debug.Log("Fading");
-            Color.Lerp(blackPanel.GetComponent<Image>().color, new Color(color.r, color.g, color.b, 1), lerpSpeed * Time.deltaTime);
-        }
-        else
-        {
-            Color.Lerp(blackPanel.GetComponent<Image>().color, new Color(color.r, color.g, color.b, 0), lerpSpeed * Time.deltaTime);
-        }
-
-        /*while (blackPanel.GetComponent<Image>().color.a < 0.95)
-        {
-            Debug.Log("shadowing");
-            Color.Lerp(blackPanel.GetComponent<Image>().color, new Color(color.r, color.g, color.b, 1), lerpSpeed * Time.deltaTime); 
-        }*/
-        /*while (alpha > 0.05)
-        {
-            Mathf.Lerp(alpha, 0, lerpSpeed * Time.deltaTime);
-        }
-        //yield return null;
-    }*/
 
     void Start()
     {
         BuildBuildings3DArray();
         BuildDictionnary();
-        displayedText.text = midText;
-        MoveToNextChoices();
         BuildEmissaries();
-        currEmissary = emissaryList[0];
-        monitorFirstAppearance = currEmissary.firstAppearance;
-        Debug.Log(currEmissary);
-        BeginEmissarySection(emissaryIndex);
+        BuildLevels();
+        //MoveToNextChoices();
+        
+        //currEmissary = emissaryList[0];
+        //Debug.Log(currEmissary);
+        //BeginEmissarySection(emissaryIndex);
     }
 
     // Update is called once per frame
