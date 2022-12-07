@@ -590,7 +590,7 @@ public class UI_Manager : MonoBehaviour
         }
     }
 
-    private void SwitchMode(bool emissary = false)
+    public void SwitchMode(bool emissary = false)
     {
         if (!emissaryMode && !emissary)
         {
