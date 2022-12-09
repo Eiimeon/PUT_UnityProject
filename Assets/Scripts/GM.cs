@@ -6,22 +6,139 @@ using TMPro;
 using UnityEditor.Rendering.BuiltIn.ShaderGraph;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.PostProcessing.HistogramMonitor;
-using Object = UnityEngine.Object;
+using UnityEngine.UIElements.Experimental;
+
 
 public class GM : MonoBehaviour
 {
-    public Object UI;
+
+    // ----------------------------------------------------------
+    //                         SINGLETON
+    // ----------------------------------------------------------
+
+    private static GM _instance;
+
+    public static GM Instance { get { return _instance; } }
+
+
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
+
+
+    // ----------------------------------------------------------
+    // ----------------------------------------------------------
+
 
     public List<Emissary> emissaries;
-    public List<Level> levels;
-  
+    public int emissaryIndex = 0;
 
-    // Start is called before the first frame update
+    public Dictionary<string, Place> places = new Dictionary<string, Place>();
+    [SerializeField] public List<Level> levels = new List<Level>();
+
+    public Place currLeftPlace; // places[currLevel.placeKeys[currLevel.index,0]]
+    public Place currRightPlace; // places[currLevel.placeKeys[currLevel.index,1]]
+    string currLeftKey; // currLevel.placeKeys[currLevel.index,0]
+    string currRightKey; // currLevel.placeKeys[currLevel.index,1]
+    public Level currLevel;
+
+    public List<string> built = new List<string>();
+    public List<string> buffer = new List<string>();
+    public List<string> deadKeys = new List<string>();
+
+    public string successState = "success";
+    private string midText = "Appuyez sur un conseiller pour écouter ce qu'il a à vous dire. Restez appuyé(e) pour construire le bâtiment qu'il vous suggère";
+
+    float QTimer = 0;
+    float DTimer = 0;
+
+    bool canChoose = true;
+    public bool choiceMode = true;
+    public bool cityMode = false;
+    public bool emissaryMode = false;
+
+    private Transform[] buildingsTransforms;  
+
+
+    private void BuildDictionnary()
+    {
+        string[] currTexts = { "Je vous suggère de construire un FORUM au centre de la ville. C'est un lieu d'échange où les citoyens pourraient se retrouver pour échanger sur les problématiques de la cité." };
+        Place currPlace = new Place(currTexts);
+        currPlace.setBuilding3D(buildingsTransforms[0]);
+        places["Forum"] = currPlace;
+
+        currTexts = new string[] { "La cité est naissante, mais les gens ne savent pas où enterrer leurs morts, s'il vous plait, construisez une NÉCROPOLE juste au delà des limites de la cité.",
+                                    "La situation devient urgente, ça fait des années que les gens enterrent leurs morts à l'arrache, construisez une NÉCROPOLE bon sang !",
+                                    "Le peuple en a marre ! Construisez une NÉCROPOLE ! Ca suffit de devoir enterrer nos morts comme des clochards !" };
+        currPlace = new Place(currTexts);
+        currPlace.setBuilding3D(buildingsTransforms[1]);
+        places["Nécropole"] = currPlace;
+
+        currTexts = new string[] { "Nous avons obtenu les droits pour créer à Toulouse un TEMPLE dédié à la triade capitoline ! C'est extêmement prestigieux ! Il y a Minerve, déesse de la sagesse, Junon déesse du foyer, et surtout Jupiter, dieu des dieux !\r\n" };
+        currPlace = new Place(currTexts);
+        currPlace.setBuilding3D(buildingsTransforms[2]);
+        places["Temple"] = currPlace;
+
+        currTexts = new string[] { "Je pense que vous devriez créer un quartier résidentiel autour d'une DOMUS romaine. Ce sont des maisons à la pointe du bon goût !",
+                                    "Ce premier quartier avec DOMUS romaine est fabuleux ! Ne nous arrêtons pas en si bon chemin ! Je vous sous entends évidemment d'en créer un deuxième !" };
+        currPlace = new Place(currTexts);
+        currPlace.setBuilding3D(buildingsTransforms[3]);
+        places["Domus"] = currPlace;
+
+        currTexts = new string[] { "La construction de l'aqueduc nous a apporté plein d'eau, on va pouvoir mettre en place un réseau d'ÉGOUTS avec les techniques romaines pour assainir la ville.",
+                                    "La ville a plein d'eau et pourtant l'hygiène est toujours pourrie, ça ne va pas du tout, faut vraiment construire un réseau d'ÉGOUTS !",
+                                    "Construisez un réseau d'ÉGOUTS ! C'est inadmissible ! Enfin ! On peut pas avoir autant d'eau et avoir des rues qui puent la mort !" };
+        currPlace = new Place(currTexts);
+        currPlace.setBuilding3D(buildingsTransforms[4]);
+        places["Égouts"] = currPlace;
+
+        currTexts = new string[] { "Nous pourrions agrémenter le forum de THERMES. Ces bains publics sont d'une part un lieu de relaxation, mais aussi un excellent lieu dans lequel aborder les discutions politiques." };
+        currPlace = new Place(currTexts);
+        currPlace.setBuilding3D(buildingsTransforms[5]);
+        places["Thermes1"] = currPlace;
+
+        currTexts = new string[] { "Nous pourrions agrémenter le forum de THERMES. Ces bains publics sont d'une part un lieu de relaxation, mais aussi un excellent lieu dans lequel aborder les discutions politiques." };
+        currPlace = new Place(currTexts);
+        currPlace.setBuilding3D(buildingsTransforms[6]);
+        places["Thermes2"] = currPlace;
+
+        currTexts = new string[] { "Avec toute cette eau, nous allons pouvoir faire de magnifiques FONTAINES ! Avec de fort belles sculptures racontant d'héroïques mythes romains !" };
+        currPlace = new Place(currTexts);
+        currPlace.setBuilding3D(buildingsTransforms[7]);
+        places["Fontaine1"] = currPlace;
+
+        currTexts = new string[] { "Avec toute cette eau, nous allons pouvoir faire de magnifiques FONTAINES ! Avec de fort belles sculptures racontant d'héroïques mythes romains !" };
+        currPlace = new Place(currTexts);
+        currPlace.setBuilding3D(buildingsTransforms[8]);
+        places["Fontaine2"] = currPlace;
+
+        currTexts = new string[] { "Notre cité a une population importante désormais, je vous suggère de construire un gigantesque THÉATRE, qui pourrait accueillir la moitié de la population Toulousaine, afin de montrer des pièces romaines." };
+        currPlace = new Place(currTexts);
+        currPlace.setBuilding3D(buildingsTransforms[9]);
+        places["Théâtre"] = currPlace;
+
+        currTexts = new string[] { "Les REMPARTS de Tibère commencent à dater un peu, nous pourrions leur redonner une petite jeunesse en y ajouter des ornements et des dorures ! Ca ne protège de rien, mais ça en jette !" };
+        currPlace = new Place(currTexts);
+        currPlace.setBuilding3D(buildingsTransforms[10]);
+        places["Remparts"] = currPlace;
+
+        currTexts = new string[] { "Nous avons les ressources aux alentours pour nous lancer dans le commerce de pigments et créer une TEINTURERIE. Ce nouveau commerce permettrait à Toulouse de gagner en renommée aux alentours." };
+        currPlace = new Place(currTexts);
+        currPlace.setBuilding3D(buildingsTransforms[11]);
+        places["Teinturerie"] = currPlace;
+    }
 
     private void BuildEmissaries()
     {
-        Emissary temp = gameObject.AddComponent<Emissary>();
+        Emissary temp = new Emissary();
         temp.SetTexts(new string[] {"Haha ! C'est du bel ouvrage ! Tu vois petit gars, ça c'est les bases d'une grande ville, de grandes routes perpendiculaires, et surtout de grandes portes pour montrer qu'ici, c'est chez nous !",
                             "Tu as de la chance que l'empereur ait décidé de financer la reconstruction de Tolosa et accepté ma requête de te placer ici. Mais ne te méprends pas, superviser l'urbanisme d'une cité est une grande responsabilité.",
                             "[Fondu au noir. La construction des portes est achevée]",
@@ -31,8 +148,8 @@ public class GM : MonoBehaviour
             new string[] { "" });
         temp.index = 0;
         emissaries.Add(temp);
-
-        temp = gameObject.AddComponent<Emissary>();
+        
+        temp = new Emissary();
         temp.SetTexts(new string[] { "Hm...","...","Oui...","...","Euh...","...",
                             "Les portes sont conformes, je reconnais là le style de feu Auguste.",
                             "...","Toutefois votre ville n'est guère plus romaine que ça. Il va falloir faire mieux. Je vous laisse un peu moins d'une décennie."},
@@ -44,7 +161,7 @@ public class GM : MonoBehaviour
         temp.index = 1;
         emissaries.Add(temp);
 
-        temp = gameObject.AddComponent<Emissary>();
+        temp = new Emissary();
         temp.SetTexts(new string[] { "Alors comme ça le grand Canigula a aidé votre ville à financer son aqueduc ?",
                         "Quel grand magnanime !",
                         "Comme c'est excitant, vous allez pouvoir faire des tonnes de jolies choses avec toute cette eau !",
@@ -55,7 +172,7 @@ public class GM : MonoBehaviour
         temp.index = 2;
         emissaries.Add(temp);
 
-        temp = gameObject.AddComponent<Emissary>() ;
+        temp = new Emissary();
         temp.SetTexts(new string[] { "Là c'est la tirade de l'empereur" },
         new string[] { "ok tier" },
         new string[] { "nul" },
@@ -66,22 +183,212 @@ public class GM : MonoBehaviour
     
     private void BuildLevels()
     {
-        Level temp;
-        temp = gameObject.AddComponent<Level>();
-        temp.SetUp(new string[,] { { "Forum", "Nécropole" } }, emissaries[0]);
+        Debug.Log(levels);
+        Level temp = new Level(new string[,] { { "Forum", "Nécropole" } }, emissaries[0]);
         levels.Add(temp);
-        temp = gameObject.AddComponent<Level>();
-        temp.SetUp(new string[,] { { "Temple", "Domus" }, { "Domus", "Buffer" } }, emissaries[1]);
-        levels.Add(temp);
-        temp = gameObject.AddComponent<Level>();
-        temp.SetUp(new string[,] { { "Égouts", "Thermes1" }, { "Buffer", "Fontaine1" }, { "Thermes2", "Buffer" } }, emissaries[2]);
-        levels.Add(temp);
-        temp = gameObject.AddComponent<Level>();
-        temp.SetUp(new string[,] { { "Théâtre", "Fontaine2" }, { "Buffer", "Buffer" }, { "Remparts", "Teinturerie" }, { "Buffer", "Buffer" } }, emissaries[3]);
-        levels.Add(temp);
+        Debug.Log(levels);
+        levels.Add(new Level(new string[,] { { "Temple", "Domus" }, { "Domus", "Buffer" } }, emissaries[1]));
+        Debug.Log(levels);
+        levels.Add(new Level(new string[,] { { "Égouts", "Thermes1" }, { "Buffer", "Fontaine1" }, { "Thermes2", "Buffer" } }, emissaries[2]));
+        Debug.Log(levels);
+        levels.Add(new Level(new string[,] { { "Théâtre", "Fontaine2" }, { "Buffer", "Buffer" }, { "Remparts", "Teinturerie" }, { "Buffer", "Buffer" } }, emissaries[3]));
+        Debug.Log(levels);
     }
+
+    // ----------------------------------------------------------
+    // ----------------------------------------------------------
+
+    public void SetSuccessState()
+    {
+
+    }
+
+    // ----------------------------------------------------------
+    // ----------------------------------------------------------
+
+    private void EmissaryMode()
+    {
+        if (currLevel.emissary.firstAppearance)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                currLevel.emissary.speechCounter++;
+                if (currLevel.emissary.speechCounter < currLevel.emissary.introTexts.Length)
+                {
+                    currLevel.emissary.displayedText.text = currLevel.emissary.introTexts[currLevel.emissary.speechCounter];
+                }
+                else
+                {
+                    currLevel.EndEmissarySection();
+                }
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                currLevel.emissary.speechCounter++;
+                if (currLevel.emissary.speechCounter < currLevel.emissary.endTexts.Length)
+                {
+                    currLevel.emissary.displayedText.text = currLevel.emissary.endTexts[currLevel.emissary.speechCounter];
+                }
+                else
+                {
+                    currLevel.EndEmissarySection();
+                }
+            }
+        }
+    }
+
+    private void MakeAChoice()
+    {
+        if (Input.GetKey(KeyCode.X))
+        {
+            QTimer += Time.deltaTime;
+        }
+        if (Input.GetKey(KeyCode.C))
+        {
+            DTimer += Time.deltaTime;
+        }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            UI_Manager.Instance.displayedText.text = places[currLevel.keys[emissaryIndex, 0]].texts[0];
+            UI_Manager.Instance.Shadow(UI_Manager.Instance.leftAdvisor, false);
+            UI_Manager.Instance.Shadow(UI_Manager.Instance.rightAdvisor, true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            UI_Manager.Instance.displayedText.text = places[currLevel.keys[emissaryIndex, 1]].texts[0];
+            UI_Manager.Instance.Shadow(UI_Manager.Instance.rightAdvisor, false);
+            UI_Manager.Instance.Shadow(UI_Manager.Instance.leftAdvisor, true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            UI_Manager.Instance.displayedText.text = midText;
+            UI_Manager.Instance.Shadow(UI_Manager.Instance.leftAdvisor, true);
+            UI_Manager.Instance.Shadow(UI_Manager.Instance.rightAdvisor, true);
+        }
+
+        if (Input.GetKeyUp(KeyCode.X) || Input.GetKeyUp(KeyCode.C))
+        {
+            canChoose = true;
+            QTimer = 0;
+            DTimer = 0;
+        }
+
+        if ((QTimer > 1 || DTimer > 1) && canChoose)
+        {
+            Choose();
+        }
+    }
+
+    private void Choose()
+    {
+        canChoose = false;
+        if (QTimer > 1)
+        {
+            places[currLevel.keys[emissaryIndex, 0]].BuildBuilding();
+            built.Add(currLevel.keys[emissaryIndex, 0]);
+            currLevel.built.Add(currLevel.keys[emissaryIndex, 0]);
+            if (!deadKeys.Contains(currLevel.keys[emissaryIndex, 1]))
+            {
+                buffer.Add(currLevel.keys[emissaryIndex, 1]);
+
+            }
+        }
+        if (DTimer > 1)
+        {
+            places[currLevel.keys[emissaryIndex, 1]].BuildBuilding();
+            built.Add(currLevel.keys[emissaryIndex, 1]);
+            currLevel.built.Add(currLevel.keys[emissaryIndex, 1]);
+            if (!deadKeys.Contains(currLevel.keys[emissaryIndex, 1]))
+            {
+                buffer.Add(currLevel.keys[emissaryIndex, 1]);
+            }
+        }
+        places[currLevel.keys[emissaryIndex, 0]].IncreaseCount();
+        places[currLevel.keys[emissaryIndex, 1]].IncreaseCount();
+        MoveToNextChoices();
+    }
+
+    private void MoveToNextChoices()
+    {
+        currLevel.choiceCounter++;
+        if (currLevel.choiceCounter < currLevel.keys.Length / 2)
+        {
+            currLeftKey = GetKeyFromLevel(true, currLevel.choiceCounter);
+            currRightKey = GetKeyFromLevel(false, currLevel.choiceCounter);
+
+            currLeftPlace = places[currLeftKey];
+            currRightPlace = places[currRightKey];
+
+            // Insérer récupératrion des images
+
+            //currLeftText = currLeftPlace.texts[currLeftPlace.counter % currLeftPlace.texts.Length];
+            //currRightText = currRightPlace.texts[currRightPlace.counter % currRightPlace.texts.Length];
+            //Debug.Log(currLeftText + "    " + currRightText);
+
+            UI_Manager.Instance.displayedText.text = midText;
+
+            UI_Manager.Instance.Shadow(UI_Manager.Instance.leftAdvisor, true);
+            UI_Manager.Instance.Shadow(UI_Manager.Instance.rightAdvisor, true);
+        }
+        else
+        {
+            CheckLevelSwitch();
+            UI_Manager.Instance.displayedText.text = "c'est fini";
+        }
+        CheckLevelSwitch();
+    }
+
+    private void CheckLevelSwitch()
+    {
+        if (currLevel.choiceCounter >= currLevel.keys.Length/2)
+        {
+            SetSuccessState();
+            currLevel.BeginEmissarySection(emissaryIndex);
+        }
+    }
+
+    private string GetKeyFromLevel(bool left, int counter)
+    {
+        string currBuffer;
+        if (left)
+        {
+            currBuffer = currLevel.keys[counter, 0];
+        }
+        else
+        {
+            currBuffer = currLevel.keys[counter, 1];
+        }
+
+        if (currBuffer == "Buffer")
+        {
+            if (buffer.Contains("Nécropole"))
+            {
+                currBuffer = "Nécropole";
+            }
+            else if (buffer.Contains("Égouts"))
+            {
+                currBuffer = "Égouts";
+            }
+            else
+            {
+                currBuffer = buffer[0];
+                deadKeys.Add(currBuffer);
+            }
+            buffer.Remove(currBuffer);
+        }
+        return currBuffer;
+    }
+
     void Start()
     {
+        buildingsTransforms = Buildings_Manager.Instance.buildingsTransform;
+        BuildDictionnary();
         BuildEmissaries();
         BuildLevels();
     }
@@ -89,6 +396,28 @@ public class GM : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            StartCoroutine(UI_Manager.Instance.FadeTo(1f, 1, null, true));
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            //SwitchMode(!emissaryMode);
+            //BeginEmissarySection(emissaryIndex);
+        }
+        if (Input.GetKeyDown(KeyCode.M) && !UI_Manager.Instance.emissaryMode)
+        {
+            UI_Manager.Instance.SwitchMode();
+        }
+        if (choiceMode)
+        {
+            MakeAChoice();
+        }
+        if (emissaryMode)
+        {
+            EmissaryMode();
+        }
+        // "coroutines" du bled
+        // FadeToBlack();
     }
 }

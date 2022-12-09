@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using System;
 
-public class Emissary : MonoBehaviour
+
+[Serializable]
+public class Emissary
 {
     public int index;
     public bool firstAppearance = true;
@@ -54,7 +57,7 @@ public class Emissary : MonoBehaviour
     }
     public void SetTMP()
     {
-        displayedText = GetComponent<GM>().UI.GetComponent<UI_Manager>().emissaryText;
+        displayedText = UI_Manager.Instance.emissaryText;
     }
 
     /*public Emissary(string[] _texts, Image[] _image)
@@ -62,14 +65,5 @@ public class Emissary : MonoBehaviour
         //this.texts = _texts;
         emissaryImage = _image;
     }*/
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
