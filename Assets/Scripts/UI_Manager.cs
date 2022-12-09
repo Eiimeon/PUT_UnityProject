@@ -207,8 +207,8 @@ public class UI_Manager : MonoBehaviour
     //public List<string> buffer = new List<string>();
     //public List<string> deadKeys = new List<string>();
     
-    public int choiceCounter = -1; // Car le premier MoveToNextChoices fera passer à 0
-    public int[] levelStarts = { 1, 3, 6, 10 };
+    //public int choiceCounter = -1; // Car le premier MoveToNextChoices fera passer à 0
+    //public int[] levelStarts = { 1, 3, 6, 10 };
 
     public Image blackPanel;
     public Image leftAdvisor;
@@ -244,7 +244,7 @@ public class UI_Manager : MonoBehaviour
 
     // Flags
 
-    public bool monitorFirstAppearance;
+    //public bool monitorFirstAppearance;
 
     public bool choiceMode = true;
     public bool cityMode = false;

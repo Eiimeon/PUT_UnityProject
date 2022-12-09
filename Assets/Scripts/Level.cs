@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+[System.Serializable]
 public class Level
 {
     public int levelIndex = 0;
-    public int choiceCounter = 0;
+    public int choiceCounter = -1;
     public string[,] keys;
     public Emissary emissary;
     public List<string> built = new List<string>();
@@ -71,6 +72,7 @@ public class Level
                 GM.Instance.emissaryIndex++;
             }
             UI_Manager.Instance.SwitchMode(false);
+            GM.Instance.currLevel = GM.Instance.levels[GM.Instance.emissaryIndex];
             BeginEmissarySection(GM.Instance.emissaryIndex);
         }
     }
