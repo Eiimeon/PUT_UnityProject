@@ -61,7 +61,7 @@ public class GM : MonoBehaviour
 
     bool canChoose = true;
 
-    private Transform[] buildingsTransforms;  
+    public Transform[] buildingsTransforms;  
 
 
     private void BuildDictionnary()
@@ -181,11 +181,11 @@ public class GM : MonoBehaviour
     
     private void BuildLevels()
     {
-        Level temp = new Level(new string[,] { { "Forum", "Nécropole" } }, emissaries[0]);
+        Level temp = new Level(0, new string[,] { { "Forum", "Nécropole" } }, emissaries[0]);
         levels.Add(temp);
-        levels.Add(new Level(new string[,] { { "Temple", "Domus" }, { "Domus", "Buffer" } }, emissaries[1]));
-        levels.Add(new Level(new string[,] { { "Égouts", "Thermes1" }, { "Buffer", "Fontaine1" }, { "Thermes2", "Buffer" } }, emissaries[2]));
-        levels.Add(new Level(new string[,] { { "Théâtre", "Fontaine2" }, { "Buffer", "Buffer" }, { "Remparts", "Teinturerie" }, { "Buffer", "Buffer" } }, emissaries[3]));
+        levels.Add(new Level(1, new string[,] { { "Temple", "Domus" }, { "Buffer", "Buffer" } }, emissaries[1]));
+        levels.Add(new Level(2, new string[,] { { "Égouts", "Fontaine1" }, { "Thermes1", "Thermes2" }, { "Buffer", "Buffer" } }, emissaries[2]));
+        levels.Add(new Level(3, new string[,] { { "Théâtre", "Fontaine2" }, { "Remparts", "Teinturerie" }, { "Buffer", "Buffer" } }, emissaries[3]));
 
         currLevel = levels[0];
     }
@@ -251,14 +251,14 @@ public class GM : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.X))
         {
-            UI_Manager.Instance.displayedText.text = currLeftPlace.texts[0];
+            UI_Manager.Instance.displayedText.text = currLeftPlace.GetCurrentText();
             UI_Manager.Instance.Shadow(UI_Manager.Instance.leftAdvisor, false);
             UI_Manager.Instance.Shadow(UI_Manager.Instance.rightAdvisor, true);
         }
 
         if (Input.GetKeyDown(KeyCode.C))
         {
-            UI_Manager.Instance.displayedText.text = currRightPlace.texts[0];
+            UI_Manager.Instance.displayedText.text = currRightPlace.GetCurrentText();
             UI_Manager.Instance.Shadow(UI_Manager.Instance.rightAdvisor, false);
             UI_Manager.Instance.Shadow(UI_Manager.Instance.leftAdvisor, true);
         }
@@ -288,27 +288,27 @@ public class GM : MonoBehaviour
         canChoose = false;
         if (QTimer > 1)
         {
-            places[currLevel.keys[emissaryIndex, 0]].BuildBuilding();
-            built.Add(currLevel.keys[emissaryIndex, 0]);
-            currLevel.built.Add(currLevel.keys[emissaryIndex, 0]);
-            if (!deadKeys.Contains(currLevel.keys[emissaryIndex, 1]))
+            currLeftPlace.BuildBuilding();
+            built.Add(currLeftKey);
+            currLevel.built.Add(currLeftKey);
+            if (!deadKeys.Contains(currRightKey))
             {
-                buffer.Add(currLevel.keys[emissaryIndex, 1]);
+                buffer.Add(currRightKey);
 
             }
         }
         if (DTimer > 1)
         {
-            places[currLevel.keys[emissaryIndex, 1]].BuildBuilding();
-            built.Add(currLevel.keys[emissaryIndex, 1]);
-            currLevel.built.Add(currLevel.keys[emissaryIndex, 1]);
-            if (!deadKeys.Contains(currLevel.keys[emissaryIndex, 1]))
+            currRightPlace.BuildBuilding();
+            built.Add(currRightKey);
+            currLevel.built.Add(currRightKey);
+            if (!deadKeys.Contains(currLeftKey))
             {
-                buffer.Add(currLevel.keys[emissaryIndex, 1]);
+                buffer.Add(currLeftKey);
             }
         }
-        places[currLevel.keys[emissaryIndex, 0]].IncreaseCount();
-        places[currLevel.keys[emissaryIndex, 1]].IncreaseCount();
+        currLeftPlace.IncreaseCount();
+        currRightPlace.IncreaseCount();
         MoveToNextChoices();
     }
 
@@ -389,7 +389,6 @@ public class GM : MonoBehaviour
         BuildDictionnary();
         BuildEmissaries();
         BuildLevels();
-        MoveToNextChoices();
         currLevel.BeginEmissarySection(currLevel.emissary.index);
     }
 

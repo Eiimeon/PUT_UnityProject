@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 [System.Serializable]
@@ -15,6 +17,13 @@ public class Level
 
     public Level(string[,] _placeKeys, Emissary _emissaire)
     {
+        keys = _placeKeys;
+        emissary = _emissaire;
+    }
+
+    public Level(int _index, string[,] _placeKeys, Emissary _emissaire)
+    {
+        levelIndex = _index;
         keys = _placeKeys;
         emissary = _emissaire;
     }
@@ -60,6 +69,7 @@ public class Level
         {
             emissary.firstAppearance = false;
             UI_Manager.Instance.SwitchMode(false);
+            GM.Instance.MoveToNextChoices();
         }
         else
         {
@@ -71,9 +81,16 @@ public class Level
             {
                 GM.Instance.emissaryIndex++;
             }
-            UI_Manager.Instance.SwitchMode(false);
-            GM.Instance.currLevel = GM.Instance.levels[GM.Instance.emissaryIndex];
-            BeginEmissarySection(GM.Instance.emissaryIndex);
+            if (levelIndex + 1 < GM.Instance.levels.Count)
+            {
+                UI_Manager.Instance.SwitchMode(false);
+                GM.Instance.currLevel = GM.Instance.levels[levelIndex + 1];
+                BeginEmissarySection(GM.Instance.emissaryIndex);
+            }
+            else
+            {
+                UI_Manager.Instance.emissaryText.text = "c'est fini";
+            }
         }
     }
 }

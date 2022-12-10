@@ -25,6 +25,10 @@ public class Place
         building3D = _building3D;
     }
 
+    public string GetCurrentText()
+    {
+        return texts[counter];
+    }
     public void IncreaseCount() { counter++; }
 
     public void BuildBuilding()

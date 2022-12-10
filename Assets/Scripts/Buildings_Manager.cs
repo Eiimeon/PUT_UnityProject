@@ -38,7 +38,8 @@ public class Buildings_Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        buildingsTransform = GetComponentsInChildren<Transform>();
+        //buildingsTransform = GetComponentsInChildren<Transform>();
+        GM.Instance.buildingsTransforms = buildingsTransform;
         foreach (Transform t in buildingsTransform)
         {
             t.gameObject.SetActive(false);
