@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class Level
@@ -31,6 +32,8 @@ public class Level
     public void BeginEmissarySection(int emissaryIndex)
     {
         UI_Manager.Instance.SwitchMode(true);
+        UI_Manager.Instance.UI_Emissary.GetComponent<CanvasGroup>().alpha = 0;
+        UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.FadeUI(UI_Manager.Instance.UI_Emissary.GetComponent<CanvasGroup>(), 1));
         if (emissaryIndex < GM.Instance.emissaries.Count)
         {
             emissary = GM.Instance.emissaries[emissaryIndex];
@@ -83,14 +86,42 @@ public class Level
             }
             if (levelIndex + 1 < GM.Instance.levels.Count)
             {
-                UI_Manager.Instance.SwitchMode(false);
                 GM.Instance.currLevel = GM.Instance.levels[levelIndex + 1];
-                BeginEmissarySection(GM.Instance.emissaryIndex);
+                GM.Instance.StartCoroutine(FadeTransition(1));
             }
             else
             {
                 UI_Manager.Instance.emissaryText.text = "c'est fini";
             }
         }
+    }
+
+    public IEnumerator FadeTransition(float duration)
+    {
+        GM.Instance.canAct = false;
+        Image blackPanel = UI_Manager.Instance.blackPanel;
+        float timer = 0f;
+        //Color initialColor = blackPanel.GetComponent<Image>().color;
+        while (timer < duration)
+        {
+            Debug.Log(timer);
+            timer += Time.deltaTime;
+            blackPanel.GetComponent<Image>().color = Color.Lerp(Color.clear, Color.black, timer / duration);
+            //blackPanel.GetComponent<Image>().color = Color.Lerp(blackPanel.GetComponent<Image>().color, Color.black, timer / duration);
+            yield return new WaitForEndOfFrame();
+        }
+        UI_Manager.Instance.SwitchMode(false);
+        BeginEmissarySection(GM.Instance.emissaryIndex);
+        yield return new WaitForSeconds(0.5f);
+        timer = 0;
+        while (timer < duration)
+        {
+            Debug.Log(timer);
+            timer += Time.deltaTime;
+            blackPanel.GetComponent<Image>().color = Color.Lerp(Color.black, Color.clear, timer / duration);
+            //blackPanel.GetComponent<Image>().color = Color.Lerp(blackPanel.GetComponent<Image>().color, Color.black, timer / duration);
+            yield return new WaitForEndOfFrame();
+        }
+        GM.Instance.canAct = true;
     }
 }
