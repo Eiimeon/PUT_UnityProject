@@ -96,17 +96,18 @@ public class Level
         }
     }
 
+
     public IEnumerator FadeTransition(float duration)
     {
         GM.Instance.canAct = false;
-        Image blackPanel = UI_Manager.Instance.blackPanel;
+        CanvasGroup blackPanel = UI_Manager.Instance.blackPanel.GetComponent<CanvasGroup>();
         float timer = 0f;
         //Color initialColor = blackPanel.GetComponent<Image>().color;
         while (timer < duration)
         {
             Debug.Log(timer);
             timer += Time.deltaTime;
-            blackPanel.GetComponent<Image>().color = Color.Lerp(Color.clear, Color.black, timer / duration);
+            blackPanel.alpha = Mathf.Lerp(0, 1, timer / duration);
             //blackPanel.GetComponent<Image>().color = Color.Lerp(blackPanel.GetComponent<Image>().color, Color.black, timer / duration);
             yield return new WaitForEndOfFrame();
         }
@@ -118,7 +119,7 @@ public class Level
         {
             Debug.Log(timer);
             timer += Time.deltaTime;
-            blackPanel.GetComponent<Image>().color = Color.Lerp(Color.black, Color.clear, timer / duration);
+            blackPanel.alpha = Mathf.Lerp(1, 0, timer / duration);
             //blackPanel.GetComponent<Image>().color = Color.Lerp(blackPanel.GetComponent<Image>().color, Color.black, timer / duration);
             yield return new WaitForEndOfFrame();
         }

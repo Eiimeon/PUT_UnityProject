@@ -181,13 +181,24 @@ public class UI_Manager : MonoBehaviour
             StartCoroutine(FadeTo(1 - targetAlpha, duration));
         }
     }
-    public IEnumerator FadeUI(CanvasGroup canvasGroup, float targetAlpha)
+    public IEnumerator FadeUI(CanvasGroup canvasGroup, float targetAlpha, float fadeSpeed = 10)
     {
-        while (Mathf.Abs(canvasGroup.alpha - targetAlpha)>0.01)
+        while (Mathf.Abs(canvasGroup.alpha - targetAlpha)>0.05)
         {
-            canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, targetAlpha, 10 * Time.deltaTime);
+            canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, targetAlpha, fadeSpeed * Time.deltaTime);
             yield return new WaitForEndOfFrame();
         }
         canvasGroup.alpha = targetAlpha;
+    }
+
+    public IEnumerator IntroFade()
+    {
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(FadeUI(blackPanel.GetComponent<CanvasGroup>(), 0, 0.5f));
+    }
+
+    private void Start()
+    {
+        StartCoroutine(IntroFade());
     }
 }
