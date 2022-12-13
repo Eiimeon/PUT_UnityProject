@@ -14,8 +14,7 @@ public class Emissary
 
     public int speechCounter = 0;
 
-    Sprite sprite;
-
+    public Sprite sprite;
 
     public string[] introTexts;
 
@@ -37,6 +36,7 @@ public class Emissary
         failureTexts = _ft;
         successTexts = _st;
         specialSuccessTexts = _sst;
+
     }
 
     public Emissary(string[] _it, string[] _st, string[] _ft, string[] _sst, int _index)
@@ -47,6 +47,8 @@ public class Emissary
         specialSuccessTexts = _sst;
 
         index = _index;
+
+        sprite = UI_Manager.Instance.emissaries[index];
     }
 
     public void SetTexts(string[] _it, string[] _st, string[] _ft, string[] _sst)

@@ -56,7 +56,10 @@ public class UI_Manager : MonoBehaviour
 
     public GameObject[] allBuildings3D;
 
-    public List<Emissary> emissaryList = new List<Emissary>();
+    public List<Emissary> emissaryList = new List<Emissary>(); // TODO check if useless
+
+    public Sprite[] emissaries;
+    public Sprite[] advisors;
     
     public Image blackPanel;
     public Image leftAdvisor;
@@ -144,16 +147,9 @@ public class UI_Manager : MonoBehaviour
 
     }
 
-    private int BoolToInt(bool b)
+    public void SetEmissary(Emissary _emissary)
     {
-        if (b)
-        {
-            return 1;
-        }
-        else
-        {
-            return 0;
-        }
+        //emissary.sprite = _emissary;
     }
     #endregion
 
@@ -236,6 +232,7 @@ public class UI_Manager : MonoBehaviour
 
     private void Start()
     {
+        blackPanel.GetComponent<CanvasGroup>().alpha = 1;
         StartCoroutine(IntroFade());
     }
 }

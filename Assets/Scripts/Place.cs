@@ -9,6 +9,7 @@ public class Place
     public string[] texts;
     public Sprite advisorSprite;
     public Transform building3D;
+    public float height;
 
     public Place()
     {
@@ -20,9 +21,10 @@ public class Place
         texts = _texts;
     }
 
-    public void SetBuilding3D(Transform _building3D)
+    public void SetBuilding3D(Transform _building3D, float _height = 5)
     {
         building3D = _building3D;
+        height = _height;
     }
 
     public string GetCurrentText()
@@ -44,21 +46,21 @@ public class Place
 
         building3D.gameObject.SetActive(true);
         Vector3 initialBuildingPos = building3D.position;
-        building3D.position -= 25 * Vector3.up;
+        building3D.position -= height * Vector3.up;
         Vector3 targetPos = Camera_Manager.Instance.GetTargetPosition(building3D);
         
 
-        while ((Camera_Manager.Instance.cam.transform.position - targetPos).magnitude > 10)
+        while ((Camera_Manager.Instance.cam.transform.position - targetPos).magnitude > 01)
         {
             Debug.Log(Camera_Manager.Instance.cam.transform.position - targetPos);
             Camera_Manager.Instance.cam.transform.position = Vector3.Lerp(Camera_Manager.Instance.cam.transform.position, targetPos, 1 * Time.deltaTime);
             yield return new WaitForEndOfFrame();
         }
 
-        while ((building3D.transform.position - initialBuildingPos).magnitude > 1)
+        while ((building3D.transform.position - initialBuildingPos).magnitude > 0.1)
         {
-            building3D.position = Vector3.Lerp (building3D.position, initialBuildingPos, 0.5f * Time.deltaTime);
-            Camera_Manager.Instance.cam.transform.position = targetPos + 1f * Random.insideUnitSphere;
+            building3D.position = Vector3.Lerp (building3D.position, initialBuildingPos, 0.7f * Time.deltaTime);
+            Camera_Manager.Instance.cam.transform.position = targetPos + 0.1f * Random.insideUnitSphere;
             yield return new WaitForEndOfFrame();
         }
         Camera_Manager.Instance.cam.transform.position = targetPos;

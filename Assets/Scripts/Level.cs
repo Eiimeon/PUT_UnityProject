@@ -32,6 +32,7 @@ public class Level
     public void BeginEmissarySection(int emissaryIndex)
     {
         UI_Manager.Instance.SwitchMode(true);
+        //UI_Manager.Instance.UI_Emissary.GetComponent<Image>().SourceImage = emissary.sprite;
         UI_Manager.Instance.UI_Emissary.GetComponent<CanvasGroup>().alpha = 0;
         UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.FadeUI(UI_Manager.Instance.UI_Emissary.GetComponent<CanvasGroup>(), 1));
         if (emissaryIndex < GM.Instance.emissaries.Count)
