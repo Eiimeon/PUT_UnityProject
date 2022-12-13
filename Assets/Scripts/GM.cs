@@ -95,6 +95,7 @@ public class GM : MonoBehaviour
         string[] currTexts = { "Je vous suggère de construire un FORUM au centre de la ville. C'est un lieu d'échange où les citoyens pourraient se retrouver pour échanger sur les problématiques de la cité." };
         Place currPlace = new Place(currTexts);
         currPlace.SetBuilding3D(buildingsTransforms[0]);
+        currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
         places["Forum"] = currPlace;
 
         currTexts = new string[] { "La cité est naissante, mais les gens ne savent pas où enterrer leurs morts, s'il vous plait, construisez une NÉCROPOLE juste au delà des limites de la cité.",
@@ -102,17 +103,20 @@ public class GM : MonoBehaviour
                                     "Le peuple en a marre ! Construisez une NÉCROPOLE ! Ca suffit de devoir enterrer nos morts comme des clochards !" };
         currPlace = new Place(currTexts);
         currPlace.SetBuilding3D(buildingsTransforms[1]);
+        currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
         places["Nécropole"] = currPlace;
 
         currTexts = new string[] { "Nous avons obtenu les droits pour créer à Toulouse un TEMPLE dédié à la triade capitoline ! C'est extêmement prestigieux ! Il y a Minerve, déesse de la sagesse, Junon déesse du foyer, et surtout Jupiter, dieu des dieux !\r\n" };
         currPlace = new Place(currTexts);
         currPlace.SetBuilding3D(buildingsTransforms[2]);
+        currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
         places["Temple"] = currPlace;
 
         currTexts = new string[] { "Je pense que vous devriez créer un quartier résidentiel autour d'une DOMUS romaine. Ce sont des maisons à la pointe du bon goût !",
                                     "Ce premier quartier avec DOMUS romaine est fabuleux ! Ne nous arrêtons pas en si bon chemin ! Je vous sous entends évidemment d'en créer un deuxième !" };
         currPlace = new Place(currTexts);
         currPlace.SetBuilding3D(buildingsTransforms[3]);
+        currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
         places["Domus"] = currPlace;
 
         currTexts = new string[] { "La construction de l'aqueduc nous a apporté plein d'eau, on va pouvoir mettre en place un réseau d'ÉGOUTS avec les techniques romaines pour assainir la ville.",
@@ -120,41 +124,49 @@ public class GM : MonoBehaviour
                                     "Construisez un réseau d'ÉGOUTS ! C'est inadmissible ! Enfin ! On peut pas avoir autant d'eau et avoir des rues qui puent la mort !" };
         currPlace = new Place(currTexts);
         currPlace.SetBuilding3D(buildingsTransforms[4]);
+        currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
         places["Égouts"] = currPlace;
 
         currTexts = new string[] { "Nous pourrions agrémenter le forum de THERMES. Ces bains publics sont d'une part un lieu de relaxation, mais aussi un excellent lieu dans lequel aborder les discutions politiques." };
         currPlace = new Place(currTexts);
         currPlace.SetBuilding3D(buildingsTransforms[5]);
+        currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
         places["Thermes1"] = currPlace;
 
         currTexts = new string[] { "Nous pourrions agrémenter le forum de THERMES. Ces bains publics sont d'une part un lieu de relaxation, mais aussi un excellent lieu dans lequel aborder les discutions politiques." };
         currPlace = new Place(currTexts);
         currPlace.SetBuilding3D(buildingsTransforms[6]);
+        currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
         places["Thermes2"] = currPlace;
 
         currTexts = new string[] { "Avec toute cette eau, nous allons pouvoir faire de magnifiques FONTAINES ! Avec de fort belles sculptures racontant d'héroïques mythes romains !" };
         currPlace = new Place(currTexts);
         currPlace.SetBuilding3D(buildingsTransforms[7]);
+        currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
         places["Fontaine1"] = currPlace;
 
         currTexts = new string[] { "Avec toute cette eau, nous allons pouvoir faire de magnifiques FONTAINES ! Avec de fort belles sculptures racontant d'héroïques mythes romains !" };
         currPlace = new Place(currTexts);
         currPlace.SetBuilding3D(buildingsTransforms[8]);
+        currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
         places["Fontaine2"] = currPlace;
 
         currTexts = new string[] { "Notre cité a une population importante désormais, je vous suggère de construire un gigantesque THÉATRE, qui pourrait accueillir la moitié de la population Toulousaine, afin de montrer des pièces romaines." };
         currPlace = new Place(currTexts);
         currPlace.SetBuilding3D(buildingsTransforms[9]);
+        currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
         places["Théâtre"] = currPlace;
 
         currTexts = new string[] { "Les REMPARTS de Tibère commencent à dater un peu, nous pourrions leur redonner une petite jeunesse en y ajouter des ornements et des dorures ! Ca ne protège de rien, mais ça en jette !" };
         currPlace = new Place(currTexts);
         currPlace.SetBuilding3D(buildingsTransforms[10]);
+        currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
         places["Remparts"] = currPlace;
 
         currTexts = new string[] { "Nous avons les ressources aux alentours pour nous lancer dans le commerce de pigments et créer une TEINTURERIE. Ce nouveau commerce permettrait à Toulouse de gagner en renommée aux alentours." };
         currPlace = new Place(currTexts);
         currPlace.SetBuilding3D(buildingsTransforms[11]);
+        currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
         places["Teinturerie"] = currPlace;
     }
 
@@ -207,7 +219,7 @@ public class GM : MonoBehaviour
     
     private void BuildLevels()
     {
-        Level temp = new Level(0, new string[,] { { "Forum", "Nécropole" } }, emissaries[0]);
+        Level temp = new Level(0, new string[,] { { "Forum", "Nécropole" } }, emissaries[0], Buildings_Manager.Instance.buildingsTransform[12]);
         levels.Add(temp);
         levels.Add(new Level(1, new string[,] { { "Temple", "Domus" }, { "Buffer", "Buffer" } }, emissaries[1]));
         levels.Add(new Level(2, new string[,] { { "Égouts", "Fontaine1" }, { "Thermes1", "Thermes2" }, { "Buffer", "Buffer" } }, emissaries[2]));
@@ -289,22 +301,29 @@ public class GM : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X))
         {
             UI_Manager.Instance.displayedText.text = currLeftPlace.GetCurrentText();
-            UI_Manager.Instance.Shadow(UI_Manager.Instance.leftAdvisor, false);
-            UI_Manager.Instance.Shadow(UI_Manager.Instance.rightAdvisor, true);
+            //UI_Manager.Instance.Shadow(UI_Manager.Instance.leftAdvisor, false);
+            //UI_Manager.Instance.Shadow(UI_Manager.Instance.rightAdvisor, true);
+            UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.leftAdvisor, false));
+            UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.rightAdvisor, true));
+
         }
 
         if (Input.GetKeyDown(KeyCode.C))
         {
             UI_Manager.Instance.displayedText.text = currRightPlace.GetCurrentText();
-            UI_Manager.Instance.Shadow(UI_Manager.Instance.rightAdvisor, false);
-            UI_Manager.Instance.Shadow(UI_Manager.Instance.leftAdvisor, true);
+            //UI_Manager.Instance.Shadow(UI_Manager.Instance.rightAdvisor, false);
+            //UI_Manager.Instance.Shadow(UI_Manager.Instance.leftAdvisor, true);
+            UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.leftAdvisor, true));
+            UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.rightAdvisor, false));
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
             UI_Manager.Instance.displayedText.text = midText;
-            UI_Manager.Instance.Shadow(UI_Manager.Instance.leftAdvisor, true);
-            UI_Manager.Instance.Shadow(UI_Manager.Instance.rightAdvisor, true);
+            //UI_Manager.Instance.Shadow(UI_Manager.Instance.leftAdvisor, true);
+            //UI_Manager.Instance.Shadow(UI_Manager.Instance.rightAdvisor, true);
+            UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.leftAdvisor, true));
+            UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.rightAdvisor, true));
         }
 
         if (Input.GetKeyUp(KeyCode.X) || Input.GetKeyUp(KeyCode.C))
@@ -360,7 +379,8 @@ public class GM : MonoBehaviour
             currLeftPlace = places[currLeftKey];
             currRightPlace = places[currRightKey];
 
-            // Insérer récupératrion des images
+            UI_Manager.Instance.leftAdvisor.sprite = currLeftPlace.advisorSprite;
+            UI_Manager.Instance.rightAdvisor.sprite = currRightPlace.advisorSprite;
 
             //currLeftText = currLeftPlace.texts[currLeftPlace.counter % currLeftPlace.texts.Length];
             //currRightText = currRightPlace.texts[currRightPlace.counter % currRightPlace.texts.Length];

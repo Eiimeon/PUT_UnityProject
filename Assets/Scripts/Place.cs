@@ -33,10 +33,10 @@ public class Place
     }
     public void IncreaseCount() { counter++; }
 
-    /*public void BuildBuilding()
+    public void SetAdvisor(Sprite _sprite)
     {
-        building3D.gameObject.SetActive(true);
-    }*/
+        advisorSprite = _sprite;
+    }
 
     public IEnumerator BuildBuilding()
     {
@@ -50,7 +50,7 @@ public class Place
         Vector3 targetPos = Camera_Manager.Instance.GetTargetPosition(building3D);
         
 
-        while ((Camera_Manager.Instance.cam.transform.position - targetPos).magnitude > 01)
+        while ((Camera_Manager.Instance.cam.transform.position - targetPos).magnitude > 0.1)
         {
             Debug.Log(Camera_Manager.Instance.cam.transform.position - targetPos);
             Camera_Manager.Instance.cam.transform.position = Vector3.Lerp(Camera_Manager.Instance.cam.transform.position, targetPos, 1 * Time.deltaTime);

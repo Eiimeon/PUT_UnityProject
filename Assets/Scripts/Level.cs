@@ -15,6 +15,7 @@ public class Level
     public Emissary emissary;
     public List<string> built = new List<string>();
     public TextMeshProUGUI displayText = UI_Manager.Instance.emissaryText;
+    public Transform startFocus;
 
     public Level(string[,] _placeKeys, Emissary _emissaire)
     {
@@ -29,10 +30,18 @@ public class Level
         emissary = _emissaire;
     }
 
+    public Level(int _index, string[,] _placeKeys, Emissary _emissaire, Transform _startFocus)
+    {
+        levelIndex = _index;
+        keys = _placeKeys;
+        emissary = _emissaire;
+        startFocus = _startFocus;
+    }
+
     public void BeginEmissarySection(int emissaryIndex)
     {
         UI_Manager.Instance.SwitchMode(true);
-        //UI_Manager.Instance.UI_Emissary.GetComponent<Image>().SourceImage = emissary.sprite;
+        UI_Manager.Instance.SetEmissary(emissary);
         UI_Manager.Instance.UI_Emissary.GetComponent<CanvasGroup>().alpha = 0;
         UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.FadeUI(UI_Manager.Instance.UI_Emissary.GetComponent<CanvasGroup>(), 1));
         if (emissaryIndex < GM.Instance.emissaries.Count)
@@ -77,7 +86,7 @@ public class Level
         }
         else
         {
-            if (GM.Instance.successState == "failure")
+            if (GM.Instance.successState == "failure")  // Setup pour recommenncer le niveau en cas d'échec, caduc ?
             {
                 emissary.firstAppearance = true;
             }
@@ -113,7 +122,7 @@ public class Level
             yield return new WaitForEndOfFrame();
         }
         UI_Manager.Instance.SwitchMode(false);
-        BeginEmissarySection(GM.Instance.emissaryIndex);
+        GM.Instance.currLevel.BeginEmissarySection(GM.Instance.emissaryIndex);
         yield return new WaitForSeconds(0.5f);
         timer = 0;
         while (timer < duration)

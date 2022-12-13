@@ -94,12 +94,40 @@ public class UI_Manager : MonoBehaviour
         if (isShadowed)
         {
             advisor.GetComponent<Image>().color = Color.grey;
-            advisor.GetComponent<Image>().rectTransform.localScale = 1f * Vector3.one;
+            advisor.GetComponent<Image>().rectTransform.localScale = 2f * Vector3.one;
         }
         else
         {
             advisor.GetComponent<Image>().color = Color.white;
-            advisor.GetComponent<Image>().rectTransform.localScale = 1.5f * Vector3.one;
+            advisor.GetComponent<Image>().rectTransform.localScale = 3f * Vector3.one;
+        }
+    }
+
+    public IEnumerator ShadowCoroutine (Image advisor, bool isShadowed)
+    {
+        Color color = advisor.color;
+        Vector3 scale = advisor.GetComponent<Image>().rectTransform.localScale;
+        if (isShadowed)
+        {
+            while ((advisor.color - Color.gray).maxColorComponent > 5 || (advisor.GetComponent<Image>().rectTransform.localScale - 2 * Vector3.one).magnitude > 0.1)
+            {
+                advisor.color = Color.Lerp(advisor.color, Color.gray, 10f * Time.deltaTime);
+                advisor.GetComponent<Image>().rectTransform.localScale = Vector3.Lerp(advisor.GetComponent<Image>().rectTransform.localScale, 2 * Vector3.one, 10f * Time.deltaTime);
+                yield return new WaitForEndOfFrame();
+            }     
+            advisor.color = Color.grey;
+            advisor.GetComponent<Image>().rectTransform.localScale = 2f * Vector3.one;
+        }
+        else
+        {
+            while ((advisor.color - Color.white).maxColorComponent > 5 || (advisor.GetComponent<Image>().rectTransform.localScale - 3 * Vector3.one).magnitude > 0.1)
+            {
+                advisor.color = Color.Lerp(color, Color.white, 10f * Time.deltaTime);
+                advisor.GetComponent<Image>().rectTransform.localScale = Vector3.Lerp(advisor.GetComponent<Image>().rectTransform.localScale, 3 * Vector3.one, 10f * Time.deltaTime);
+                yield return new WaitForEndOfFrame();
+            }
+            advisor.color = Color.white;
+            advisor.GetComponent<Image>().rectTransform.localScale = 3f * Vector3.one;
         }
     }
 
@@ -149,7 +177,7 @@ public class UI_Manager : MonoBehaviour
 
     public void SetEmissary(Emissary _emissary)
     {
-        //emissary.sprite = _emissary;
+        emissary.sprite = _emissary.sprite;
     }
     #endregion
 
