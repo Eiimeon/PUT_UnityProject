@@ -36,6 +36,17 @@ public class GM : MonoBehaviour
     // ----------------------------------------------------------
     // ----------------------------------------------------------
 
+    /***
+         *                                              
+         *    __ __ __ __ __ __ __ __ __ __ __ __ __ __ 
+         *               __          __        ___  __  
+         *    \  /  /\  |__) |  /\  |__) |    |__  /__` 
+         *     \/  /~~\ |  \ | /~~\ |__) |___ |___ .__/ 
+         *    __ __ __ __ __ __ __ __ __ __ __ __ __ __ 
+         *                                              
+         *                                              
+         */
+    #region VARIABLES
 
     public List<Emissary> emissaries;
     public int emissaryIndex = 0;
@@ -62,9 +73,23 @@ public class GM : MonoBehaviour
     bool canChoose = true;
     public bool canAct = true;
 
-    public Transform[] buildingsTransforms;  
+    public Transform[] buildingsTransforms;
+
+    #endregion
 
 
+    /***
+     *                                                                
+     *    __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __                   
+     *     __               __            ___ ___       __   __   __  
+     *    |__) |  | | |    |  \     |\/| |__   |  |__| /  \ |  \ /__` 
+     *    |__) \__/ | |___ |__/     |  | |___  |  |  | \__/ |__/ .__/ 
+     *    __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __                   
+     *                                                                
+     *                                                                
+     */
+
+    #region BUILD METHODS
     private void BuildDictionnary()
     {
         string[] currTexts = { "Je vous suggère de construire un FORUM au centre de la ville. C'est un lieu d'échange où les citoyens pourraient se retrouver pour échanger sur les problématiques de la cité." };
@@ -191,16 +216,27 @@ public class GM : MonoBehaviour
         currLevel = levels[0];
     }
 
-    // ----------------------------------------------------------
-    // ----------------------------------------------------------
+    #endregion
 
+
+    /***
+     *                                              
+     *    __ __ __ __ __ __ __ __ __ __ __ __ __ __ 
+     *           ___ ___       __   __   ___  __    
+     *     |\/| |__   |  |__| /  \ |  \ |__  /__`   
+     *     |  | |___  |  |  | \__/ |__/ |___ .__/   
+     *    __ __ __ __ __ __ __ __ __ __ __ __ __ __ 
+     *                                              
+     *                                              
+     */
+
+    #region METHODS
     public void SetSuccessState()
     {
 
     }
 
-    // ----------------------------------------------------------
-    // ----------------------------------------------------------
+
 
     private void EmissaryMode()
     {
@@ -383,6 +419,18 @@ public class GM : MonoBehaviour
         }
         return currBuffer;
     }
+    #endregion
+
+    /***
+     *                                                                            
+     *    __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __                                
+     *     __  ___       __  ___          __   __       ___  ___     ___ ___  __  
+     *    /__`  |   /\  |__)  |     |  | |__) |  \  /\   |  |__     |__   |  /  ` 
+     *    .__/  |  /~~\ |  \  |     \__/ |    |__/ /~~\  |  |___    |___  |  \__, 
+     *    __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __                               
+     *                                                                            
+     *                                                                            
+     */
 
     void Start()
     {

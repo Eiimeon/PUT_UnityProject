@@ -38,19 +38,17 @@ public class UI_Manager : MonoBehaviour
     // ----------------------------------------------------------
 
 
+    /***
+     *                                              
+     *    __ __ __ __ __ __ __ __ __ __ __ __ __ __ 
+     *               __          __        ___  __  
+     *    \  /  /\  |__) |  /\  |__) |    |__  /__` 
+     *     \/  /~~\ |  \ | /~~\ |__) |___ |___ .__/ 
+     *    __ __ __ __ __ __ __ __ __ __ __ __ __ __ 
+     *                                              
+     *                                              
+     */
 
-
-
-
-
-
-
-
-
-
-
-
-    
     #region VARIABLES
     public GameObject UI_Choice;
     public GameObject UI_Emissary;
@@ -73,11 +71,21 @@ public class UI_Manager : MonoBehaviour
     public bool choiceMode = true;
     public bool cityMode = false;
     public bool emissaryMode = false;
-
-   
     #endregion
-    
 
+
+    /***
+     *                                              
+     *    __ __ __ __ __ __ __ __ __ __ __ __ __ __ 
+     *           ___ ___       __   __   ___  __    
+     *     |\/| |__   |  |__| /  \ |  \ |__  /__`   
+     *     |  | |___  |  |  | \__/ |__/ |___ .__/   
+     *    __ __ __ __ __ __ __ __ __ __ __ __ __ __ 
+     *                                              
+     *                                              
+     */
+
+    #region METHODES
     public void Shadow(Image advisor, bool isShadowed)
     {
         if (isShadowed)
@@ -147,8 +155,23 @@ public class UI_Manager : MonoBehaviour
             return 0;
         }
     }
+    #endregion
 
-    // Coroutines ################################################## 
+
+
+
+    /***
+     *                                                  
+     *    __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __    
+     *     __   __   __   __       ___         ___  __  
+     *    /  ` /  \ |__) /  \ |  |  |  | |\ | |__  /__` 
+     *    \__, \__/ |  \ \__/ \__/  |  | | \| |___ .__/ 
+     *    __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __    
+     *                                                  
+     *                                                  
+     */
+
+    #region Coroutines
 
     public IEnumerator Wait(float duration)
     {
@@ -196,6 +219,20 @@ public class UI_Manager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(FadeUI(blackPanel.GetComponent<CanvasGroup>(), 0, 0.5f));
     }
+
+    #endregion
+
+
+    /***
+     *                                                                            
+     *    __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __                                
+     *     __  ___       __  ___          __   __       ___  ___     ___ ___  __  
+     *    /__`  |   /\  |__)  |     |  | |__) |  \  /\   |  |__     |__   |  /  ` 
+     *    .__/  |  /~~\ |  \  |     \__/ |    |__/ /~~\  |  |___    |___  |  \__, 
+     *    __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __                               
+     *                                                                            
+     *                                                                            
+     */
 
     private void Start()
     {

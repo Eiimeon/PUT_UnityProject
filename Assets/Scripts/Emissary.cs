@@ -14,7 +14,8 @@ public class Emissary
 
     public int speechCounter = 0;
 
-    public TextMeshProUGUI displayedText;
+    Sprite sprite;
+
 
     public string[] introTexts;
 
@@ -55,9 +56,10 @@ public class Emissary
         successTexts = _st;
         specialSuccessTexts = _sst;
     }
-    public void SetTMP()
+
+    public void SetSprite(Sprite _sprite)
     {
-        displayedText = UI_Manager.Instance.emissaryText;
+        sprite = _sprite;
     }
 
     /*public Emissary(string[] _texts, Image[] _image)
