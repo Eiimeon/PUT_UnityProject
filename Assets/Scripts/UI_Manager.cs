@@ -70,10 +70,12 @@ public class UI_Manager : MonoBehaviour
     public TextMeshProUGUI emissaryText;
     
     
-
+    // TODO Faire une vraie state machi
     public bool choiceMode = true;
     public bool cityMode = false;
     public bool emissaryMode = false;
+
+    bool canShadow = true; // Conditionne ShadowCoroutine, empêche de lancer deux fois la coroutine simultanément ce qui bloque l'animation
     #endregion
 
 
@@ -94,45 +96,56 @@ public class UI_Manager : MonoBehaviour
         if (isShadowed)
         {
             advisor.GetComponent<Image>().color = Color.grey;
-            advisor.GetComponent<Image>().rectTransform.localScale = 2f * Vector3.one;
+            advisor.GetComponent<Image>().rectTransform.localScale = 3f * Vector3.one;
         }
         else
         {
             advisor.GetComponent<Image>().color = Color.white;
-            advisor.GetComponent<Image>().rectTransform.localScale = 3f * Vector3.one;
+            advisor.GetComponent<Image>().rectTransform.localScale = 4f * Vector3.one;
         }
     }
 
     public IEnumerator ShadowCoroutine (Image advisor, bool isShadowed)
     {
-        Color color = advisor.color;
-        Vector3 scale = advisor.GetComponent<Image>().rectTransform.localScale;
+        // Définition des propriétés ciblées selon si le conseiller doit être en retrait ou pas
+        Color targetColor;
+        Vector3 targetScale;
         if (isShadowed)
         {
-            while ((advisor.color - Color.gray).maxColorComponent > 5 || (advisor.GetComponent<Image>().rectTransform.localScale - 2 * Vector3.one).magnitude > 0.1)
-            {
-                advisor.color = Color.Lerp(advisor.color, Color.gray, 10f * Time.deltaTime);
-                advisor.GetComponent<Image>().rectTransform.localScale = Vector3.Lerp(advisor.GetComponent<Image>().rectTransform.localScale, 2 * Vector3.one, 10f * Time.deltaTime);
-                yield return new WaitForEndOfFrame();
-            }     
-            advisor.color = Color.grey;
-            advisor.GetComponent<Image>().rectTransform.localScale = 2f * Vector3.one;
+            targetColor = Color.gray;
+            targetScale = 3 * Vector3.one;
         }
         else
         {
-            while ((advisor.color - Color.white).maxColorComponent > 5 || (advisor.GetComponent<Image>().rectTransform.localScale - 3 * Vector3.one).magnitude > 0.1)
+            targetColor = Color.white;
+            targetScale = 4 * Vector3.one;
+        }
+        // On autorise le shadowing uniquement si le conseiller n'est pas dans un état intermédiaire pour empêcher de softlock le conseiller dans deux lerp contradictoires en spammant les touches
+        if (isShadowed && advisor.color == Color.white)
+        {
+            while ((advisor.color - targetColor).maxColorComponent > 5 || (advisor.GetComponent<Image>().rectTransform.localScale - targetScale).magnitude > 0.1)
             {
-                advisor.color = Color.Lerp(color, Color.white, 10f * Time.deltaTime);
-                advisor.GetComponent<Image>().rectTransform.localScale = Vector3.Lerp(advisor.GetComponent<Image>().rectTransform.localScale, 3 * Vector3.one, 10f * Time.deltaTime);
+                advisor.color = Color.Lerp(advisor.color, targetColor, 10f * Time.deltaTime);
+                advisor.GetComponent<Image>().rectTransform.localScale = Vector3.Lerp(advisor.GetComponent<Image>().rectTransform.localScale, targetScale, 10f * Time.deltaTime);
                 yield return new WaitForEndOfFrame();
             }
-            advisor.color = Color.white;
-            advisor.GetComponent<Image>().rectTransform.localScale = 3f * Vector3.one;
+            advisor.color = targetColor;
+            advisor.GetComponent<Image>().rectTransform.localScale = targetScale;
+        }
+        else if (!isShadowed && advisor.color == Color.gray)
+        {
+            while ((advisor.color - targetColor).maxColorComponent > 5 || (advisor.GetComponent<Image>().rectTransform.localScale - targetScale).magnitude > 0.1)
+            {
+                advisor.color = Color.Lerp(advisor.color, targetColor, 10f * Time.deltaTime);
+                advisor.GetComponent<Image>().rectTransform.localScale = Vector3.Lerp(advisor.GetComponent<Image>().rectTransform.localScale, targetScale, 10f * Time.deltaTime);
+                yield return new WaitForEndOfFrame();
+            }
+            advisor.color = targetColor;
+            advisor.GetComponent<Image>().rectTransform.localScale = targetScale;
         }
     }
 
-    
-
+    // La state machine du bled
     public void SwitchMode(bool emissary = false)
     {
         if (!emissaryMode && !emissary)
@@ -166,13 +179,9 @@ public class UI_Manager : MonoBehaviour
         else if ( emissaryMode && emissary ){
             Debug.Log("Normalement, ça n'arrive pas");
         }
-        /*StartCoroutine(FadeUI(UI_Choice.GetComponent<CanvasGroup>(), BoolToInt(choiceMode)));
-        StartCoroutine(FadeUI(UI_Emissary.GetComponent<CanvasGroup>(), BoolToInt(emissaryMode)));
-        StartCoroutine(FadeUI(UI_City.GetComponent<CanvasGroup>(), BoolToInt(cityMode)));*/
         UI_Choice.SetActive(choiceMode);
         UI_Emissary.SetActive(emissaryMode);
         UI_City.SetActive(cityMode);
-
     }
 
     public void SetEmissary(Emissary _emissary)
