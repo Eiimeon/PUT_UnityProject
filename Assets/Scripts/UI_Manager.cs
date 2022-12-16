@@ -65,6 +65,8 @@ public class UI_Manager : MonoBehaviour
     public Image leftAdvisor;
     public Image rightAdvisor;
     public Image emissary;
+    public Image[] imperialGauges;
+    public Image peopleGauge;
 
     public TextMeshProUGUI displayedText;
     public TextMeshProUGUI emissaryText;
@@ -143,6 +145,41 @@ public class UI_Manager : MonoBehaviour
             advisor.color = targetColor;
             advisor.GetComponent<Image>().rectTransform.localScale = targetScale;
         }
+    }
+    
+
+    public float GetFillRatio(Image _gauge)
+    {
+        float fillRatio = _gauge.GetComponent<Scrollbar>().size;
+        return fillRatio;
+    }
+
+    public float GetNewFillRatio(Image _gauge, float _additionalFillRatio)
+    {
+        return  Mathf.Clamp(_gauge.GetComponent<Scrollbar>().size + _additionalFillRatio, 0.0f, 1.0f);
+    }
+    public void SetFillRatio(Image _gauge, float _fillRatio)
+    {
+        _fillRatio = Mathf.Clamp(_fillRatio, 0.0f, 1.0f);
+        _gauge.GetComponent<Scrollbar>().size = _fillRatio;
+    }
+
+    public void FillGauge(Image _gauge, float _additionalFillRatio)
+    {
+        SetFillRatio(_gauge, _gauge.GetComponent<Scrollbar>().size+_additionalFillRatio);
+    }
+
+    public IEnumerator FillGaugeCoroutine(Image _gauge, float _targetRatio)
+    {
+        //float targetRatio = Mathf.Clamp(_gauge.GetComponent<Scrollbar>().size + _additionalFillRatio, 0.0f, 1.0f);
+        Debug.Log("gaugecoroutine");
+        while (Mathf.Abs(_gauge.GetComponent<Scrollbar>().size - _targetRatio) > 0.01 )
+        {
+            
+            _gauge.GetComponent<Scrollbar>().size = Mathf.Lerp(_gauge.GetComponent<Scrollbar>().size, _targetRatio, 5f * Time.deltaTime);
+            yield return new WaitForEndOfFrame();
+        }
+        _gauge.GetComponent<Scrollbar>().size = _targetRatio;
     }
 
     // La state machine du bled
