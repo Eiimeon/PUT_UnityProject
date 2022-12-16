@@ -40,11 +40,13 @@ public class Level
 
     public void BeginEmissarySection(int emissaryIndex)
     {
+        // Passe en mode UI émissaire
         UI_Manager.Instance.SwitchMode(true);
+        // Remplace l'image de l'ancien émissaire par le nouveau
         UI_Manager.Instance.SetEmissary(emissary);
 
         // Changement de jauge
-        /*for (int i = 0; i < GM.Instance.levels.Count; i++)
+        for (int i = 0; i < GM.Instance.levels.Count; i++)
         {
             if (i == levelIndex)
             {
@@ -54,16 +56,21 @@ public class Level
             {
                 UI_Manager.Instance.imperialGauges[i].gameObject.SetActive(false);
             }
-        }*/
+        }
+        // Fade in 
         UI_Manager.Instance.UI_Emissary.GetComponent<CanvasGroup>().alpha = 0;
         UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.FadeUI(UI_Manager.Instance.UI_Emissary.GetComponent<CanvasGroup>(), 1));
+
+
         if (emissaryIndex < GM.Instance.emissaries.Count)
         {
             emissary = GM.Instance.emissaries[emissaryIndex];
+            // Si c'est la première recontre, l'émissaire fait son discours d'introduction
             if (emissary.firstAppearance)
             {
                 displayText.text = emissary.introTexts[0];
             }
+            // Sinon son texte dépend du succes du joueur
             else
             {
                 GM.Instance.SetSuccessState();
