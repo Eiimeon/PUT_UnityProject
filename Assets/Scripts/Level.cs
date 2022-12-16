@@ -42,6 +42,19 @@ public class Level
     {
         UI_Manager.Instance.SwitchMode(true);
         UI_Manager.Instance.SetEmissary(emissary);
+
+        // Changement de jauge
+        /*for (int i = 0; i < GM.Instance.levels.Count; i++)
+        {
+            if (i == levelIndex)
+            {
+                UI_Manager.Instance.imperialGauges[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                UI_Manager.Instance.imperialGauges[i].gameObject.SetActive(false);
+            }
+        }*/
         UI_Manager.Instance.UI_Emissary.GetComponent<CanvasGroup>().alpha = 0;
         UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.FadeUI(UI_Manager.Instance.UI_Emissary.GetComponent<CanvasGroup>(), 1));
         if (emissaryIndex < GM.Instance.emissaries.Count)
@@ -123,7 +136,7 @@ public class Level
         }
         UI_Manager.Instance.SwitchMode(false);
         GM.Instance.currLevel.BeginEmissarySection(GM.Instance.emissaryIndex);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         timer = 0;
         while (timer < duration)
         {
