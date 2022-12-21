@@ -96,78 +96,161 @@ public class GM : MonoBehaviour
         Place currPlace = new Place(currTexts);
         currPlace.SetBuilding3D(buildingsTransforms[0]);
         currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
+        /*currPlace.SetPolitics(4);
+        currPlace.SetCulture(2);
+        currPlace.SetPrestige(2);*/
+        float[] tempRatios = { 4, 2, 0, 2 };
+        currPlace.SetRatios(tempRatios);
+        currPlace.SetPeople(0);
         places["Forum"] = currPlace;
 
         currTexts = new string[] { "La cité est naissante, mais les gens ne savent pas où enterrer leurs morts, s'il vous plait, construisez une NÉCROPOLE juste au delà des limites de la cité.",
                                     "La situation devient urgente, ça fait des années que les gens enterrent leurs morts à l'arrache, construisez une NÉCROPOLE bon sang !",
                                     "Le peuple en a marre ! Construisez une NÉCROPOLE ! Ca suffit de devoir enterrer nos morts comme des clochards !" };
         currPlace = new Place(currTexts);
-        currPlace.SetBuilding3D(buildingsTransforms[1]);
         currPlace.SetAdvisor(UI_Manager.Instance.advisors[2]);
+        tempRatios = new float[] { 0, 0, 0, 0 };
+        currPlace.SetRatios(tempRatios);
+        currPlace.SetPeople(3);
         places["Nécropole"] = currPlace;
+
+        currTexts = new string[] { "Port" };
+        currPlace = new Place(currTexts);
+        currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
+        tempRatios = new float[] { 2, 2, 0, 0};
+        currPlace.SetRatios(tempRatios);
+        currPlace.SetPeople(1);
+        places["Port"] = currPlace;
+
+        currTexts = new string[] { "Marché" };
+        currPlace = new Place(currTexts);
+        currPlace.SetAdvisor(UI_Manager.Instance.advisors[2]);
+        tempRatios = new float[] { 0, 1, 0, 0 };
+        currPlace.SetRatios(tempRatios);
+        currPlace.SetPeople(2);
+        places["Marché"] = currPlace;
 
         currTexts = new string[] { "Nous avons obtenu les droits pour créer à Toulouse un TEMPLE dédié à la triade capitoline ! C'est extêmement prestigieux ! Il y a Minerve, déesse de la sagesse, Junon déesse du foyer, et surtout Jupiter, dieu des dieux !\r\n" };
         currPlace = new Place(currTexts);
-        currPlace.SetBuilding3D(buildingsTransforms[2]);
         currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
+        tempRatios = new float[] { 0, 4, 0, 2 };
+        currPlace.SetRatios(tempRatios);
+        currPlace.SetPeople(0);
         places["Temple"] = currPlace;
 
         currTexts = new string[] { "Je pense que vous devriez créer un quartier résidentiel autour d'une DOMUS romaine. Ce sont des maisons à la pointe du bon goût !",
                                     "Ce premier quartier avec DOMUS romaine est fabuleux ! Ne nous arrêtons pas en si bon chemin ! Je vous sous entends évidemment d'en créer un deuxième !" };
         currPlace = new Place(currTexts);
-        currPlace.SetBuilding3D(buildingsTransforms[3]);
         currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
+        tempRatios = new float[] { 0, 2, 0, 0 };
+        currPlace.SetRatios(tempRatios);
+        currPlace.SetPeople(1);
         places["Domus"] = currPlace;
 
         currTexts = new string[] { "La construction de l'aqueduc nous a apporté plein d'eau, on va pouvoir mettre en place un réseau d'ÉGOUTS avec les techniques romaines pour assainir la ville.",
                                     "La ville a plein d'eau et pourtant l'hygiène est toujours pourrie, ça ne va pas du tout, faut vraiment construire un réseau d'ÉGOUTS !",
                                     "Construisez un réseau d'ÉGOUTS ! C'est inadmissible ! Enfin ! On peut pas avoir autant d'eau et avoir des rues qui puent la mort !" };
         currPlace = new Place(currTexts);
-        currPlace.SetBuilding3D(buildingsTransforms[4]);
         currPlace.SetAdvisor(UI_Manager.Instance.advisors[3]);
         places["Égouts"] = currPlace;
 
         currTexts = new string[] { "Nous pourrions agrémenter le forum de THERMES. Ces bains publics sont d'une part un lieu de relaxation, mais aussi un excellent lieu dans lequel aborder les discutions politiques." };
         currPlace = new Place(currTexts);
-        currPlace.SetBuilding3D(buildingsTransforms[5]);
         currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
-        places["Thermes1"] = currPlace;
+        tempRatios = new float[] { 0, 3, 4, 0 };
+        currPlace.SetRatios(tempRatios);
+        currPlace.SetPeople(1);
+        places["Thermes Nord"] = currPlace;
 
         currTexts = new string[] { "Nous pourrions agrémenter le forum de THERMES. Ces bains publics sont d'une part un lieu de relaxation, mais aussi un excellent lieu dans lequel aborder les discutions politiques." };
         currPlace = new Place(currTexts);
-        currPlace.SetBuilding3D(buildingsTransforms[6]);
         currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
-        places["Thermes2"] = currPlace;
+        tempRatios = new float[] { 0, 0, 4, 0 };
+        currPlace.SetRatios(tempRatios);
+        currPlace.SetPeople(1);
+        places["Thermes Sud"] = currPlace;
 
         currTexts = new string[] { "Avec toute cette eau, nous allons pouvoir faire de magnifiques FONTAINES ! Avec de fort belles sculptures racontant d'héroïques mythes romains !" };
         currPlace = new Place(currTexts);
-        currPlace.SetBuilding3D(buildingsTransforms[7]);
         currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
-        places["Fontaine1"] = currPlace;
+        tempRatios = new float[] { 0, 1, 2, 1 };
+        currPlace.SetRatios(tempRatios);
+        currPlace.SetPeople(0);
+        places["Fontaine Forum"] = currPlace;
 
         currTexts = new string[] { "Avec toute cette eau, nous allons pouvoir faire de magnifiques FONTAINES ! Avec de fort belles sculptures racontant d'héroïques mythes romains !" };
         currPlace = new Place(currTexts);
-        currPlace.SetBuilding3D(buildingsTransforms[8]);
         currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
-        places["Fontaine2"] = currPlace;
+        tempRatios = new float[] { 0, 0, 4, 1 };
+        currPlace.SetRatios(tempRatios);
+        currPlace.SetPeople(0);
+        places["Fontaine Monumentale"] = currPlace;
+
+        currTexts = new string[] { "Chateau d'Eau" };
+        currPlace = new Place(currTexts);
+        currPlace.SetAdvisor(UI_Manager.Instance.advisors[3]);
+        tempRatios = new float[] { 0, 0, 1, 0 };
+        currPlace.SetRatios(tempRatios);
+        currPlace.SetPeople(2);
+        places["Chateau d'Eau"] = currPlace;
 
         currTexts = new string[] { "Notre cité a une population importante désormais, je vous suggère de construire un gigantesque THÉATRE, qui pourrait accueillir la moitié de la population Toulousaine, afin de montrer des pièces romaines." };
         currPlace = new Place(currTexts);
-        currPlace.SetBuilding3D(buildingsTransforms[9]);
         currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
+        tempRatios = new float[] { 0, 0, 0, 2 };
+        currPlace.SetRatios(tempRatios);
+        currPlace.SetPeople(1);
         places["Théâtre"] = currPlace;
+
+        currTexts = new string[] { "Jardins" };
+        currPlace = new Place(currTexts);
+        currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
+        tempRatios = new float[] { 0, 0, 2, 2 };
+        currPlace.SetRatios(tempRatios);
+        currPlace.SetPeople(0);
+        places["Jardins"] = currPlace;
 
         currTexts = new string[] { "Les REMPARTS de Tibère commencent à dater un peu, nous pourrions leur redonner une petite jeunesse en y ajouter des ornements et des dorures ! Ca ne protège de rien, mais ça en jette !" };
         currPlace = new Place(currTexts);
-        currPlace.SetBuilding3D(buildingsTransforms[10]);
         currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
-        places["Remparts"] = currPlace;
+        tempRatios = new float[] { 0, 0, 0, 3 };
+        currPlace.SetRatios(tempRatios);
+        currPlace.SetPeople(0);
+        places["Remparts+"] = currPlace;
 
         currTexts = new string[] { "Nous avons les ressources aux alentours pour nous lancer dans le commerce de pigments et créer une TEINTURERIE. Ce nouveau commerce permettrait à Toulouse de gagner en renommée aux alentours." };
         currPlace = new Place(currTexts);
-        currPlace.SetBuilding3D(buildingsTransforms[11]);
         currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
         places["Teinturerie"] = currPlace;
+
+        currTexts = new string[] { "Domus+" };
+        currPlace = new Place(currTexts);
+        currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
+        tempRatios = new float[] { 0, 0, 0, 0 };
+        currPlace.SetRatios(tempRatios);
+        currPlace.SetPeople(2);
+        places["Domus+"] = currPlace;
+
+        currTexts = new string[] { "Port+" };
+        currPlace = new Place(currTexts);
+        currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
+        tempRatios = new float[] { 0, 0, 0, 2 };
+        currPlace.SetRatios(tempRatios);
+        currPlace.SetPeople(0);
+        places["Port+"] = currPlace;
+
+
+        // On assigne à chaque place le building donc le nom du GO correspond
+        foreach (string key in places.Keys)
+        {
+            foreach(Transform t in buildingsTransforms)
+            {
+                if (key == t.name)
+                {
+                    places[key].SetBuilding3D(t);
+                }
+            }
+        }
     }
 
     private void BuildEmissaries()
@@ -219,11 +302,11 @@ public class GM : MonoBehaviour
     
     private void BuildLevels()
     {
-        Level temp = new Level(0, new string[,] { { "Forum", "Nécropole" } }, emissaries[0]);
+        Level temp = new Level(0, new string[,] { { "Forum", "Nécropole" } , { "Port", "Marché" } , { "Buffer", "Buffer" } }, emissaries[0]);
         levels.Add(temp);
-        levels.Add(new Level(1, new string[,] { { "Temple", "Domus" }, { "Buffer", "Buffer" } }, emissaries[1]));
-        levels.Add(new Level(2, new string[,] { { "Égouts", "Fontaine1" }, { "Thermes1", "Thermes2" }, { "Buffer", "Buffer" } }, emissaries[2]));
-        levels.Add(new Level(3, new string[,] { { "Théâtre", "Fontaine2" }, { "Remparts", "Teinturerie" }, { "Buffer", "Buffer" } }, emissaries[3]));
+        levels.Add(new Level(1, new string[,] { { "Temple", "Thermes Nord" }, { "Domus", "Fontaine Forum" }, { "Buffer", "Buffer" } }, emissaries[1]));
+        levels.Add(new Level(2, new string[,] { { "Chateau d'Eau", "Fontaine Monumentale" }, { "Thermes Sud", "Jardins" }, { "Buffer", "Buffer" } }, emissaries[2]));
+        levels.Add(new Level(3, new string[,] { { "Remparts+", "Domus+" }, { "Théâtre", "Port+" }, { "Buffer", "Buffer" } }, emissaries[3]));
 
         currLevel = levels[0];
     }
@@ -298,32 +381,38 @@ public class GM : MonoBehaviour
             DTimer += Time.deltaTime;
         }
 
-        if (Input.GetKeyDown(KeyCode.X))
+        if (//true
+            !UI_Manager.Instance.isShadowing
+            /*!UI_Manager.Instance.IsShadowing(UI_Manager.Instance.leftAdvisor)&&
+            !UI_Manager.Instance.IsShadowing(UI_Manager.Instance.rightAdvisor)*/)
         {
-            UI_Manager.Instance.displayedText.text = currLeftPlace.GetCurrentText();
-            //UI_Manager.Instance.Shadow(UI_Manager.Instance.leftAdvisor, false);
-            //UI_Manager.Instance.Shadow(UI_Manager.Instance.rightAdvisor, true);
-            UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.leftAdvisor, false));
-            UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.rightAdvisor, true));
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                UI_Manager.Instance.displayedText.text = currLeftPlace.GetCurrentText();
+                //UI_Manager.Instance.Shadow(UI_Manager.Instance.leftAdvisor, false);
+                //UI_Manager.Instance.Shadow(UI_Manager.Instance.rightAdvisor, true);
+                UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.leftAdvisor, false));
+                UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.rightAdvisor, true));
 
-        }
+            }
 
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            UI_Manager.Instance.displayedText.text = currRightPlace.GetCurrentText();
-            //UI_Manager.Instance.Shadow(UI_Manager.Instance.rightAdvisor, false);
-            //UI_Manager.Instance.Shadow(UI_Manager.Instance.leftAdvisor, true);
-            UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.leftAdvisor, true));
-            UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.rightAdvisor, false));
-        }
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                UI_Manager.Instance.displayedText.text = currRightPlace.GetCurrentText();
+                //UI_Manager.Instance.Shadow(UI_Manager.Instance.rightAdvisor, false);
+                //UI_Manager.Instance.Shadow(UI_Manager.Instance.leftAdvisor, true);
+                UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.leftAdvisor, true));
+                UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.rightAdvisor, false));
+            }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            UI_Manager.Instance.displayedText.text = midText;
-            //UI_Manager.Instance.Shadow(UI_Manager.Instance.leftAdvisor, true);
-            //UI_Manager.Instance.Shadow(UI_Manager.Instance.rightAdvisor, true);
-            UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.leftAdvisor, true));
-            UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.rightAdvisor, true));
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                UI_Manager.Instance.displayedText.text = midText;
+                //UI_Manager.Instance.Shadow(UI_Manager.Instance.leftAdvisor, true);
+                //UI_Manager.Instance.Shadow(UI_Manager.Instance.rightAdvisor, true);
+                UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.leftAdvisor, true));
+                UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.rightAdvisor, true));
+            }
         }
 
         if (Input.GetKeyUp(KeyCode.X) || Input.GetKeyUp(KeyCode.C))
@@ -422,7 +511,7 @@ public class GM : MonoBehaviour
 
         if (currBuffer == "Buffer")
         {
-            if (buffer.Contains("Nécropole"))
+            /*if (buffer.Contains("Nécropole"))
             {
                 currBuffer = "Nécropole";
             }
@@ -434,7 +523,9 @@ public class GM : MonoBehaviour
             {
                 currBuffer = buffer[0];
                 deadKeys.Add(currBuffer);
-            }
+            }*/
+            currBuffer = buffer[0];
+            deadKeys.Add(currBuffer);
             buffer.Remove(currBuffer);
         }
         return currBuffer;

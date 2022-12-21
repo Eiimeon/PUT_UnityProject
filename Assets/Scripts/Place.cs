@@ -18,7 +18,9 @@ public class Place
     public float prestige = 0;*/
     public float people = 0;
 
-    public float[] gaugeRatios = new float[] { 1/5f, 0, 0, 0 };
+    public float[] gaugeRatios = new float[] { 0f, 0, 0, 0 };
+
+    // Ici pour la coroutine, ça marche pas en local
     public float[] targetEmpireRatios = new float[] { 0.5f, 0.5f, 0, 0 };
 
     public Place()
@@ -63,14 +65,19 @@ public class Place
         gaugeRatios[2] = _water;
     }
 
-    public void SetPrestigePolitics(float _prestige)
+    public void SetPrestige(float _prestige)
     {
         gaugeRatios[3] = _prestige;
     }
 
-    public void SetPrestigePeople(float _people)
+    public void SetPeople(float _people)
     {
         people = _people;
+    }
+
+    public void SetRatios(float[] _ratios)
+    {
+        gaugeRatios = _ratios;
     }
 
     public IEnumerator BuildBuilding()
@@ -83,27 +90,30 @@ public class Place
             targetEmpireRatios[i] = UI_Manager.Instance.GetNewFillRatio(UI_Manager.Instance.imperialGauges[i], gaugeRatios[i]);
         }*/
 
-        for (int i = 0; i < targetEmpireRatios.Length; i++)
+        for (int i = 0; i < gaugeRatios.Length; i++)
         {
             Debug.Log(UI_Manager.Instance.imperialGauges[i]);
             Debug.Log(gaugeRatios[i]);
-            Debug.Log(UI_Manager.Instance.GetNewFillRatio(UI_Manager.Instance.imperialGauges[i], 1/5f));
-            targetEmpireRatios[i] = UI_Manager.Instance.GetNewFillRatio(UI_Manager.Instance.imperialGauges[i], gaugeRatios[i]);
+            //Debug.Log(UI_Manager.Instance.GetNewFillRatio(UI_Manager.Instance.imperialGauges[i], 1/5f));
+            targetEmpireRatios[i] = UI_Manager.Instance.imperialGauges[i].GetComponent<Gauge>().GetNewFillRatio(gaugeRatios[i]);
         }
         //Debug.Log(targetEmpireRatios);
-        float targetPeopleRatio = UI_Manager.Instance.GetNewFillRatio(UI_Manager.Instance.peopleGauge, -1/5f);
+        float targetPeopleRatio = UI_Manager.Instance.peopleGauge.GetComponent<Gauge>().GetNewFillRatio(people - 1);
 
         //Debug.Log(UI_Manager.Instance.GetFillRatio(UI_Manager.Instance.imperialGauges[0]));
         //Debug.Log(targetEmpireRatios);
 
-        /*for (int i = 0; i < gaugeRatios.Length; i++)
+        for (int i = 0; i < gaugeRatios.Length; i++)
         {
-            UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.FillGaugeCoroutine(UI_Manager.Instance.imperialGauges[i], targetEmpireRatios[i]));
-        }*/
-        UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.FillGaugeCoroutine(UI_Manager.Instance.imperialGauges[0], targetEmpireRatios[0]));
-        UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.FillGaugeCoroutine(UI_Manager.Instance.peopleGauge, targetPeopleRatio));
+            //UI_Manager.Instance.imperialGauges[i].GetComponent<Gauge>().StartCoroutine(FillGaugeCoroutine(targetEmpireRatios[i]));
+            UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.imperialGauges[i].GetComponent<Gauge>().FillGaugeCoroutine(targetEmpireRatios[i]));
+        }
+        //UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.FillGaugeCoroutine(UI_Manager.Instance.imperialGauges[0], targetEmpireRatios[0]));
+        //UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.FillGaugeCoroutine(UI_Manager.Instance.peopleGauge, targetPeopleRatio));
 
-        while (UI_Manager.Instance.GetFillRatio(UI_Manager.Instance.imperialGauges[0]) != targetEmpireRatios[0] || UI_Manager.Instance.GetFillRatio(UI_Manager.Instance.peopleGauge) != targetPeopleRatio)
+        UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.peopleGauge.GetComponent<Gauge>().FillGaugeCoroutine(targetPeopleRatio));
+
+        while (UI_Manager.Instance.imperialGauges[0].GetComponent<Gauge>().GetFillRatio() != targetEmpireRatios[0] || UI_Manager.Instance.peopleGauge.GetComponent<Gauge>().GetFillRatio() != targetPeopleRatio)
         {
             //Debug.Log("Hold on");
             yield return new WaitForEndOfFrame();

@@ -78,7 +78,7 @@ public class UI_Manager : MonoBehaviour
     public bool cityMode = false;
     public bool emissaryMode = false;
 
-    bool canShadow = true; // Conditionne ShadowCoroutine, empêche de lancer deux fois la coroutine simultanément ce qui bloque l'animation
+    public bool isShadowing = false; // Conditionne ShadowCoroutine, empêche de lancer deux fois la coroutine simultanément ce qui bloque l'animation
     #endregion
 
 
@@ -107,6 +107,12 @@ public class UI_Manager : MonoBehaviour
             advisor.GetComponent<Image>().rectTransform.localScale = 4f * Vector3.one;
         }
     }
+    // Indique si le conseiller est dans un état stable ou pas, permet d'éviter les problèmes quand on spamme le changement de choix
+    public bool IsShadowing(Image _advisor)
+    {
+        return (!(_advisor.color == Color.gray && _advisor.GetComponent<Image>().rectTransform.localScale == 3 * Vector3.one)||
+                !(_advisor.color == Color.white && _advisor.GetComponent<Image>().rectTransform.localScale == 4 * Vector3.one));
+    }
 
     public IEnumerator ShadowCoroutine (Image advisor, bool isShadowed)
     {
@@ -128,6 +134,7 @@ public class UI_Manager : MonoBehaviour
         {
             while ((advisor.color - targetColor).maxColorComponent > 5 || (advisor.GetComponent<Image>().rectTransform.localScale - targetScale).magnitude > 0.1)
             {
+                isShadowing = true;
                 advisor.color = Color.Lerp(advisor.color, targetColor, 10f * Time.deltaTime);
                 advisor.GetComponent<Image>().rectTransform.localScale = Vector3.Lerp(advisor.GetComponent<Image>().rectTransform.localScale, targetScale, 10f * Time.deltaTime);
                 yield return new WaitForEndOfFrame();
@@ -139,6 +146,7 @@ public class UI_Manager : MonoBehaviour
         {
             while ((advisor.color - targetColor).maxColorComponent > 5 || (advisor.GetComponent<Image>().rectTransform.localScale - targetScale).magnitude > 0.1)
             {
+                isShadowing = true;
                 advisor.color = Color.Lerp(advisor.color, targetColor, 10f * Time.deltaTime);
                 advisor.GetComponent<Image>().rectTransform.localScale = Vector3.Lerp(advisor.GetComponent<Image>().rectTransform.localScale, targetScale, 10f * Time.deltaTime);
                 yield return new WaitForEndOfFrame();
@@ -146,10 +154,11 @@ public class UI_Manager : MonoBehaviour
             advisor.color = targetColor;
             advisor.GetComponent<Image>().rectTransform.localScale = targetScale;
         }
+        isShadowing = false;
     }
     
 
-    public float GetFillRatio(Image _gauge)
+    /*public float GetFillRatio(Image _gauge)
     {
         float fillRatio = _gauge.GetComponent<Scrollbar>().size;
         return fillRatio;
@@ -181,7 +190,7 @@ public class UI_Manager : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         _gauge.GetComponent<Scrollbar>().size = _targetRatio;
-    }
+    }*/
 
     // La state machine du bled
     public void SwitchMode(bool emissary = false)
@@ -307,6 +316,14 @@ public class UI_Manager : MonoBehaviour
 
     private void Start()
     {
+        // Initialisation de la taille des jauges
+        imperialGauges[0].GetComponent<Gauge>().SetLength(5);
+        imperialGauges[1].GetComponent<Gauge>().SetLength(12);
+        imperialGauges[2].GetComponent<Gauge>().SetLength(12);
+        imperialGauges[3].GetComponent<Gauge>().SetLength(12);
+        peopleGauge.GetComponent<Gauge>().SetLength(5);
+
+        // Fade d'intro pour cacher que ça rame au lancement
         blackPanel.GetComponent<CanvasGroup>().alpha = 1;
         StartCoroutine(IntroFade());
     }
