@@ -1,10 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 
 [System.Serializable]
@@ -239,6 +236,18 @@ public class GM : MonoBehaviour
         currPlace.SetPeople(0);
         places["Port+"] = currPlace;
 
+        // Places offertes pas l'empereur entre les niveaux
+        currTexts = new string[] { "Portes" };
+        currPlace = new Place(currTexts);
+        places["Portes"] = currPlace;
+
+        currTexts = new string[] { "Remparts" };
+        currPlace = new Place(currTexts);
+        places["Remparts"] = currPlace;
+
+        currTexts = new string[] { "Aqueduc" };
+        currPlace = new Place(currTexts);
+        places["Aqueduc"] = currPlace;
 
         // On assigne à chaque place le building donc le nom du GO correspond
         foreach (string key in places.Keys)
@@ -308,6 +317,11 @@ public class GM : MonoBehaviour
         levels.Add(new Level(2, new string[,] { { "Chateau d'Eau", "Fontaine Monumentale" }, { "Thermes Sud", "Jardins" }, { "Buffer", "Buffer" } }, emissaries[2]));
         levels.Add(new Level(3, new string[,] { { "Remparts+", "Domus+" }, { "Théâtre", "Port+" }, { "Buffer", "Buffer" } }, emissaries[3]));
 
+        levels[0].SetPlace(places["Portes"]);
+        levels[1].SetPlace(places["Remparts"]);
+        levels[2].SetPlace(places["Aqueduc"]);
+        levels[3].SetPlace(places["Portes"]);
+
         currLevel = levels[0];
     }
 
@@ -337,9 +351,25 @@ public class GM : MonoBehaviour
     {
         if (currLevel.emissary.firstAppearance)
         {
+            // KEYBOARD CONTROLS
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                Debug.Log("Pressed Space");
+                //Debug.Log("Pressed Space");
+                currLevel.emissary.speechCounter++;
+                if (currLevel.emissary.speechCounter < currLevel.emissary.introTexts.Length)
+                {
+                    UI_Manager.Instance.emissaryText.text = currLevel.emissary.introTexts[currLevel.emissary.speechCounter];
+                }
+                else
+                {
+                    currLevel.EndEmissarySection();
+                    //MoveToNextChoices();
+                }
+            }
+            // TOUCH CONTROLS
+            if (Input.GetMouseButtonDown(0))
+            {
+                //Debug.Log("Pressed Space");
                 currLevel.emissary.speechCounter++;
                 if (currLevel.emissary.speechCounter < currLevel.emissary.introTexts.Length)
                 {
@@ -367,11 +397,25 @@ public class GM : MonoBehaviour
                     //MoveToNextChoices();
                 }
             }
+            if (Input.GetMouseButtonDown(0))
+            {
+                currLevel.emissary.speechCounter++;
+                if (currLevel.emissary.speechCounter < currLevel.emissary.endTexts.Length)
+                {
+                    UI_Manager.Instance.emissaryText.text = currLevel.emissary.endTexts[currLevel.emissary.speechCounter];
+                }
+                else
+                {
+                    currLevel.EndEmissarySection();
+                    //MoveToNextChoices();
+                }
+            }
         }
     }
 
     private void MakeAChoice()
     {
+        // KEYBOARD CONTROLS
         if (Input.GetKey(KeyCode.X))
         {
             QTimer += Time.deltaTime;
@@ -416,6 +460,59 @@ public class GM : MonoBehaviour
         }
 
         if (Input.GetKeyUp(KeyCode.X) || Input.GetKeyUp(KeyCode.C))
+        {
+            canChoose = true;
+            QTimer = 0;
+            DTimer = 0;
+        }
+
+        // TOUCH CONTROLS
+
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.touches[0];
+            int width = Screen.width;
+            if (touch.position.x < width/2)
+            {
+                QTimer += Time.deltaTime;
+            }
+            else
+            {
+                DTimer += Time.deltaTime;
+            }  
+        }
+
+        if (!UI_Manager.Instance.isShadowing)
+        {
+            if (Input.touchCount > 0)
+            {
+                Touch touch = Input.touches[0];
+
+                if (touch.position.y > Screen.height * 2 / 3)
+                {
+                    UI_Manager.Instance.displayedText.text = midText;
+                    UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.leftAdvisor, true));
+                    UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.rightAdvisor, true));
+                }
+                else
+                {
+                    if ( touch.position.x < Screen.height /2 )
+                    {
+                        UI_Manager.Instance.displayedText.text = currLeftPlace.GetCurrentText();
+                        UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.leftAdvisor, false));
+                        UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.rightAdvisor, true));
+                    }
+                    else
+                    {
+                        UI_Manager.Instance.displayedText.text = currRightPlace.GetCurrentText();
+                        UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.leftAdvisor, true));
+                        UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.rightAdvisor, false));
+                    }
+                }
+            }
+        }
+
+        if (Input.GetKeyUp(KeyCode.X) || Input.GetKeyUp(KeyCode.C) /*|| Input.touchCount == 0*/)
         {
             canChoose = true;
             QTimer = 0;
@@ -549,14 +646,20 @@ public class GM : MonoBehaviour
         BuildDictionnary();
         BuildEmissaries();
         BuildLevels();
+        currLevel.giftedPlace.building3D.gameObject.SetActive(true);
         currLevel.BeginEmissarySection(currLevel.emissary.index);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.touchCount > 0)
+        {
+            Debug.Log(Input.GetTouch(0).position);
+        }
         if (canAct)
         {
+            // KEYBOARD CONTROLS
             if (Input.GetKeyDown(KeyCode.F))
             {
                 StartCoroutine(UI_Manager.Instance.FadeTo(1f, 1, null, true));
@@ -579,6 +682,8 @@ public class GM : MonoBehaviour
                 //Debug.Log("emissary mode");
                 EmissaryMode();
             }
+
+            //TOUCH CONTROLS
         }
     }
 }

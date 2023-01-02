@@ -2,11 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.PackageManager;
 using UnityEngine;
-using UnityEngine.UI;
 
-[System.Serializable]
+[Serializable]
 public class Level
 {
     public int levelIndex = 0;
@@ -15,6 +13,7 @@ public class Level
     public Emissary emissary;
     public List<string> built = new List<string>();
     public TextMeshProUGUI displayText = UI_Manager.Instance.emissaryText;
+    [SerializeField] public Place giftedPlace = null;
     public Transform startFocus;
 
     public Level(string[,] _placeKeys, Emissary _emissaire)
@@ -36,6 +35,11 @@ public class Level
         keys = _placeKeys;
         emissary = _emissaire;
         startFocus = _startFocus;
+    }
+
+    public void SetPlace(Place _place)
+    {
+        giftedPlace = _place;
     }
 
     public void BeginEmissarySection(int emissaryIndex)
@@ -68,6 +72,12 @@ public class Level
             // Si c'est la première recontre, l'émissaire fait son discours d'introduction
             if (emissary.firstAppearance)
             {
+                Debug.Log("should build");
+                if (giftedPlace != null)
+                {
+                    giftedPlace.building3D.gameObject.SetActive(true);
+                }
+                this?.giftedPlace.building3D.gameObject.SetActive(true); // TODO garder un des deux seulement
                 displayText.text = emissary.introTexts[0];
             }
             // Sinon son texte dépend du succes du joueur
