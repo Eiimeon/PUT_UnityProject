@@ -35,8 +35,39 @@ public class Camera_Manager : MonoBehaviour
 
     public Camera cam;
 
-    Vector3 standardOffSet;
-    float altitude;
+    private Vector3 standardOffSet;
+    private Vector3 targetPos;
+
+    [SerializeField] private float altitude;
+
+    public float GetAltitude() // Pour les portes, où GetTargetPos ne fonctionne pas 
+    {
+        return altitude;
+    }
+
+
+    public Vector3 GetTargetPosition(Transform building) // TODO delete, probablement obsolette
+    {
+        Vector3 targetPos = Vector3.zero;
+        targetPos.x = building.position.x + standardOffSet.x;
+        targetPos.y = altitude;
+        targetPos.z = building.position.z + standardOffSet.z;
+        return targetPos;
+    }
+
+    public void SetTargetPosition(Transform building)
+    {
+        targetPos = Vector3.zero;
+        targetPos.x = building.position.x + standardOffSet.x;
+        targetPos.y = altitude;
+        targetPos.z = building.position.z + standardOffSet.z;
+    }
+
+    public bool IsOnTarget()
+    {
+        return ((cam.transform.position - targetPos).magnitude > 0.1);
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -49,18 +80,12 @@ public class Camera_Manager : MonoBehaviour
         cam.transform.position = GetTargetPosition(Buildings_Manager.Instance.buildingsTransform[0]);
     }
 
-    public Vector3 GetTargetPosition(Transform building)
-    {
-        Vector3 targetPos = Vector3.zero;
-        targetPos.x = building.position.x + standardOffSet.x;
-        targetPos.y = altitude;
-        targetPos.z = building.position.z + standardOffSet.z;
-        return targetPos;
-    }
+    
 
     // Update is called once per frame
     void Update()
     {
+        // Contrôles du city mode (non implémenté ?) TODO
         if (Input.GetKey(KeyCode.D))
         {
             transform.position -= speed * Vector3.right * Time.deltaTime * cam.fieldOfView /60;
@@ -85,5 +110,7 @@ public class Camera_Manager : MonoBehaviour
         {
             cam.fieldOfView += zoomSpeed * Time.deltaTime;
         }
+        // A toutes les frames on lerp vers la target pos qui pointe sur un batiment en construction
+        //cam.transform.position = Vector3.Lerp(cam.transform.position, targetPos, 1 * Time.deltaTime);
     }
 }

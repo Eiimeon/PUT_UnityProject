@@ -249,6 +249,10 @@ public class GM : MonoBehaviour
         currPlace = new Place(currTexts);
         places["Aqueduc"] = currPlace;
 
+        currTexts = new string[] { "Vide" };
+        currPlace = new Place(currTexts);
+        places["Vide"] = currPlace;
+
         // On assigne à chaque place le building donc le nom du GO correspond
         foreach (string key in places.Keys)
         {
@@ -260,6 +264,26 @@ public class GM : MonoBehaviour
                 }
             }
         }
+
+        // On assigne à chaque bâtiment sa hauteur, qui correspond à la pronfondeur à laquelle on doit l'enterrer avant de le faire surgir de terre
+        places["Forum"].height = 5f;
+        places["Domus"].height = 3f;
+        places["Domus+"].height = 3f;
+        places["Aqueduc"].height = 9f;
+        places["Nécropole"].height = 1f;
+        places["Fontaine Monumentale"].height = 5f;
+        places["Fontaine Forum"].height = 5f;
+        places["Portes"].height = 15f;
+        places["Remparts"].height = 15f;
+        places["Remparts+"].height = 15f;
+        places["Temple"].height = 5f;
+        places["Thermes Nord"].height = 5f;
+        places["Thermes Sud"].height = 5f;
+        places["Théâtre"].height = 8f;
+        places["Port"].height = 7f;
+        places["Port+"].height = 7f;
+        places["Jardins"].height = 3f;
+        places["Marché"].height = 5f;
     }
 
     private void BuildEmissaries()
@@ -320,7 +344,7 @@ public class GM : MonoBehaviour
         levels[0].SetPlace(places["Portes"]);
         levels[1].SetPlace(places["Remparts"]);
         levels[2].SetPlace(places["Aqueduc"]);
-        levels[3].SetPlace(places["Portes"]);
+        levels[3].SetPlace(places["Vide"]);
 
         currLevel = levels[0];
     }
@@ -471,8 +495,7 @@ public class GM : MonoBehaviour
         if (Input.touchCount > 0)
         {
             Touch touch = Input.touches[0];
-            int width = Screen.width;
-            if (touch.position.x < width/2)
+            if (touch.position.x < Screen.width * 1 / 2)
             {
                 QTimer += Time.deltaTime;
             }
@@ -488,7 +511,7 @@ public class GM : MonoBehaviour
             {
                 Touch touch = Input.touches[0];
 
-                if (touch.position.y > Screen.height * 2 / 3)
+                if (touch.position.y < Screen.height * 1 / 3)
                 {
                     UI_Manager.Instance.displayedText.text = midText;
                     UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.leftAdvisor, true));
@@ -496,7 +519,7 @@ public class GM : MonoBehaviour
                 }
                 else
                 {
-                    if ( touch.position.x < Screen.height /2 )
+                    if ( touch.position.x < Screen.width * 1 / 2 )
                     {
                         UI_Manager.Instance.displayedText.text = currLeftPlace.GetCurrentText();
                         UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.ShadowCoroutine(UI_Manager.Instance.leftAdvisor, false));
@@ -512,7 +535,7 @@ public class GM : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.X) || Input.GetKeyUp(KeyCode.C) /*|| Input.touchCount == 0*/)
+        if (Input.GetKeyUp(KeyCode.X) || Input.GetKeyUp(KeyCode.C) || Input.touchCount == 0) // crtl+f touch comment
         {
             canChoose = true;
             QTimer = 0;
@@ -640,14 +663,21 @@ public class GM : MonoBehaviour
      *                                                                            
      */
 
+    private IEnumerator DelayStart(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        currLevel.BeginEmissarySection(currLevel.emissary.index);
+    }
     void Start()
     {
         buildingsTransforms = Buildings_Manager.Instance.buildingsTransform;
         BuildDictionnary();
         BuildEmissaries();
         BuildLevels();
-        currLevel.giftedPlace.building3D.gameObject.SetActive(true);
-        currLevel.BeginEmissarySection(currLevel.emissary.index);
+        //currLevel.giftedPlace.building3D.gameObject.SetActive(true);
+        //currLevel.BeginEmissarySection(currLevel.emissary.index);
+
+        StartCoroutine(DelayStart(0.5f));
     }
 
     // Update is called once per frame

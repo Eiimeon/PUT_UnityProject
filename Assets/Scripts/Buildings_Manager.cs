@@ -42,8 +42,12 @@ public class Buildings_Manager : MonoBehaviour
         GM.Instance.buildingsTransforms = buildingsTransform;
         foreach (Transform t in buildingsTransform)
         {
-            t.gameObject.SetActive(false);
+            if (t.name != "Portes") //Les portes refusent de réaparaître au début du jeu, alors je les fais juste pas disparaitre (?°?°??? ???
+            {
+                t.gameObject.SetActive(false);
+            }
         }
+
     }
 
     // Update is called once per frame

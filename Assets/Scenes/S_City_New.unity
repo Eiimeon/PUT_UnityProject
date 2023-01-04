@@ -335,7 +335,7 @@ PrefabInstance:
     - target: {fileID: 8544196872305931926, guid: 79967ec0fff7e9d46b8c964b71452305,
         type: 3}
       propertyPath: buildingsTransform.Array.size
-      value: 20
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 8544196872305931926, guid: 79967ec0fff7e9d46b8c964b71452305,
         type: 3}
@@ -382,6 +382,21 @@ PrefabInstance:
       propertyPath: buildingsTransform.Array.data[19]
       value: 
       objectReference: {fileID: 2114260897}
+    - target: {fileID: 8544196872305931926, guid: 79967ec0fff7e9d46b8c964b71452305,
+        type: 3}
+      propertyPath: buildingsTransform.Array.data[20]
+      value: 
+      objectReference: {fileID: 957383536}
+    - target: {fileID: 8814243865468841279, guid: 79967ec0fff7e9d46b8c964b71452305,
+        type: 3}
+      propertyPath: m_Name
+      value: Vide
+      objectReference: {fileID: 0}
+    - target: {fileID: 8814243865555835280, guid: 79967ec0fff7e9d46b8c964b71452305,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.43
+      objectReference: {fileID: 0}
     - target: {fileID: 8814243866161549779, guid: 79967ec0fff7e9d46b8c964b71452305,
         type: 3}
       propertyPath: m_Name
@@ -391,6 +406,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 69.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8814243866315574469, guid: 79967ec0fff7e9d46b8c964b71452305,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 7.55
       objectReference: {fileID: 0}
     - target: {fileID: 8814243866315574469, guid: 79967ec0fff7e9d46b8c964b71452305,
         type: 3}
@@ -1002,6 +1022,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &957383536 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8814243865468841276, guid: 79967ec0fff7e9d46b8c964b71452305,
+    type: 3}
+  m_PrefabInstance: {fileID: 303142638}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1108310711
 GameObject:
   m_ObjectHideFlags: 0

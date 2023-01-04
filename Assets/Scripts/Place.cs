@@ -124,6 +124,7 @@ public class Place
         {
             building3D.position = Vector3.Lerp (building3D.position, initialBuildingPos, 0.7f * Time.deltaTime);
             Camera_Manager.Instance.cam.transform.position = targetPos + 0.1f * Random.insideUnitSphere;
+            Handheld.Vibrate();
             yield return new WaitForEndOfFrame();
         }
         Camera_Manager.Instance.cam.transform.position = targetPos;
@@ -132,5 +133,44 @@ public class Place
         //UI_Manager.Instance.UI_Choice.SetActive(true);
         UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.FadeUI(UI_Manager.Instance.UI_Choice.GetComponent<CanvasGroup>(), 1));
         GM.Instance.MoveToNextChoices();
+    }
+
+    public IEnumerator BuildBuildingEmissary()
+    {
+        Debug.Log("Build");
+
+        GM.Instance.canAct = false;
+
+        //UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.FadeUI(UI_Manager.Instance.UI_Emissary.GetComponent<CanvasGroup>(), 0));
+        UI_Manager.Instance.UI_Emissary.GetComponent<CanvasGroup>().alpha = 0;
+
+        building3D.gameObject.SetActive(true);
+        Vector3 initialBuildingPos = building3D.position;
+        building3D.position -= height * Vector3.up;
+        Vector3 targetPos = Camera_Manager.Instance.GetTargetPosition(building3D);
+        targetPos.y = Camera_Manager.Instance.GetAltitude(); // A priori inutile, tentative de faire fonctionner la porte
+        Debug.Log(targetPos);
+
+
+        while ((Camera_Manager.Instance.cam.transform.position - targetPos).magnitude > 0.1)
+        {
+            //Debug.Log(Camera_Manager.Instance.cam.transform.position - targetPos);
+            Camera_Manager.Instance.cam.transform.position = Vector3.Lerp(Camera_Manager.Instance.cam.transform.position, targetPos, 1 * Time.deltaTime);
+            yield return new WaitForEndOfFrame();
+        }
+
+        while ((building3D.transform.position - initialBuildingPos).magnitude > 0.1)
+        {
+            building3D.position = Vector3.Lerp(building3D.position, initialBuildingPos, 0.7f * Time.deltaTime);
+            Camera_Manager.Instance.cam.transform.position = targetPos + 0.1f * Random.insideUnitSphere;
+            Handheld.Vibrate();
+            yield return new WaitForEndOfFrame();
+        }
+        Camera_Manager.Instance.cam.transform.position = targetPos;
+
+
+        GM.Instance.canAct = true;
+        //UI_Manager.Instance.UI_Choice.SetActive(true);
+        UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.FadeUI(UI_Manager.Instance.UI_Emissary.GetComponent<CanvasGroup>(), 1));
     }
 }

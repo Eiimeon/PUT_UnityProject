@@ -63,7 +63,7 @@ public class Level
         }
         // Fade in 
         UI_Manager.Instance.UI_Emissary.GetComponent<CanvasGroup>().alpha = 0;
-        UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.FadeUI(UI_Manager.Instance.UI_Emissary.GetComponent<CanvasGroup>(), 1));
+        //UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.FadeUI(UI_Manager.Instance.UI_Emissary.GetComponent<CanvasGroup>(), 1));
 
 
         if (emissaryIndex < GM.Instance.emissaries.Count)
@@ -72,17 +72,24 @@ public class Level
             // Si c'est la première recontre, l'émissaire fait son discours d'introduction
             if (emissary.firstAppearance)
             {
-                Debug.Log("should build");
+                
                 if (giftedPlace != null)
                 {
-                    giftedPlace.building3D.gameObject.SetActive(true);
+                    //giftedPlace.building3D.gameObject.SetActive(true);
+                    Debug.Log("should build");
+                    GM.Instance.StartCoroutine(giftedPlace.BuildBuildingEmissary());
                 }
-                this?.giftedPlace.building3D.gameObject.SetActive(true); // TODO garder un des deux seulement
+                else
+                {
+                    UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.FadeUI(UI_Manager.Instance.UI_Emissary.GetComponent<CanvasGroup>(), 1));
+                }
+                //this?.giftedPlace.building3D.gameObject.SetActive(true); // TODO garder un des deux seulement
                 displayText.text = emissary.introTexts[0];
             }
             // Sinon son texte dépend du succes du joueur
             else
             {
+                UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.FadeUI(UI_Manager.Instance.UI_Emissary.GetComponent<CanvasGroup>(), 1));
                 GM.Instance.SetSuccessState();
                 switch (GM.Instance.successState)
                 {
