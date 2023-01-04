@@ -92,6 +92,53 @@ public class UI_Manager : MonoBehaviour
      */
 
     #region METHODES
+
+    private void InitializeUI()
+    {
+        Debug.Log("Initialize UI");
+        //Image panel = transform.Find("Fond Texte").GetComponent<Image>();
+        //panel.GetComponent<Transform>
+
+        //RectTransform choicePanel = UI_Choice.transform.Find("Fond Texte").GetComponent<RectTransform>();
+        RectTransform emissaryPanel = UI_Emissary.transform.Find("Fond Texte").GetComponent<RectTransform>();
+
+        Rect rect = new Rect(-Screen.width / 2, -Screen.height / 2, Screen.width, Screen.height);
+        /*choicePanel.sizeDelta = new Vector2(rect.width, rect.height);
+        choicePanel.position = new Vector2(rect.x, rect.y);
+        emissaryPanel.sizeDelta = new Vector2(rect.width, rect.height);
+        emissaryPanel.position = new Vector2(rect.x, rect.y);*/
+        //emissaryPanel.rect = rect;
+
+        UI_Emissary.transform.Find("Fond Texte").GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal,Screen.width);
+        UI_Emissary.transform.Find("Fond Texte").GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Screen.height);
+        UI_Choice.transform.Find("Fond Texte").GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Screen.width);
+        UI_Choice.transform.Find("Fond Texte").GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Screen.height);
+
+        UI_Emissary.transform.Find("Texte").GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Screen.width);
+        //UI_Emissary.transform.Find("Texte").GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Screen.height);
+        UI_Emissary.transform.Find("Texte").GetComponent<RectTransform>().anchoredPosition = new Vector2(0,Screen.height * -1 / 6);
+
+        emissary.gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, Screen.height * -1 / 6);
+        emissary.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Screen.width);
+        emissary.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Screen.width);
+
+        leftAdvisor.gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(Screen.width * -3 / 4, Screen.height * -1 / 6);
+        leftAdvisor.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Screen.width / 4); // On divise par 4 pour compenser le scaling de Shadow
+        leftAdvisor.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Screen.width / 4);
+
+        rightAdvisor.gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(Screen.width * 3 / 4, Screen.height * -1 / 6);
+        rightAdvisor.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Screen.width / 4);
+        rightAdvisor.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Screen.width / 4);
+
+        for (int i = 0; i < 4; i++)
+        {
+            imperialGauges[i].gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Screen.width * 3 / 4);
+            imperialGauges[i].GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Screen.width * 3 / 100);
+        }
+        peopleGauge.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Screen.width * 3 / 4);
+        peopleGauge.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Screen.width * 3 / 100);
+
+    }
     public void Shadow(Image advisor, bool isShadowed)
     {
         if (isShadowed)
@@ -314,6 +361,8 @@ public class UI_Manager : MonoBehaviour
 
     private void Start()
     {
+        InitializeUI();
+
         // Initialisation de la taille des jauges
         imperialGauges[0].GetComponent<Gauge>().SetLength(5);
         imperialGauges[1].GetComponent<Gauge>().SetLength(12);

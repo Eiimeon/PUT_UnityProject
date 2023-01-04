@@ -113,10 +113,10 @@ public class Place
         Vector3 targetPos = Camera_Manager.Instance.GetTargetPosition(building3D);
         
 
-        while ((Camera_Manager.Instance.cam.transform.position - targetPos).magnitude > 0.1)
+        while ((Camera_Manager.Instance.cam.transform.position - targetPos).magnitude > 1)
         {
             //Debug.Log(Camera_Manager.Instance.cam.transform.position - targetPos);
-            Camera_Manager.Instance.cam.transform.position = Vector3.Lerp(Camera_Manager.Instance.cam.transform.position, targetPos, 1 * Time.deltaTime);
+            Camera_Manager.Instance.cam.transform.position = Vector3.Lerp(Camera_Manager.Instance.cam.transform.position, targetPos, 1.5f * Time.deltaTime);
             yield return new WaitForEndOfFrame();
         }
 
@@ -127,7 +127,7 @@ public class Place
             Handheld.Vibrate();
             yield return new WaitForEndOfFrame();
         }
-        Camera_Manager.Instance.cam.transform.position = targetPos;
+        //Camera_Manager.Instance.cam.transform.position = targetPos;
 
         GM.Instance.canAct = true;
         //UI_Manager.Instance.UI_Choice.SetActive(true);
@@ -152,10 +152,10 @@ public class Place
         Debug.Log(targetPos);
 
 
-        while ((Camera_Manager.Instance.cam.transform.position - targetPos).magnitude > 0.1)
+        while ((Camera_Manager.Instance.cam.transform.position - targetPos).magnitude > 1)
         {
             //Debug.Log(Camera_Manager.Instance.cam.transform.position - targetPos);
-            Camera_Manager.Instance.cam.transform.position = Vector3.Lerp(Camera_Manager.Instance.cam.transform.position, targetPos, 1 * Time.deltaTime);
+            Camera_Manager.Instance.cam.transform.position = Vector3.Lerp(Camera_Manager.Instance.cam.transform.position, targetPos, 1.5f * Time.deltaTime);
             yield return new WaitForEndOfFrame();
         }
 
@@ -166,7 +166,7 @@ public class Place
             Handheld.Vibrate();
             yield return new WaitForEndOfFrame();
         }
-        Camera_Manager.Instance.cam.transform.position = targetPos;
+        //Camera_Manager.Instance.cam.transform.position = targetPos;
 
 
         GM.Instance.canAct = true;
