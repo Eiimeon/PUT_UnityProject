@@ -1790,7 +1790,7 @@ PrefabInstance:
     - target: {fileID: 5151325375676983109, guid: eb4136184173219469fe9eae1569aa7b,
         type: 3}
       propertyPath: field of view
-      value: 51.7
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 5151325375676983110, guid: eb4136184173219469fe9eae1569aa7b,
         type: 3}
