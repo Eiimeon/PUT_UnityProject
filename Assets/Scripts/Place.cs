@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
+using System.Runtime.InteropServices.ComTypes;
 
 [System.Serializable]
 public class Place 
@@ -133,6 +135,14 @@ public class Place
         //UI_Manager.Instance.UI_Choice.SetActive(true);
         UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.FadeUI(UI_Manager.Instance.UI_Choice.GetComponent<CanvasGroup>(), 1));
         GM.Instance.MoveToNextChoices();
+        /*if (UI_Manager.Instance.peopleGauge.GetComponent<gaugeRatios>().size != 0)
+        {
+            GM.Instance.MoveToNextChoices();
+        }
+        else
+        {
+            SceneManager.LoadScene("S_Lost_People");
+        }*/
     }
 
     public IEnumerator BuildBuildingEmissary()

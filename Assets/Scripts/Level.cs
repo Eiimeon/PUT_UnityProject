@@ -141,6 +141,7 @@ public class Level
                 UI_Manager.Instance.emissaryText.text = "c'est fini";
             }
         }
+        GM.Instance.StartCoroutine(GM.Instance.CantActForSeconds(0.5f));
     }
 
 
@@ -170,6 +171,7 @@ public class Level
             //blackPanel.GetComponent<Image>().color = Color.Lerp(blackPanel.GetComponent<Image>().color, Color.black, timer / duration);
             yield return new WaitForEndOfFrame();
         }
+        //yield return new WaitForSeconds(1);
         GM.Instance.canAct = true;
     }
 }

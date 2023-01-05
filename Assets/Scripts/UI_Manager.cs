@@ -115,18 +115,20 @@ public class UI_Manager : MonoBehaviour
         UI_Choice.transform.Find("Fond Texte").GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Screen.height);
 
         UI_Emissary.transform.Find("Texte").GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Screen.width);
-        //UI_Emissary.transform.Find("Texte").GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Screen.height);
-        UI_Emissary.transform.Find("Texte").GetComponent<RectTransform>().anchoredPosition = new Vector2(0,Screen.height * -1 / 6);
+        UI_Emissary.transform.Find("Texte").GetComponent<RectTransform>().anchoredPosition = new Vector2(0,Screen.height * -7 / 48);
+
+        UI_Choice.transform.Find("Texte").GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Screen.width);
+        UI_Choice.transform.Find("Texte").GetComponent<RectTransform>().anchoredPosition = new Vector2(0, Screen.height * -7 / 48);
 
         emissary.gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, Screen.height * -1 / 6);
         emissary.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Screen.width);
         emissary.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Screen.width);
 
-        leftAdvisor.gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(Screen.width * -3 / 4, Screen.height * -1 / 6);
+        leftAdvisor.gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(Screen.width * -11 / 16, Screen.height * -1 / 6);
         leftAdvisor.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Screen.width / 4); // On divise par 4 pour compenser le scaling de Shadow
         leftAdvisor.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Screen.width / 4);
 
-        rightAdvisor.gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(Screen.width * 3 / 4, Screen.height * -1 / 6);
+        rightAdvisor.gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(Screen.width * 11 / 16, Screen.height * -1 / 6);
         rightAdvisor.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Screen.width / 4);
         rightAdvisor.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Screen.width / 4);
 
@@ -203,7 +205,7 @@ public class UI_Manager : MonoBehaviour
     }
     
 
-    /*public float GetFillRatio(Image _gauge)
+    public float GetFillRatio(Image _gauge)
     {
         float fillRatio = _gauge.GetComponent<Scrollbar>().size;
         return fillRatio;
@@ -235,7 +237,7 @@ public class UI_Manager : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         _gauge.GetComponent<Scrollbar>().size = _targetRatio;
-    }*/
+    }
 
     // La state machine du bled
     public void SwitchMode(bool emissary = false)

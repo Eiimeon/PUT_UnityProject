@@ -101,9 +101,9 @@ public class GM : MonoBehaviour
         currPlace.SetPeople(0);
         places["Forum"] = currPlace;
 
-        currTexts = new string[] { "La cité est naissante, mais les gens ne savent pas où enterrer leurs morts, s'il vous plait, construisez une NÉCROPOLE juste au delà des limites de la cité.",
+        currTexts = new string[] { "La cité est naissante, mais les gens ne savent pas où enterrer leurs morts, s'il vous plait, construisez une NÉCROPOLE juste au delà des limites de la cité."/*,
                                     "La situation devient urgente, ça fait des années que les gens enterrent leurs morts à l'arrache, construisez une NÉCROPOLE bon sang !",
-                                    "Le peuple en a marre ! Construisez une NÉCROPOLE ! Ca suffit de devoir enterrer nos morts comme des clochards !" };
+                                    "Le peuple en a marre ! Construisez une NÉCROPOLE ! Ca suffit de devoir enterrer nos morts comme des clochards !"*/ };
         currPlace = new Place(currTexts);
         currPlace.SetAdvisor(UI_Manager.Instance.advisors[2]);
         tempRatios = new float[] { 0, 0, 0, 0 };
@@ -111,7 +111,7 @@ public class GM : MonoBehaviour
         currPlace.SetPeople(3);
         places["Nécropole"] = currPlace;
 
-        currTexts = new string[] { "Port" };
+        currTexts = new string[] { "Si nous avons installé la nouvelle Tolosa au bord de la Garonne, c'ets pour la munir d'un PORT, afin d'avoir un commerce florissant et bonnes relations internationnales." };
         currPlace = new Place(currTexts);
         currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
         tempRatios = new float[] { 2, 2, 0, 0};
@@ -119,7 +119,7 @@ public class GM : MonoBehaviour
         currPlace.SetPeople(1);
         places["Port"] = currPlace;
 
-        currTexts = new string[] { "Marché" };
+        currTexts = new string[] { "Nous pourrions construire un MARCHÉ afin que les habitants puissent commercer et se fournir en ressources de tous les jours." };
         currPlace = new Place(currTexts);
         currPlace.SetAdvisor(UI_Manager.Instance.advisors[2]);
         tempRatios = new float[] { 0, 1, 0, 0 };
@@ -135,8 +135,9 @@ public class GM : MonoBehaviour
         currPlace.SetPeople(0);
         places["Temple"] = currPlace;
 
-        currTexts = new string[] { "Je pense que vous devriez créer un quartier résidentiel autour d'une DOMUS romaine. Ce sont des maisons à la pointe du bon goût !",
-                                    "Ce premier quartier avec DOMUS romaine est fabuleux ! Ne nous arrêtons pas en si bon chemin ! Je vous sous entends évidemment d'en créer un deuxième !" };
+        currTexts = new string[] {  "Rome propose de nous envoyer des habitants pour notre cité à condition que nous leur construisions des DOMUS, de belles villas romaines, où les installer."
+                                    /*"Je pense que vous devriez créer un quartier résidentiel autour d'une DOMUS romaine. Ce sont des maisons à la pointe du bon goût !",
+                                    "Ce premier quartier avec DOMUS romaine est fabuleux ! Ne nous arrêtons pas en si bon chemin ! Je vous sous entends évidemment d'en créer un deuxième !"*/ };
         currPlace = new Place(currTexts);
         currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
         tempRatios = new float[] { 0, 2, 0, 0 };
@@ -167,7 +168,7 @@ public class GM : MonoBehaviour
         currPlace.SetPeople(1);
         places["Thermes Sud"] = currPlace;
 
-        currTexts = new string[] { "Avec toute cette eau, nous allons pouvoir faire de magnifiques FONTAINES ! Avec de fort belles sculptures racontant d'héroïques mythes romains !" };
+        currTexts = new string[] { "Notre forum est très beau ! Mais il le serait encore plus si nous l'agrémentions d'une magnique FONTAINE !" };
         currPlace = new Place(currTexts);
         currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
         tempRatios = new float[] { 0, 1, 2, 1 };
@@ -175,7 +176,7 @@ public class GM : MonoBehaviour
         currPlace.SetPeople(0);
         places["Fontaine Forum"] = currPlace;
 
-        currTexts = new string[] { "Avec toute cette eau, nous allons pouvoir faire de magnifiques FONTAINES ! Avec de fort belles sculptures racontant d'héroïques mythes romains !" };
+        currTexts = new string[] { "Avec toute cette eau, nous allons pouvoir faire un magnifique FONTAINE MONUMENTALE ! Avec de fort belles sculptures racontant d'héroïques mythes romains !" };
         currPlace = new Place(currTexts);
         currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
         tempRatios = new float[] { 0, 0, 4, 1 };
@@ -183,7 +184,7 @@ public class GM : MonoBehaviour
         currPlace.SetPeople(0);
         places["Fontaine Monumentale"] = currPlace;
 
-        currTexts = new string[] { "Chateau d'Eau" };
+        currTexts = new string[] { "Nous pourrions munir l'aqueduc d'un CHATEAU D'EAU afin de stocker l'eau et permettre aux habitants de s'en fournir de façon plus stable." };
         currPlace = new Place(currTexts);
         currPlace.SetAdvisor(UI_Manager.Instance.advisors[3]);
         tempRatios = new float[] { 0, 0, 1, 0 };
@@ -199,7 +200,7 @@ public class GM : MonoBehaviour
         currPlace.SetPeople(1);
         places["Théâtre"] = currPlace;
 
-        currTexts = new string[] { "Jardins" };
+        currTexts = new string[] { "Avec toute cette, nous allons pouvoir cultier de beaux jeardin ! Ce sera magnifique et les gens pourront s'y prélasser." };
         currPlace = new Place(currTexts);
         currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
         tempRatios = new float[] { 0, 0, 2, 2 };
@@ -207,7 +208,7 @@ public class GM : MonoBehaviour
         currPlace.SetPeople(0);
         places["Jardins"] = currPlace;
 
-        currTexts = new string[] { "Les REMPARTS de Tibère commencent à dater un peu, nous pourrions leur redonner une petite jeunesse en y ajouter des ornements et des dorures ! Ca ne protège de rien, mais ça en jette !" };
+        currTexts = new string[] { "Les REMPARTS de Tibère commencent à dater un peu, nous pourrions leur redonner une petite jeunesse en y ajoutant des petites alcoves décoratives ! Ca ne protège de rien, mais ça en jette !" };
         currPlace = new Place(currTexts);
         currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
         tempRatios = new float[] { 0, 0, 0, 3 };
@@ -220,7 +221,7 @@ public class GM : MonoBehaviour
         currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
         places["Teinturerie"] = currPlace;
 
-        currTexts = new string[] { "Domus+" };
+        currTexts = new string[] { "Nous pourrions créer un quartier de belles villas romaiens, des DOMUS, pour nos habitants les plus aisés. Ils seront content et la ville présentara encore mieux !" };
         currPlace = new Place(currTexts);
         currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
         tempRatios = new float[] { 0, 0, 0, 0 };
@@ -290,10 +291,13 @@ public class GM : MonoBehaviour
     {
         Emissary temp = new Emissary(
             new string[] {"Haha ! C'est du bel ouvrage ! Tu vois petit gars, ça c'est les bases d'une grande ville, de grandes routes perpendiculaires, et surtout de grandes portes pour montrer qu'ici, c'est chez nous !",
-                            "Tu as de la chance que l'empereur ait décidé de financer la reconstruction de Tolosa et accepté ma requête de te placer ici. Mais ne te méprends pas, superviser l'urbanisme d'une cité est une grande responsabilité.",
-                            "[Fondu au noir. La construction des portes est achevée]",
-                            "Je laisse la ville entre tes mains, je reviendrai dans 5 ans. J'espère que cette ville sera devenue un vrai cité à mon retour. Fais centraliser l'activité politique de Tolosa, et alors l'empereur sera content."},
-            new string[] { "On a reçu des échos jusqu'à Rome ! Tolosa est une vrai petite cité maintenant ! Je suis fier de toi, maintenant j'en ai le cœur net, je peux valider sans crainte la décision de l'empereur de faire don de remparts à ta ville !" },
+                            "Tu as de la chance que l'empereur ait décidé de financer la reconstruction de Tolosa et accepté ma requête de te placer ici.", 
+                            "Mais ne te méprends pas, superviser l'urbanisme d'une cité est une grande responsabilité.",
+                            "Mais ne t'en fais pas, tu ne seras pas seul. Des conseillers viendront t'aider en te proposant des projets de construction.",
+                            "Je laisse la ville entre tes mains, je te laisse le temps de construire trois bâtiments.",
+                            "J'espère que cette ville sera devenue un vrai cité à mon retour. Fais centraliser l'activité politique de Tolosa, et alors l'empereur sera content."},
+            new string[] { "On a reçu des échos jusqu'à Rome ! Tolosa est une vrai petite cité maintenant !",
+                            "Je suis fier de toi, maintenant j'en ai le cœur net, je peux valider sans crainte la décision de l'empereur de faire don de remparts à ta ville !" },
             new string[] { "Sérieusement ?! Je te laisse 5 ans, et tout ce que fais c'est une pauvre nécropole ?! Tu comprends bien que je ne peux pas mentir dans mon rapport.. L'empereur voulait t'offrir des remparts pour ta ville, mais après avoir vu ça, je pense qu'il va surtout t'offrir un aller simple pour la légion étrangère." },
             new string[] { "" },
             0);
@@ -301,7 +305,7 @@ public class GM : MonoBehaviour
         
         temp = new Emissary(
             new string[] { "Hm...","...","Oui...","...","Euh...","...",
-                            "Les portes sont conformes, je reconnais là le style de feu Auguste.",
+                            "Les remparts sont conformes, je reconnais là le style de Tibère.",
                             "...","Toutefois votre ville n'est guère plus romaine que ça. Il va falloir faire mieux. Je vous laisse un peu moins d'une décennie."},
             new string[] { "Hm, je vois que vous avez fait des efforts. On se sent un peu plus en territoire romain ici. Je suis en route pour l'Italie, mais je peux vous dire que l'Empereur vous sera favorable." },
             new string[] { "Eh bien, une domus ? C'est tout ce vous à proposer ? Je suis en route pour l'Italie, je ne manquerai pas de dire à l'empereur que je n'ai rien à lui dire" },
@@ -312,7 +316,7 @@ public class GM : MonoBehaviour
         emissaries.Add(temp);
 
         temp = new Emissary(
-            new string[] { "Alors comme ça le grand Canigula a aidé votre ville à financer son aqueduc ?",
+            new string[] { "Alors comme ça le grand Caligula a aidé votre ville à financer son aqueduc ?",
                         "Quel grand magnanime !",
                         "Comme c'est excitant, vous allez pouvoir faire des tonnes de jolies choses avec toute cette eau !",
                         "N'est-ce pas ?" },
@@ -369,6 +373,12 @@ public class GM : MonoBehaviour
 
     }
 
+    public IEnumerator CantActForSeconds(float delay)
+    {
+        canAct = false;
+        yield return new WaitForSeconds(delay);
+        canAct = true;
+    }
 
 
     private void EmissaryMode()
