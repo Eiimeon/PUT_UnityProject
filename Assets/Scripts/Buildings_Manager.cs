@@ -31,6 +31,7 @@ public class Buildings_Manager : MonoBehaviour
     // ----------------------------------------------------------
 
     public Transform[] buildingsTransform;
+    public Transform[] districtTransforms;
 
     // ----------------------------------------------------------
     // ----------------------------------------------------------
@@ -40,12 +41,17 @@ public class Buildings_Manager : MonoBehaviour
     {
         //buildingsTransform = GetComponentsInChildren<Transform>();
         GM.Instance.buildingsTransforms = buildingsTransform;
+        GM.Instance.districtTransforms = districtTransforms;
         foreach (Transform t in buildingsTransform)
         {
             if (t.name != "Portes") //Les portes refusent de réaparaître au début du jeu, alors je les fais juste pas disparaitre (?°?°??? ???
             {
                 t.gameObject.SetActive(false);
             }
+        }
+        foreach (Transform t in districtTransforms)
+        {
+            t.gameObject.SetActive(false);
         }
 
     }

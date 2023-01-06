@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 [Serializable]
@@ -123,9 +124,11 @@ public class Level
         }
         else
         {
-            if (GM.Instance.successState == "failure")  // Setup pour recommenncer le niveau en cas d'échec, caduc ?
+            if (GM.Instance.successState == "failure")  // Setup pour recommenncer le niveau en cas d'échec, caduc ? TODO
             {
-                emissary.firstAppearance = true;
+                //emissary.firstAppearance = true;
+                Debug.Log("should quit");
+                SceneManager.LoadScene("S_Menu");
             }
             else
             {
@@ -153,7 +156,7 @@ public class Level
         //Color initialColor = blackPanel.GetComponent<Image>().color;
         while (timer < duration)
         {
-            Debug.Log(timer);
+            //Debug.Log(timer);
             timer += Time.deltaTime;
             blackPanel.alpha = Mathf.Lerp(0, 1, timer / duration);
             //blackPanel.GetComponent<Image>().color = Color.Lerp(blackPanel.GetComponent<Image>().color, Color.black, timer / duration);
@@ -165,7 +168,7 @@ public class Level
         timer = 0;
         while (timer < duration)
         {
-            Debug.Log(timer);
+            //Debug.Log(timer);
             timer += Time.deltaTime;
             blackPanel.alpha = Mathf.Lerp(1, 0, timer / duration);
             //blackPanel.GetComponent<Image>().color = Color.Lerp(blackPanel.GetComponent<Image>().color, Color.black, timer / duration);

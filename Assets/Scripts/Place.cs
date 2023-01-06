@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
-using System.Runtime.InteropServices.ComTypes;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class Place 
@@ -11,6 +11,7 @@ public class Place
     public string[] texts;
     public Sprite advisorSprite;
     public Transform building3D;
+    public Transform district;
     public float height;
 
     // TODO delete if useless
@@ -39,6 +40,11 @@ public class Place
     {
         building3D = _building3D;
         height = _height;
+    }
+
+    public void SetDistrict(Transform _t)
+    {
+        district = _t;
     }
 
     public string GetCurrentText()
@@ -92,7 +98,7 @@ public class Place
             Debug.Log(gaugeRatios[i]);
             targetEmpireRatios[i] = UI_Manager.Instance.imperialGauges[i].GetComponent<Gauge>().GetNewFillRatio(gaugeRatios[i]);
         }
-        float targetPeopleRatio = UI_Manager.Instance.peopleGauge.GetComponent<Gauge>().GetNewFillRatio(people - 1);
+        float targetPeopleRatio = UI_Manager.Instance.peopleGauge.GetComponent<Gauge>().GetNewFillRatio(people - 1); // TODO remettre -1
 
         for (int i = 0; i < gaugeRatios.Length; i++)
         {
@@ -125,17 +131,24 @@ public class Place
         while ((building3D.transform.position - initialBuildingPos).magnitude > 0.1)
         {
             building3D.position = Vector3.Lerp (building3D.position, initialBuildingPos, 0.7f * Time.deltaTime);
-            Camera_Manager.Instance.cam.transform.position = targetPos + 0.1f * Random.insideUnitSphere;
+            Camera_Manager.Instance.cam.transform.position = targetPos + 0.5f * Random.insideUnitSphere;
             Handheld.Vibrate();
             yield return new WaitForEndOfFrame();
+        }
+
+        if (district != null)
+        {
+            district.gameObject.SetActive(true);
         }
         //Camera_Manager.Instance.cam.transform.position = targetPos;
 
         GM.Instance.canAct = true;
         //UI_Manager.Instance.UI_Choice.SetActive(true);
         UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.FadeUI(UI_Manager.Instance.UI_Choice.GetComponent<CanvasGroup>(), 1));
+
+        GM.Instance.CheckPeopleEnding();
         GM.Instance.MoveToNextChoices();
-        /*if (UI_Manager.Instance.peopleGauge.GetComponent<gaugeRatios>().size != 0)
+        /*if (UI_Manager.Instance.peopleGauge.GetComponent<Scrollbar>().size != 0)
         {
             GM.Instance.MoveToNextChoices();
         }
@@ -172,7 +185,7 @@ public class Place
         while ((building3D.transform.position - initialBuildingPos).magnitude > 0.1)
         {
             building3D.position = Vector3.Lerp(building3D.position, initialBuildingPos, 0.7f * Time.deltaTime);
-            Camera_Manager.Instance.cam.transform.position = targetPos + 0.1f * Random.insideUnitSphere;
+            Camera_Manager.Instance.cam.transform.position = targetPos + 0.5f * Random.insideUnitSphere;
             Handheld.Vibrate();
             yield return new WaitForEndOfFrame();
         }

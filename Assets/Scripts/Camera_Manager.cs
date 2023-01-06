@@ -35,6 +35,8 @@ public class Camera_Manager : MonoBehaviour
 
     public Camera cam;
 
+    private float baseFOV;
+
     private Vector3 standardOffSet;
     private Vector3 targetPos;
 
@@ -68,10 +70,20 @@ public class Camera_Manager : MonoBehaviour
         return ((cam.transform.position - targetPos).magnitude > 0.1);
     }
 
+    public IEnumerator PosAndFOVLerp(Vector3 targetPos, float targetFOV)
+    {
+        while ((cam.transform.position - targetPos).magnitude > 0.1 || Mathf.Abs(cam.fieldOfView - targetFOV) > 0.1f)
+        {
+            cam.transform.position = Vector3.Lerp(cam.transform.position, targetPos, 1 * Time.deltaTime);
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, 1 * Time.deltaTime);
+            yield return new WaitForEndOfFrame();
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        baseFOV = cam.fieldOfView;
         altitude = cam.transform.position.y;
         standardOffSet.y = cam.transform.position.y;
         standardOffSet.x = cam.transform.position.x - Buildings_Manager.Instance.buildingsTransform[0].position.x;

@@ -2,7 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class GM : MonoBehaviour
@@ -71,6 +72,7 @@ public class GM : MonoBehaviour
     public bool canAct = true;
 
     public Transform[] buildingsTransforms;
+    public Transform[] districtTransforms;
 
     #endregion
 
@@ -105,7 +107,7 @@ public class GM : MonoBehaviour
                                     "La situation devient urgente, ça fait des années que les gens enterrent leurs morts à l'arrache, construisez une NÉCROPOLE bon sang !",
                                     "Le peuple en a marre ! Construisez une NÉCROPOLE ! Ca suffit de devoir enterrer nos morts comme des clochards !"*/ };
         currPlace = new Place(currTexts);
-        currPlace.SetAdvisor(UI_Manager.Instance.advisors[2]);
+        currPlace.SetAdvisor(UI_Manager.Instance.advisors[3]);
         tempRatios = new float[] { 0, 0, 0, 0 };
         currPlace.SetRatios(tempRatios);
         currPlace.SetPeople(3);
@@ -266,6 +268,20 @@ public class GM : MonoBehaviour
             }
         }
 
+        foreach (string key in places.Keys)
+        {
+            foreach (Transform t in Buildings_Manager.Instance.districtTransforms)
+            {
+                Debug.Log("D_"+key);
+                if ("D_"+key == t.name)
+                {
+                    places[key].SetDistrict(t);
+                }
+            }
+        }
+
+        // On assigne à chaque place le district donc le nom du GO correspond
+
         // On assigne à chaque bâtiment sa hauteur, qui correspond à la pronfondeur à laquelle on doit l'enterrer avant de le faire surgir de terre
         places["Forum"].height = 5f;
         places["Domus"].height = 3f;
@@ -370,7 +386,14 @@ public class GM : MonoBehaviour
     #region METHODS
     public void SetSuccessState()
     {
-
+        if (UI_Manager.Instance.imperialGauges[currLevel.levelIndex].GetComponent<Scrollbar>().size >= 1 )
+        {
+            successState = "success";
+        }
+        else
+        {
+            successState = "failure";
+        }
     }
 
     public IEnumerator CantActForSeconds(float delay)
@@ -378,6 +401,14 @@ public class GM : MonoBehaviour
         canAct = false;
         yield return new WaitForSeconds(delay);
         canAct = true;
+    }
+
+    public void CheckPeopleEnding()
+    {
+        if (UI_Manager.Instance.peopleGauge.GetComponent<Scrollbar>().size <= 0)
+        {
+            SceneManager.LoadScene("S_Lost_People");
+        }
     }
 
 

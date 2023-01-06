@@ -23,7 +23,7 @@ public class LostPeople : MonoBehaviour
     {
         if (canAct && Input.GetMouseButton(0))
         {
-            SceneManager.LoadScene("S_City_New");
+            SceneManager.LoadScene("S_Menu");
         }
     }
 }
