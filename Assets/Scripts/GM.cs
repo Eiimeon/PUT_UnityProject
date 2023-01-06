@@ -124,9 +124,9 @@ public class GM : MonoBehaviour
         currTexts = new string[] { "Nous pourrions construire un MARCHÉ afin que les habitants puissent commercer et se fournir en ressources de tous les jours." };
         currPlace = new Place(currTexts);
         currPlace.SetAdvisor(UI_Manager.Instance.advisors[2]);
-        tempRatios = new float[] { 0, 1, 0, 0 };
+        tempRatios = new float[] { 0, 0, 0, 0 };
         currPlace.SetRatios(tempRatios);
-        currPlace.SetPeople(2);
+        currPlace.SetPeople(3);
         places["Marché"] = currPlace;
 
         currTexts = new string[] { "Nous avons obtenu les droits pour créer à Toulouse un TEMPLE dédié à la triade capitoline ! C'est extêmement prestigieux ! Il y a Minerve, déesse de la sagesse, Junon déesse du foyer, et surtout Jupiter, dieu des dieux !\r\n" };
@@ -192,7 +192,7 @@ public class GM : MonoBehaviour
         tempRatios = new float[] { 0, 0, 1, 0 };
         currPlace.SetRatios(tempRatios);
         currPlace.SetPeople(2);
-        places["Chateau d'Eau"] = currPlace;
+        places["Chateau D'Eau"] = currPlace;
 
         currTexts = new string[] { "Notre cité a une population importante désormais, je vous suggère de construire un gigantesque THÉATRE, qui pourrait accueillir la moitié de la population Toulousaine, afin de montrer des pièces romaines." };
         currPlace = new Place(currTexts);
@@ -286,8 +286,8 @@ public class GM : MonoBehaviour
         places["Forum"].height = 5f;
         places["Domus"].height = 3f;
         places["Domus+"].height = 3f;
-        places["Aqueduc"].height = 9f;
-        places["Nécropole"].height = 1f;
+        places["Aqueduc"].height = 15f;
+        places["Nécropole"].height = 4f;
         places["Fontaine Monumentale"].height = 5f;
         places["Fontaine Forum"].height = 5f;
         places["Portes"].height = 15f;
@@ -358,7 +358,7 @@ public class GM : MonoBehaviour
         Level temp = new Level(0, new string[,] { { "Forum", "Nécropole" } , { "Port", "Marché" } , { "Buffer", "Buffer" } }, emissaries[0]);
         levels.Add(temp);
         levels.Add(new Level(1, new string[,] { { "Temple", "Thermes Nord" }, { "Domus", "Fontaine Forum" }, { "Buffer", "Buffer" } }, emissaries[1]));
-        levels.Add(new Level(2, new string[,] { { "Chateau d'Eau", "Fontaine Monumentale" }, { "Thermes Sud", "Jardins" }, { "Buffer", "Buffer" } }, emissaries[2]));
+        levels.Add(new Level(2, new string[,] { { "Chateau D'Eau", "Fontaine Monumentale" }, { "Thermes Sud", "Jardins" }, { "Buffer", "Buffer" } }, emissaries[2]));
         levels.Add(new Level(3, new string[,] { { "Remparts+", "Domus+" }, { "Théâtre", "Port+" }, { "Buffer", "Buffer" } }, emissaries[3]));
 
         levels[0].SetPlace(places["Portes"]);

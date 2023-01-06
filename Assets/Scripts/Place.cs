@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 [System.Serializable]
 public class Place 
@@ -92,6 +93,9 @@ public class Place
     {
         GM.Instance.canAct = false;
 
+        //--------------------------------------------------------------------------------------------------------------------------------------------------
+        // Gauges
+        //--------------------------------------------------------------------------------------------------------------------------------------------------
         for (int i = 0; i < gaugeRatios.Length; i++)
         {
             Debug.Log(UI_Manager.Instance.imperialGauges[i]);
@@ -115,11 +119,21 @@ public class Place
 
         UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.FadeUI(UI_Manager.Instance.UI_Choice.GetComponent<CanvasGroup>(), 0));
 
+        //--------------------------------------------------------------------------------------------------------------------------------------------------
+        // 
+        //--------------------------------------------------------------------------------------------------------------------------------------------------
+
         building3D.gameObject.SetActive(true);
         Vector3 initialBuildingPos = building3D.position;
         building3D.position -= height * Vector3.up;
         Vector3 targetPos = Camera_Manager.Instance.GetTargetPosition(building3D);
-        
+
+        //--------------------------------------------------------------------------------------------------------------------------------------------------
+        // Cam
+        //--------------------------------------------------------------------------------------------------------------------------------------------------
+
+        Camera_Manager.Instance.StopAllCoroutines();
+        Camera_Manager.Instance.ResetFOV();
 
         while ((Camera_Manager.Instance.cam.transform.position - targetPos).magnitude > 1)
         {
@@ -128,34 +142,55 @@ public class Place
             yield return new WaitForEndOfFrame();
         }
 
+        //Camera_Manager.Instance.StartCoroutine(Camera_Manager.Instance.PosAndFOVLerp(targetPos,Camera_Manager.Instance.baseFOV));
+
+        //--------------------------------------------------------------------------------------------------------------------------------------------------
+        // Building
+        //--------------------------------------------------------------------------------------------------------------------------------------------------
+
         while ((building3D.transform.position - initialBuildingPos).magnitude > 0.1)
         {
-            building3D.position = Vector3.Lerp (building3D.position, initialBuildingPos, 0.7f * Time.deltaTime);
-            Camera_Manager.Instance.cam.transform.position = targetPos + 0.5f * Random.insideUnitSphere;
+            building3D.position = Vector3.Lerp (building3D.position, initialBuildingPos, 1f * Time.deltaTime);
+            Camera_Manager.Instance.cam.transform.position = targetPos + 0.5f * UnityEngine.Random.insideUnitSphere;
             Handheld.Vibrate();
             yield return new WaitForEndOfFrame();
         }
 
+        //Camera_Manager.Instance.GoToGlobalView();
+        //GM.Instance.StartCoroutine(Camera_Manager.Instance.PosAndFOVLerp(Camera_Manager.Instance.globalViewPos, Camera_Manager.Instance.globalViewFOV));
+        //Camera_Manager.Instance.transform.position = Camera_Manager.Instance.globalViewPos;
+
+        //--------------------------------------------------------------------------------------------------------------------------------------------------
+        // District
+        //--------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+        Camera_Manager.Instance.StartCoroutine(Camera_Manager.Instance.FOVLerp(Camera_Manager.Instance.globalViewFOV));
+
         if (district != null)
         {
             district.gameObject.SetActive(true);
+            district.position -= 5 * Vector3.up;
+            while ((district.transform.localPosition - Vector3.zero).magnitude > 0.1)
+            {
+                district.localPosition = Vector3.Lerp(district.localPosition, Vector3.zero, 1f * Time.deltaTime);
+                Camera_Manager.Instance.cam.transform.position = targetPos + 0.5f * UnityEngine.Random.insideUnitSphere;
+                Handheld.Vibrate();
+                yield return new WaitForEndOfFrame();
+            }
         }
         //Camera_Manager.Instance.cam.transform.position = targetPos;
 
+        //--------------------------------------------------------------------------------------------------------------------------------------------------
+        // Fin
+        //--------------------------------------------------------------------------------------------------------------------------------------------------
+
         GM.Instance.canAct = true;
-        //UI_Manager.Instance.UI_Choice.SetActive(true);
+        Camera_Manager.Instance.GoToGlobalView();
         UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.FadeUI(UI_Manager.Instance.UI_Choice.GetComponent<CanvasGroup>(), 1));
 
         GM.Instance.CheckPeopleEnding();
         GM.Instance.MoveToNextChoices();
-        /*if (UI_Manager.Instance.peopleGauge.GetComponent<Scrollbar>().size != 0)
-        {
-            GM.Instance.MoveToNextChoices();
-        }
-        else
-        {
-            SceneManager.LoadScene("S_Lost_People");
-        }*/
     }
 
     public IEnumerator BuildBuildingEmissary()
@@ -175,6 +210,9 @@ public class Place
         Debug.Log(targetPos);
 
 
+        Camera_Manager.Instance.StopAllCoroutines();
+        Camera_Manager.Instance.ResetFOV();
+
         while ((Camera_Manager.Instance.cam.transform.position - targetPos).magnitude > 1)
         {
             //Debug.Log(Camera_Manager.Instance.cam.transform.position - targetPos);
@@ -185,11 +223,11 @@ public class Place
         while ((building3D.transform.position - initialBuildingPos).magnitude > 0.1)
         {
             building3D.position = Vector3.Lerp(building3D.position, initialBuildingPos, 0.7f * Time.deltaTime);
-            Camera_Manager.Instance.cam.transform.position = targetPos + 0.5f * Random.insideUnitSphere;
+            Camera_Manager.Instance.cam.transform.position = targetPos + 0.5f * UnityEngine.Random.insideUnitSphere;
             Handheld.Vibrate();
             yield return new WaitForEndOfFrame();
         }
-        //Camera_Manager.Instance.cam.transform.position = targetPos;
+        Camera_Manager.Instance.GoToGlobalView();
 
 
         GM.Instance.canAct = true;

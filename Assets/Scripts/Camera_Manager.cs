@@ -35,7 +35,12 @@ public class Camera_Manager : MonoBehaviour
 
     public Camera cam;
 
-    private float baseFOV;
+    public float baseFOV;
+
+    //public Vector3 globalViewPos = new Vector3(-245f, 43.7f, 428f);
+    public Vector3 globalViewPos = new Vector3(-0, 0, 0);
+
+    public float globalViewFOV = 83f;
 
     private Vector3 standardOffSet;
     private Vector3 targetPos;
@@ -74,10 +79,29 @@ public class Camera_Manager : MonoBehaviour
     {
         while ((cam.transform.position - targetPos).magnitude > 0.1 || Mathf.Abs(cam.fieldOfView - targetFOV) > 0.1f)
         {
-            cam.transform.position = Vector3.Lerp(cam.transform.position, targetPos, 1 * Time.deltaTime);
+            cam.transform.position = Vector3.Lerp(cam.transform.position, targetPos, 0.5f * Time.deltaTime);
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, 1 * Time.deltaTime);
             yield return new WaitForEndOfFrame();
         }
+    }
+
+    public IEnumerator FOVLerp(float targetFOV)
+    {
+        while (Mathf.Abs(cam.fieldOfView - targetFOV) > 0.1f)
+        {
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, 1 * Time.deltaTime);
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    public void ResetFOV()
+    {
+        StartCoroutine(FOVLerp(baseFOV));
+    }
+
+    public void GoToGlobalView()
+    {
+        StartCoroutine(PosAndFOVLerp(new Vector3(-228f, 43.7f, 395), 80));
     }
 
     // Start is called before the first frame update
