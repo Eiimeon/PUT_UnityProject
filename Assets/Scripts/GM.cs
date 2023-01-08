@@ -91,170 +91,343 @@ public class GM : MonoBehaviour
     #region BUILD METHODS
     private void BuildDictionnary()
     {
-        string[] currTexts = { "Je vous suggère de construire un FORUM au centre de la ville. C'est un lieu d'échange où les citoyens pourraient se retrouver pour échanger sur les problématiques de la cité." };
-        Place currPlace = new Place(currTexts);
-        currPlace.SetBuilding3D(buildingsTransforms[0]);
-        currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
-        /*currPlace.SetPolitics(4);
-        currPlace.SetCulture(2);
-        currPlace.SetPrestige(2);*/
-        float[] tempRatios = { 4, 2, 0, 2 };
-        currPlace.SetRatios(tempRatios);
-        currPlace.SetPeople(0);
-        places["Forum"] = currPlace;
+        if (MusicAndData_Manager.Instance.isFrench)
+        {
+            string[] currTexts = { "Je vous suggère de construire un FORUM au centre de la ville. C'est un lieu d'échange où les citoyens pourraient se retrouver pour échanger sur les problématiques de la cité." };
+            Place currPlace = new Place(currTexts);
+            currPlace.SetBuilding3D(buildingsTransforms[0]);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
+            /*currPlace.SetPolitics(4);
+            currPlace.SetCulture(2);
+            currPlace.SetPrestige(2);*/
+            float[] tempRatios = { 4, 2, 0, 2 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(0);
+            places["Forum"] = currPlace;
 
-        currTexts = new string[] { "La cité est naissante, mais les gens ne savent pas où enterrer leurs morts, s'il vous plait, construisez une NÉCROPOLE juste au delà des limites de la cité."/*,
+            currTexts = new string[] { "La cité est naissante, mais les gens ne savent pas où enterrer leurs morts, s'il vous plait, construisez une NÉCROPOLE juste au delà des limites de la cité."/*,
                                     "La situation devient urgente, ça fait des années que les gens enterrent leurs morts à l'arrache, construisez une NÉCROPOLE bon sang !",
                                     "Le peuple en a marre ! Construisez une NÉCROPOLE ! Ca suffit de devoir enterrer nos morts comme des clochards !"*/ };
-        currPlace = new Place(currTexts);
-        currPlace.SetAdvisor(UI_Manager.Instance.advisors[3]);
-        tempRatios = new float[] { 0, 0, 0, 0 };
-        currPlace.SetRatios(tempRatios);
-        currPlace.SetPeople(3);
-        places["Nécropole"] = currPlace;
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[3]);
+            tempRatios = new float[] { 0, 0, 0, 0 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(3);
+            places["Nécropole"] = currPlace;
 
-        currTexts = new string[] { "Si nous avons installé la nouvelle Tolosa au bord de la Garonne, c'ets pour la munir d'un PORT, afin d'avoir un commerce florissant et bonnes relations internationnales." };
-        currPlace = new Place(currTexts);
-        currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
-        tempRatios = new float[] { 2, 2, 0, 0};
-        currPlace.SetRatios(tempRatios);
-        currPlace.SetPeople(1);
-        places["Port"] = currPlace;
+            currTexts = new string[] { "Si nous avons installé la nouvelle Tolosa au bord de la Garonne, c'est pour la munir d'un PORT, afin d'avoir un commerce florissant et bonnes relations internationnales." };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
+            tempRatios = new float[] { 2, 2, 0, 0 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(1);
+            places["Port"] = currPlace;
 
-        currTexts = new string[] { "Nous pourrions construire un MARCHÉ afin que les habitants puissent commercer et se fournir en ressources de tous les jours." };
-        currPlace = new Place(currTexts);
-        currPlace.SetAdvisor(UI_Manager.Instance.advisors[2]);
-        tempRatios = new float[] { 0, 0, 0, 0 };
-        currPlace.SetRatios(tempRatios);
-        currPlace.SetPeople(3);
-        places["Marché"] = currPlace;
+            currTexts = new string[] { "Nous pourrions construire un MARCHÉ afin que les habitants puissent commercer et se fournir en ressources de tous les jours." };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[2]);
+            tempRatios = new float[] { 0, 0, 0, 0 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(3);
+            places["Marché"] = currPlace;
 
-        currTexts = new string[] { "Nous avons obtenu les droits pour créer à Toulouse un TEMPLE dédié à la triade capitoline ! C'est extêmement prestigieux ! Il y a Minerve, déesse de la sagesse, Junon déesse du foyer, et surtout Jupiter, dieu des dieux !\r\n" };
-        currPlace = new Place(currTexts);
-        currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
-        tempRatios = new float[] { 0, 4, 0, 2 };
-        currPlace.SetRatios(tempRatios);
-        currPlace.SetPeople(0);
-        places["Temple"] = currPlace;
+            currTexts = new string[] { "Nous avons obtenu les droits pour créer à Toulouse un TEMPLE dédié à la triade capitoline ! C'est extêmement prestigieux ! Ce sont les dieux vénérés à Rome !" };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
+            tempRatios = new float[] { 0, 4, 0, 2 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(0);
+            places["Temple"] = currPlace;
 
-        currTexts = new string[] {  "Rome propose de nous envoyer des habitants pour notre cité à condition que nous leur construisions des DOMUS, de belles villas romaines, où les installer."
+            currTexts = new string[] {  "Rome propose de nous envoyer des habitants pour notre cité à condition que nous leur construisions des DOMUS, de belles villas romaines, où les installer."
                                     /*"Je pense que vous devriez créer un quartier résidentiel autour d'une DOMUS romaine. Ce sont des maisons à la pointe du bon goût !",
                                     "Ce premier quartier avec DOMUS romaine est fabuleux ! Ne nous arrêtons pas en si bon chemin ! Je vous sous entends évidemment d'en créer un deuxième !"*/ };
-        currPlace = new Place(currTexts);
-        currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
-        tempRatios = new float[] { 0, 2, 0, 0 };
-        currPlace.SetRatios(tempRatios);
-        currPlace.SetPeople(1);
-        places["Domus"] = currPlace;
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
+            tempRatios = new float[] { 0, 2, 0, 0 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(1);
+            places["Domus"] = currPlace;
 
-        currTexts = new string[] { "La construction de l'aqueduc nous a apporté plein d'eau, on va pouvoir mettre en place un réseau d'ÉGOUTS avec les techniques romaines pour assainir la ville.",
+            currTexts = new string[] { "La construction de l'aqueduc nous a apporté plein d'eau, on va pouvoir mettre en place un réseau d'ÉGOUTS avec les techniques romaines pour assainir la ville.",
                                     "La ville a plein d'eau et pourtant l'hygiène est toujours pourrie, ça ne va pas du tout, faut vraiment construire un réseau d'ÉGOUTS !",
                                     "Construisez un réseau d'ÉGOUTS ! C'est inadmissible ! Enfin ! On peut pas avoir autant d'eau et avoir des rues qui puent la mort !" };
-        currPlace = new Place(currTexts);
-        currPlace.SetAdvisor(UI_Manager.Instance.advisors[3]);
-        places["Égouts"] = currPlace;
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[3]);
+            places["Égouts"] = currPlace;
 
-        currTexts = new string[] { "Nous pourrions agrémenter le forum de THERMES. Ces bains publics sont d'une part un lieu de relaxation, mais aussi un excellent lieu dans lequel aborder les discutions politiques." };
-        currPlace = new Place(currTexts);
-        currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
-        tempRatios = new float[] { 0, 3, 4, 0 };
-        currPlace.SetRatios(tempRatios);
-        currPlace.SetPeople(1);
-        places["Thermes Nord"] = currPlace;
+            currTexts = new string[] { "Nous pourrions agrémenter le forum de THERMES. Ces bains publics sont d'une part un lieu de relaxation, mais aussi un excellent lieu dans lequel aborder les discutions politiques." };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
+            tempRatios = new float[] { 0, 3, 4, 0 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(1);
+            places["Thermes Nord"] = currPlace;
 
-        currTexts = new string[] { "Nous pourrions agrémenter le forum de THERMES. Ces bains publics sont d'une part un lieu de relaxation, mais aussi un excellent lieu dans lequel aborder les discutions politiques." };
-        currPlace = new Place(currTexts);
-        currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
-        tempRatios = new float[] { 0, 0, 4, 0 };
-        currPlace.SetRatios(tempRatios);
-        currPlace.SetPeople(1);
-        places["Thermes Sud"] = currPlace;
+            currTexts = new string[] { "Nous pourrions construire des THERMES au sud de la ville. Ces bains publics sont d'une part un lieu de relaxation, mais aussi un excellent lieu dans lequel aborder les discutions politiques." };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
+            tempRatios = new float[] { 0, 0, 4, 0 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(1);
+            places["Thermes Sud"] = currPlace;
 
-        currTexts = new string[] { "Notre forum est très beau ! Mais il le serait encore plus si nous l'agrémentions d'une magnique FONTAINE !" };
-        currPlace = new Place(currTexts);
-        currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
-        tempRatios = new float[] { 0, 1, 2, 1 };
-        currPlace.SetRatios(tempRatios);
-        currPlace.SetPeople(0);
-        places["Fontaine Forum"] = currPlace;
+            currTexts = new string[] { "Notre forum est très beau ! Mais il le serait encore plus si nous l'agrémentions d'une magnique FONTAINE !" };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
+            tempRatios = new float[] { 0, 2, 4, 1 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(0);
+            places["Fontaine Forum"] = currPlace;
 
-        currTexts = new string[] { "Avec toute cette eau, nous allons pouvoir faire un magnifique FONTAINE MONUMENTALE ! Avec de fort belles sculptures racontant d'héroïques mythes romains !" };
-        currPlace = new Place(currTexts);
-        currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
-        tempRatios = new float[] { 0, 0, 4, 1 };
-        currPlace.SetRatios(tempRatios);
-        currPlace.SetPeople(0);
-        places["Fontaine Monumentale"] = currPlace;
+            currTexts = new string[] { "Avec toute cette eau, nous allons pouvoir faire un magnifique FONTAINE MONUMENTALE ! Avec de fort belles sculptures racontant d'héroïques mythes romains !" };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
+            tempRatios = new float[] { 0, 0, 4, 1 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(0);
+            places["Fontaine Monumentale"] = currPlace;
 
-        currTexts = new string[] { "Nous pourrions munir l'aqueduc d'un CHATEAU D'EAU afin de stocker l'eau et permettre aux habitants de s'en fournir de façon plus stable." };
-        currPlace = new Place(currTexts);
-        currPlace.SetAdvisor(UI_Manager.Instance.advisors[3]);
-        tempRatios = new float[] { 0, 0, 1, 0 };
-        currPlace.SetRatios(tempRatios);
-        currPlace.SetPeople(2);
-        places["Chateau D'Eau"] = currPlace;
+            currTexts = new string[] { "Nous pourrions munir l'aqueduc d'un CHATEAU D'EAU afin de stocker l'eau et permettre aux habitants de s'en fournir de façon plus stable." };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[3]);
+            tempRatios = new float[] { 0, 0, 2, 0 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(2);
+            places["Chateau D'Eau"] = currPlace;
 
-        currTexts = new string[] { "Notre cité a une population importante désormais, je vous suggère de construire un gigantesque THÉATRE, qui pourrait accueillir la moitié de la population Toulousaine, afin de montrer des pièces romaines." };
-        currPlace = new Place(currTexts);
-        currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
-        tempRatios = new float[] { 0, 0, 0, 2 };
-        currPlace.SetRatios(tempRatios);
-        currPlace.SetPeople(1);
-        places["Théâtre"] = currPlace;
+            currTexts = new string[] { "Notre cité a une population importante désormais, je vous suggère de construire un gigantesque THÉATRE, qui pourrait accueillir la moitié de la population Toulousaine !" };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
+            tempRatios = new float[] { 0, 0, 0, 2 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(1);
+            places["Théâtre"] = currPlace;
 
-        currTexts = new string[] { "Avec toute cette, nous allons pouvoir cultier de beaux jeardin ! Ce sera magnifique et les gens pourront s'y prélasser." };
-        currPlace = new Place(currTexts);
-        currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
-        tempRatios = new float[] { 0, 0, 2, 2 };
-        currPlace.SetRatios(tempRatios);
-        currPlace.SetPeople(0);
-        places["Jardins"] = currPlace;
+            currTexts = new string[] { "Avec toute cette, nous allons pouvoir cultier de beaux JARDINS ! Ce sera magnifique et les gens pourront s'y prélasser." };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[3]);
+            tempRatios = new float[] { 0, 0, 2, 2 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(1);
+            places["Jardins"] = currPlace;
 
-        currTexts = new string[] { "Les REMPARTS de Tibère commencent à dater un peu, nous pourrions leur redonner une petite jeunesse en y ajoutant des petites alcoves décoratives ! Ca ne protège de rien, mais ça en jette !" };
-        currPlace = new Place(currTexts);
-        currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
-        tempRatios = new float[] { 0, 0, 0, 3 };
-        currPlace.SetRatios(tempRatios);
-        currPlace.SetPeople(0);
-        places["Remparts+"] = currPlace;
+            currTexts = new string[] { "Les REMPARTS de Tibère commencent à dater un peu, nous pourrions leur redonner une petite jeunesse en y ajoutant des petites alcoves décoratives ! Ca ne protège de rien, mais ça en jette !" };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
+            tempRatios = new float[] { 0, 0, 0, 3 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(0);
+            places["Remparts+"] = currPlace;
 
-        currTexts = new string[] { "Nous avons les ressources aux alentours pour nous lancer dans le commerce de pigments et créer une TEINTURERIE. Ce nouveau commerce permettrait à Toulouse de gagner en renommée aux alentours." };
-        currPlace = new Place(currTexts);
-        currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
-        places["Teinturerie"] = currPlace;
+            currTexts = new string[] { "Nous avons les ressources aux alentours pour nous lancer dans le commerce de pigments et créer une TEINTURERIE. Ce nouveau commerce permettrait à Toulouse de gagner en renommée aux alentours." };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
+            places["Teinturerie"] = currPlace;
 
-        currTexts = new string[] { "Nous pourrions créer un quartier de belles villas romaiens, des DOMUS, pour nos habitants les plus aisés. Ils seront content et la ville présentara encore mieux !" };
-        currPlace = new Place(currTexts);
-        currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
-        tempRatios = new float[] { 0, 0, 0, 0 };
-        currPlace.SetRatios(tempRatios);
-        currPlace.SetPeople(2);
-        places["Domus+"] = currPlace;
+            currTexts = new string[] { "Nous pourrions créer un quartier de belles villas romaines, des DOMUS, pour nos habitants les plus aisés. Ils seront content et la ville présentara encore mieux !" };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
+            tempRatios = new float[] { 0, 0, 0, 2 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(1);
+            places["Domus+"] = currPlace;
 
-        currTexts = new string[] { "Port+" };
-        currPlace = new Place(currTexts);
-        currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
-        tempRatios = new float[] { 0, 0, 0, 2 };
-        currPlace.SetRatios(tempRatios);
-        currPlace.SetPeople(0);
-        places["Port+"] = currPlace;
+            currTexts = new string[] { "Et si nous augmentions les capacités de stockage du port ? Nous pourrions développer le commerce et en faire bénéficier le peuple !" };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[2]);
+            tempRatios = new float[] { 0, 0, 0, 0 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(2);
+            places["Port+"] = currPlace;
 
-        // Places offertes pas l'empereur entre les niveaux
-        currTexts = new string[] { "Portes" };
-        currPlace = new Place(currTexts);
-        places["Portes"] = currPlace;
+            // Places offertes pas l'empereur entre les niveaux
+            currTexts = new string[] { "Portes" };
+            currPlace = new Place(currTexts);
+            places["Portes"] = currPlace;
 
-        currTexts = new string[] { "Remparts" };
-        currPlace = new Place(currTexts);
-        places["Remparts"] = currPlace;
+            currTexts = new string[] { "Remparts" };
+            currPlace = new Place(currTexts);
+            places["Remparts"] = currPlace;
 
-        currTexts = new string[] { "Aqueduc" };
-        currPlace = new Place(currTexts);
-        places["Aqueduc"] = currPlace;
+            currTexts = new string[] { "Aqueduc" };
+            currPlace = new Place(currTexts);
+            places["Aqueduc"] = currPlace;
 
-        currTexts = new string[] { "Vide" };
-        currPlace = new Place(currTexts);
-        places["Vide"] = currPlace;
+            currTexts = new string[] { "Vide" };
+            currPlace = new Place(currTexts);
+            places["Vide"] = currPlace;
+        }
+        //-------------------------------------------------------------------------------------------------------------------
+        // English
+        //-------------------------------------------------------------------------------------------------------------------
+        else
+        {
+            string[] currTexts = { "Je vous suggère de construire un FORUM au centre de la ville. C'est un lieu d'échange où les citoyens pourraient se retrouver pour échanger sur les problématiques de la cité." };
+            Place currPlace = new Place(currTexts);
+            currPlace.SetBuilding3D(buildingsTransforms[0]);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
+            /*currPlace.SetPolitics(4);
+            currPlace.SetCulture(2);
+            currPlace.SetPrestige(2);*/
+            float[] tempRatios = { 4, 2, 0, 2 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(0);
+            places["Forum"] = currPlace;
+
+            currTexts = new string[] { "La cité est naissante, mais les gens ne savent pas où enterrer leurs morts, s'il vous plait, construisez une NÉCROPOLE juste au delà des limites de la cité."/*,
+                                    "La situation devient urgente, ça fait des années que les gens enterrent leurs morts à l'arrache, construisez une NÉCROPOLE bon sang !",
+                                    "Le peuple en a marre ! Construisez une NÉCROPOLE ! Ca suffit de devoir enterrer nos morts comme des clochards !"*/ };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[3]);
+            tempRatios = new float[] { 0, 0, 0, 0 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(3);
+            places["Nécropole"] = currPlace;
+
+            currTexts = new string[] { "Si nous avons installé la nouvelle Tolosa au bord de la Garonne, c'est pour la munir d'un PORT, afin d'avoir un commerce florissant et bonnes relations internationnales." };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
+            tempRatios = new float[] { 2, 2, 0, 0 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(1);
+            places["Port"] = currPlace;
+
+            currTexts = new string[] { "Nous pourrions construire un MARCHÉ afin que les habitants puissent commercer et se fournir en ressources de tous les jours." };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[2]);
+            tempRatios = new float[] { 0, 0, 0, 0 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(3);
+            places["Marché"] = currPlace;
+
+            currTexts = new string[] { "Nous avons obtenu les droits pour créer à Toulouse un TEMPLE dédié à la triade capitoline ! C'est extêmement prestigieux ! Ce sont les dieux vénérés à Rome !" };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
+            tempRatios = new float[] { 0, 4, 0, 2 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(0);
+            places["Temple"] = currPlace;
+
+            currTexts = new string[] {  "Rome propose de nous envoyer des habitants pour notre cité à condition que nous leur construisions des DOMUS, de belles villas romaines, où les installer."
+                                    /*"Je pense que vous devriez créer un quartier résidentiel autour d'une DOMUS romaine. Ce sont des maisons à la pointe du bon goût !",
+                                    "Ce premier quartier avec DOMUS romaine est fabuleux ! Ne nous arrêtons pas en si bon chemin ! Je vous sous entends évidemment d'en créer un deuxième !"*/ };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
+            tempRatios = new float[] { 0, 2, 0, 0 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(1);
+            places["Domus"] = currPlace;
+
+            currTexts = new string[] { "La construction de l'aqueduc nous a apporté plein d'eau, on va pouvoir mettre en place un réseau d'ÉGOUTS avec les techniques romaines pour assainir la ville.",
+                                    "La ville a plein d'eau et pourtant l'hygiène est toujours pourrie, ça ne va pas du tout, faut vraiment construire un réseau d'ÉGOUTS !",
+                                    "Construisez un réseau d'ÉGOUTS ! C'est inadmissible ! Enfin ! On peut pas avoir autant d'eau et avoir des rues qui puent la mort !" };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[3]);
+            places["Égouts"] = currPlace;
+
+            currTexts = new string[] { "Nous pourrions agrémenter le forum de THERMES. Ces bains publics sont d'une part un lieu de relaxation, mais aussi un excellent lieu dans lequel aborder les discutions politiques." };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
+            tempRatios = new float[] { 0, 3, 4, 0 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(1);
+            places["Thermes Nord"] = currPlace;
+
+            currTexts = new string[] { "Nous pourrions construire des THERMES au sud de la ville. Ces bains publics sont d'une part un lieu de relaxation, mais aussi un excellent lieu dans lequel aborder les discutions politiques." };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
+            tempRatios = new float[] { 0, 0, 4, 0 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(1);
+            places["Thermes Sud"] = currPlace;
+
+            currTexts = new string[] { "Notre forum est très beau ! Mais il le serait encore plus si nous l'agrémentions d'une magnique FONTAINE !" };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
+            tempRatios = new float[] { 0, 2, 4, 1 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(0);
+            places["Fontaine Forum"] = currPlace;
+
+            currTexts = new string[] { "Avec toute cette eau, nous allons pouvoir faire un magnifique FONTAINE MONUMENTALE ! Avec de fort belles sculptures racontant d'héroïques mythes romains !" };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
+            tempRatios = new float[] { 0, 0, 4, 1 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(0);
+            places["Fontaine Monumentale"] = currPlace;
+
+            currTexts = new string[] { "Nous pourrions munir l'aqueduc d'un CHATEAU D'EAU afin de stocker l'eau et permettre aux habitants de s'en fournir de façon plus stable." };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[3]);
+            tempRatios = new float[] { 0, 0, 2, 0 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(2);
+            places["Chateau D'Eau"] = currPlace;
+
+            currTexts = new string[] { "Notre cité a une population importante désormais, je vous suggère de construire un gigantesque THÉATRE, qui pourrait accueillir la moitié de la population Toulousaine !" };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
+            tempRatios = new float[] { 0, 0, 0, 2 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(1);
+            places["Théâtre"] = currPlace;
+
+            currTexts = new string[] { "Avec toute cette, nous allons pouvoir cultier de beaux JARDINS ! Ce sera magnifique et les gens pourront s'y prélasser." };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[3]);
+            tempRatios = new float[] { 0, 0, 2, 2 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(1);
+            places["Jardins"] = currPlace;
+
+            currTexts = new string[] { "Les REMPARTS de Tibère commencent à dater un peu, nous pourrions leur redonner une petite jeunesse en y ajoutant des petites alcoves décoratives ! Ca ne protège de rien, mais ça en jette !" };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
+            tempRatios = new float[] { 0, 0, 0, 3 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(0);
+            places["Remparts+"] = currPlace;
+
+            currTexts = new string[] { "Nous avons les ressources aux alentours pour nous lancer dans le commerce de pigments et créer une TEINTURERIE. Ce nouveau commerce permettrait à Toulouse de gagner en renommée aux alentours." };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
+            places["Teinturerie"] = currPlace;
+
+            currTexts = new string[] { "Nous pourrions créer un quartier de belles villas romaines, des DOMUS, pour nos habitants les plus aisés. Ils seront content et la ville présentara encore mieux !" };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
+            tempRatios = new float[] { 0, 0, 0, 2 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(1);
+            places["Domus+"] = currPlace;
+
+            currTexts = new string[] { "Et si nous augmentions les capacités de stockage du port ? Nous pourrions développer le commerce et en faire bénéficier le peuple !" };
+            currPlace = new Place(currTexts);
+            currPlace.SetAdvisor(UI_Manager.Instance.advisors[2]);
+            tempRatios = new float[] { 0, 0, 0, 0 };
+            currPlace.SetRatios(tempRatios);
+            currPlace.SetPeople(2);
+            places["Port+"] = currPlace;
+
+            // Places offertes pas l'empereur entre les niveaux
+            currTexts = new string[] { "Portes" };
+            currPlace = new Place(currTexts);
+            places["Portes"] = currPlace;
+
+            currTexts = new string[] { "Remparts" };
+            currPlace = new Place(currTexts);
+            places["Remparts"] = currPlace;
+
+            currTexts = new string[] { "Aqueduc" };
+            currPlace = new Place(currTexts);
+            places["Aqueduc"] = currPlace;
+
+            currTexts = new string[] { "Vide" };
+            currPlace = new Place(currTexts);
+            places["Vide"] = currPlace;
+        }
 
         // On assigne à chaque place le building donc le nom du GO correspond
         foreach (string key in places.Keys)
@@ -293,7 +466,7 @@ public class GM : MonoBehaviour
         places["Portes"].height = 15f;
         places["Remparts"].height = 15f;
         places["Remparts+"].height = 15f;
-        places["Temple"].height = 5f;
+        places["Temple"].height = 6f;
         places["Thermes Nord"].height = 5f;
         places["Thermes Sud"].height = 5f;
         places["Théâtre"].height = 8f;
@@ -301,54 +474,142 @@ public class GM : MonoBehaviour
         places["Port+"].height = 7f;
         places["Jardins"].height = 3f;
         places["Marché"].height = 5f;
+        places["Chateau D'Eau"].height = 7f;
     }
 
     private void BuildEmissaries()
     {
-        Emissary temp = new Emissary(
+        if (MusicAndData_Manager.Instance.isFrench)
+        {
+            Emissary temp = new Emissary(
             new string[] {"Haha ! C'est du bel ouvrage ! Tu vois petit gars, ça c'est les bases d'une grande ville, de grandes routes perpendiculaires, et surtout de grandes portes pour montrer qu'ici, c'est chez nous !",
-                            "Tu as de la chance que l'empereur ait décidé de financer la reconstruction de Tolosa et accepté ma requête de te placer ici.", 
+                            "Tu as de la chance que l'empereur Auguste ait décidé de financer la reconstruction de Tolosa et accepté ma requête de te placer ici.",
                             "Mais ne te méprends pas, superviser l'urbanisme d'une cité est une grande responsabilité.",
                             "Mais ne t'en fais pas, tu ne seras pas seul. Des conseillers viendront t'aider en te proposant des projets de construction.",
                             "Je laisse la ville entre tes mains, je te laisse le temps de construire trois bâtiments.",
-                            "J'espère que cette ville sera devenue un vrai cité à mon retour. Fais centraliser l'activité politique de Tolosa, et alors l'empereur sera content."},
+                            "J'espère que cette ville sera devenue un vrai cité à mon retour. Développe l'activité politique de Tolosa, et alors l'empereur sera content.",
+                            "Mais fais aussi attention à le pas négliger ton peuple !"},
             new string[] { "On a reçu des échos jusqu'à Rome ! Tolosa est une vrai petite cité maintenant !",
                             "Je suis fier de toi, maintenant j'en ai le cœur net, je peux valider sans crainte la décision de l'empereur de faire don de remparts à ta ville !" },
-            new string[] { "Sérieusement ?! Je te laisse 5 ans, et tout ce que fais c'est une pauvre nécropole ?! Tu comprends bien que je ne peux pas mentir dans mon rapport.. L'empereur voulait t'offrir des remparts pour ta ville, mais après avoir vu ça, je pense qu'il va surtout t'offrir un aller simple pour la légion étrangère." },
+            new string[] { "Sérieusement ?! Ta ville ne sera jamais une vraie cité sans forum pour la politique intérieure et sans port pour la politique extérieure !",
+                            "Tu comprends bien que je ne peux pas mentir dans mon rapport.. L'empereur voulait t'offrir des remparts pour ta ville, mais après avoir vu ça, je pense qu'il va surtout t'offrir un aller simple pour la légion étrangère." },
             new string[] { "" },
             0);
-        emissaries.Add(temp);
-        
-        temp = new Emissary(
-            new string[] { "Hm...","...","Oui...","...","Euh...","...",
-                            "Les remparts sont conformes, je reconnais là le style de Tibère.",
-                            "...","Toutefois votre ville n'est guère plus romaine que ça. Il va falloir faire mieux. Je vous laisse un peu moins d'une décennie."},
-            new string[] { "Hm, je vois que vous avez fait des efforts. On se sent un peu plus en territoire romain ici. Je suis en route pour l'Italie, mais je peux vous dire que l'Empereur vous sera favorable." },
-            new string[] { "Eh bien, une domus ? C'est tout ce vous à proposer ? Je suis en route pour l'Italie, je ne manquerai pas de dire à l'empereur que je n'ai rien à lui dire" },
-            new string[] { "Hm, je vois que vous avez fait des efforts. On se sent un peu plus en territoire rom...",
+            emissaries.Add(temp);
+
+            temp = new Emissary(
+                new string[] { "Hm...","...","Oui...","...","Euh...","...",
+                            "Les remparts sont conformes, je reconnais là le style de l'empereur Tibère.",
+                            "...","Toutefois votre ville n'est guère plus romaine que ça. Il va falloir faire mieux.",
+                            "Je vous laisse trois bâtiments."},
+                new string[] { "Hm, je vois que vous avez fait des efforts. On se sent un peu plus en territoire rom...",
+                            "!!!",
+                            "Oh mais vous avez un temple dédié à la triade capitoline ?! Il est si beau, il me rappelle celui de Rome ! Ce que j'ai hâte d'y retourner...",
+                            "Croyez moi, je ne manquerai pas de louanger votre cité à l'empereur !" },
+                new string[] { "Eh bien, je vois que vous avez essayé...","...",
+                            "Mais je crois que vous êtes passé à côté de l'essentiel : où sont vos dieux ?",
+                            "Je suis en route pour l'Italie, je ne manquerai pas de dire à l'empereur que je n'ai rien à lui dire." },
+                new string[] { "Hm, je vois que vous avez fait des efforts. On se sent un peu plus en territoire rom...",
                             "!!!",
                             "Oh mais vous avez un temple dédié à la triade capitoline ?! Il est si beau, il me rappelle celui de Rome ! Ce que j'ai hâte d'y retourner.. Croyez moi, je ne manquerai pas de louanger votre cité à l'empereur !" },
-            1);
-        emissaries.Add(temp);
+                1);
+            emissaries.Add(temp);
 
-        temp = new Emissary(
-            new string[] { "Alors comme ça le grand Caligula a aidé votre ville à financer son aqueduc ?",
+            temp = new Emissary(
+                new string[] { "Alors comme ça le grand Caligula a aidé votre ville à financer son aqueduc ?",
                         "Quel grand magnanime !",
+                        "En même temps, neuf kilomètres de conduites d'eau et un pont, ce n'est pas à la portée de toutes les bourses.",
                         "Comme c'est excitant, vous allez pouvoir faire des tonnes de jolies choses avec toute cette eau !",
-                        "N'est-ce pas ?" },
-        new string[] { "Oh comme c'est beau ! Tous ces bâtiments sont si grâcieux …", "... Du moment qu'on ne regarde pas avec le nez." },
-        new string[] { "Ca manque un peu d'eau par ici.", "Ne vous inquiétez pas, en prison vous aurez toute l'eau de vos larmes" },
-        new string[] { "Oh comme c'est beau ! Tous ces bâtiments sont si grâcieux …", "... et vous avez même enlevé la vieille odeur de rat crevé." },
-        2);
-        emissaries.Add(temp);
+                        "N'est-ce pas ?","Allez, on se revoit dans trois bâtiments !" },
+                new string[] { "Oh comme c'est beau ! Tous ces bâtiments sont si grâcieux …", "... et vous avez même enlevé la vieille odeur de rat crevé." },
+                new string[] { "Ca manque un peu d'eau par ici.", "Ne vous inquiétez pas, en prison vous aurez toute l'eau de vos larmes" },
+                new string[] { "Oh comme c'est beau ! Tous ces bâtiments sont si grâcieux …", "... et vous avez même enlevé la vieille odeur de rat crevé." },
+                2);
+            emissaries.Add(temp);
 
-        temp = new Emissary(
-            new string[] { "Là c'est la tirade de l'empereur" },
-        new string[] { "ok tier" },
-        new string[] { "nul" },
-        new string[] { "wah tema la cité bimillénaire" },
-        3);
-        emissaries.Add(temp);
+            temp = new Emissary(
+                new string[] { "C'est donc à ça que ressemble Tolosa ?",
+                        "La longue entreprise de feu Auguste se porte bien à ce que je vois.",
+                        "Toulousains, je vous met au défi !",
+                        "Je vous laisse trois bâtiments pour me montrer tout le prestige de votre cité !",
+                        "Ne me décevez pas."},
+                new string[] { "Je suis comblé !",
+                        "Je n'en attendais pas moins de vous !",
+                        "Les toulousains ont su se montrer dignes de la volonté d'Auguste.",
+                        "Votre cité a un grand avenir, et elle sera sûrement encore debout dans deux mille ans !"},
+                new string[] { "Vous êtes décevants, Toulousains.",
+                        "Vous n'êtes pas dignes de porter la volonté d'auguste."},
+                new string[] { "wah tema la cité bimillénaire" },
+                3);
+            emissaries.Add(temp);
+        }
+        //-------------------------------------------------------------------------------------------------------------------
+        // English
+        //-------------------------------------------------------------------------------------------------------------------
+        else
+        {
+            Emissary temp = new Emissary(
+            new string[] {"Haha ! It is beautiful work ! You see that, boy ? This is the basis of a great city-state, two great perpendicular roads, and most importanly great doors to show that here is our home !",
+                            "You're lucky the emperor Augustus decided to fund the rebuilding of Tolosa and accepted my request tu put you here.",
+                            "But don't be mistaken, oversee a city's urbanism is a great responsability.",
+                            "But don't worry, you won't be alone. Advisors will help you by suggesting buildings you should add to your town.",
+                            "The town is in your hands now, I leave you enough time to build three buildings.",
+                            "I hope this town will have become a real city state when I'll be back. Develop Tolosa's political activity, and the emperor will be pleased.",
+                            "But also be careful not to neglect your people !"},
+            new string[] { "Rumors have made their way up to rome ! Tolosa's a real city state now !",
+                            "I'm proud of you, now I'm sure of it, I can without a doubt approve the emperor's decision to give your town fortifications !" },
+            new string[] { "Seriously ?! Your town will nerver be a real city-state without a forum for domestic policy and a harbour for foreign policy !",
+                            "You undeerstand I cannot lie in my report... The emperor wanted to give your town fortifications,but now that I've seen that, I think he's more likely to send you straight to the foreign legion !" },
+            new string[] { "" },
+            0);
+            emissaries.Add(temp);
+
+            temp = new Emissary(
+                new string[] { "Hm...","...","Yes...","...","Euh...","...",
+                            "The fortifications are in accordance with the emperor Tiberius' style.",
+                            "...","However, your city is hardly roman. You will have to do better than that.",
+                            "I leave you enough time to build three buildings"},
+                new string[] { "Hm, I see you at least tried. This place feels a little more rom...",
+                            "!!!",
+                            "Oh you have a temple dedicated to the capitoline triad ?! It is so beatiful, it reminds me of Rome's ! Oh I'm looking forward to go back...",
+                            "Trust me, I'll be sure to do so to praise your city before the emperor !" }, // Faire tester cette phrase par madame Jany
+                new string[] { "Well, I see you at least tried...","...",
+                            "But I think you missed the essential : where are your gods ?",
+                            "I'm on my way to Italy, I'll be sure to do so to tell the emperor I have nothing to tell him." },
+                new string[] { "Hm, je vois que vous avez fait des efforts. On se sent un peu plus en territoire rom...",
+                            "!!!",
+                            "Oh mais vous avez un temple dédié à la triade capitoline ?! Il est si beau, il me rappelle celui de Rome ! Ce que j'ai hâte d'y retourner.. Croyez moi, je ne manquerai pas de louanger votre cité à l'empereur !" },
+                1);
+            emissaries.Add(temp);
+
+            temp = new Emissary(
+                new string[] { "So the great Caligula helped your city to fund its aqueduct ?",
+                        "How magnanimous !",
+                        "Mind you, a nine kilometers long water pipe and a bridge are clearly not affordable for all.",
+                        "How exiting, you are going to build a ton of pretty things thanks to all that water !",
+                        "Aren't you ?","Go, on see you in three buildings !" },
+                new string[] { "Oh how pretty ! All those buildings are so graceful ...", "... and you even got rid of that rotten rat smell." },
+                new string[] { "This place lacks some water.", "Don't worry, in prison you'll have all the water of your tears." },
+                new string[] { "Oh comme c'est beau ! Tous ces bâtiments sont si grâcieux …", "... et vous avez même enlevé la vieille odeur de rat crevé." },
+                2);
+            emissaries.Add(temp);
+
+            temp = new Emissary(
+                new string[] { "So this is what Tolosa looks like ?",
+                        "Augustus' long undertaking is well underway, as I can see.",
+                        "Toulousians, I have a challenge for you !",
+                        "I allow you two build three more buildings to show me how prestigious you city can be !",
+                        "Do not deceive me."},
+                new string[] { "I'm am fulfilled !",
+                        "I was not expecting less from you !",
+                        "Toulousians have proved themselves worthy of Augustus will.",
+                        "Your city has a bright future, and will probably still be there in two thousand years !"},
+                new string[] { "You are deceiving, Toulousians",
+                        "You are not worthy of Augustus' will."},
+                new string[] { "wah tema la cité bimillénaire" },
+                3);
+            emissaries.Add(temp);
+        }
 
         
     }
@@ -364,7 +625,7 @@ public class GM : MonoBehaviour
         levels[0].SetPlace(places["Portes"]);
         levels[1].SetPlace(places["Remparts"]);
         levels[2].SetPlace(places["Aqueduc"]);
-        levels[3].SetPlace(places["Vide"]);
+        //levels[3].SetPlace(places["Vide"]);
 
         currLevel = levels[0];
     }
@@ -552,6 +813,8 @@ public class GM : MonoBehaviour
             {
                 Touch touch = Input.touches[0];
 
+                MusicAndData_Manager.Instance.advisors.GetComponent<AudioSource>().Play();
+
                 if (touch.position.y < Screen.height * 1 / 3)
                 {
                     UI_Manager.Instance.displayedText.text = midText;
@@ -711,6 +974,9 @@ public class GM : MonoBehaviour
     }
     void Start()
     {
+        SceneManager.UnloadSceneAsync("S_Menu");
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("S_City_New"));
+
         buildingsTransforms = Buildings_Manager.Instance.buildingsTransform;
         BuildDictionnary();
         BuildEmissaries();
@@ -744,6 +1010,8 @@ public class GM : MonoBehaviour
             {
                 UI_Manager.Instance.SwitchMode();
             }
+
+            //-----------------------------------------------------------------------------
             if (UI_Manager.Instance.choiceMode)
             {
                 MakeAChoice();
@@ -753,8 +1021,6 @@ public class GM : MonoBehaviour
                 //Debug.Log("emissary mode");
                 EmissaryMode();
             }
-
-            //TOUCH CONTROLS
         }
     }
 }

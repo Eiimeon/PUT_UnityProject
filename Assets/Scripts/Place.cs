@@ -148,6 +148,7 @@ public class Place
         // Building
         //--------------------------------------------------------------------------------------------------------------------------------------------------
 
+        building3D.GetComponent<AudioSource>().Play();
         while ((building3D.transform.position - initialBuildingPos).magnitude > 0.1)
         {
             building3D.position = Vector3.Lerp (building3D.position, initialBuildingPos, 1f * Time.deltaTime);
@@ -186,6 +187,7 @@ public class Place
         //--------------------------------------------------------------------------------------------------------------------------------------------------
 
         GM.Instance.canAct = true;
+        MusicAndData_Manager.Instance.StartCoroutine(MusicAndData_Manager.Instance.FadeAndStopAudio(building3D.GetComponent<AudioSource>()));
         Camera_Manager.Instance.GoToGlobalView();
         UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.FadeUI(UI_Manager.Instance.UI_Choice.GetComponent<CanvasGroup>(), 1));
 
@@ -220,6 +222,8 @@ public class Place
             yield return new WaitForEndOfFrame();
         }
 
+        building3D.GetComponent<AudioSource>().Play();
+
         while ((building3D.transform.position - initialBuildingPos).magnitude > 0.1)
         {
             building3D.position = Vector3.Lerp(building3D.position, initialBuildingPos, 0.7f * Time.deltaTime);
@@ -227,11 +231,15 @@ public class Place
             Handheld.Vibrate();
             yield return new WaitForEndOfFrame();
         }
+
+        //building3D.GetComponent<AudioSource>().Stop();
+        MusicAndData_Manager.Instance.StartCoroutine(MusicAndData_Manager.Instance.FadeAndStopAudio(building3D.GetComponent<AudioSource>()));
         Camera_Manager.Instance.GoToGlobalView();
 
 
         GM.Instance.canAct = true;
         //UI_Manager.Instance.UI_Choice.SetActive(true);
         UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.FadeUI(UI_Manager.Instance.UI_Emissary.GetComponent<CanvasGroup>(), 1));
+        MusicAndData_Manager.Instance.emissary.GetComponent<AudioSource>().Play();
     }
 }

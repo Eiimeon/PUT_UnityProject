@@ -69,9 +69,10 @@ public class UI_Manager : MonoBehaviour
 
     public TextMeshProUGUI displayedText;
     public TextMeshProUGUI emissaryText;
+
+    public Image EndButton;
     
-    
-    // TODO Faire une vraie state machi
+    // TODO Faire une vraie state machine
     public bool choiceMode = true;
     public bool cityMode = false;
     public bool emissaryMode = false;
@@ -345,6 +346,12 @@ public class UI_Manager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(FadeUI(blackPanel.GetComponent<CanvasGroup>(), 0, 0.5f));
+    }
+
+    public IEnumerator SpawnEndingButtonWithDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        EndButton.gameObject.SetActive(true);
     }
 
     #endregion

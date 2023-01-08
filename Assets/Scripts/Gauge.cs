@@ -7,6 +7,8 @@ public class Gauge : MonoBehaviour
 {
     private float length = 5f; // toujours entier mais float pour faire une division
 
+    public string title;
+
 
 
     public void SetLength(float _length)

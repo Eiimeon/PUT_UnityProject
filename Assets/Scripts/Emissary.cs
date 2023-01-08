@@ -15,6 +15,7 @@ public class Emissary
     public int speechCounter = 0;
 
     public Sprite sprite;
+    public AudioClip audioClip;
 
     public string[] introTexts;
 
@@ -49,6 +50,7 @@ public class Emissary
         index = _index;
 
         sprite = UI_Manager.Instance.emissaries[index];
+        audioClip = MusicAndData_Manager.Instance.emissaries[index];
     }
 
     public void SetTexts(string[] _it, string[] _st, string[] _ft, string[] _sst)
