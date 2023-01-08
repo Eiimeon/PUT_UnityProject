@@ -262,6 +262,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9aa2ea6a0ef1f624ebca54ffa7482fca, type: 3}
   - {fileID: 8300000, guid: 1249adbb0ee2c3a4d9dd5bf2f21515f0, type: 3}
   - {fileID: 8300000, guid: d78265336cb79cf429c43484bad9911b, type: 3}
+  isFrench: 0
 --- !u!82 &202580898
 AudioSource:
   m_ObjectHideFlags: 0
@@ -274,7 +275,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: d355698bbd651f644b942188f0a103d5, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.25
+  m_Volume: 0.18
   m_Pitch: 1
   Loop: 1
   Mute: 0

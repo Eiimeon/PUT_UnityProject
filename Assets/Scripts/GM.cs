@@ -225,7 +225,7 @@ public class GM : MonoBehaviour
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
             places["Teinturerie"] = currPlace;
 
-            currTexts = new string[] { "Nous pourrions créer un quartier de belles villas romaines, des DOMUS, pour nos habitants les plus aisés. Ils seront content et la ville présentara encore mieux !" };
+            currTexts = new string[] { "Nous pourrions créer un quartier de belles villas romaines, des DOMUS, pour nos habitants les plus aisés. Ils seront content et la ville présentera encore mieux !" };
             currPlace = new Place(currTexts);
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
             tempRatios = new float[] { 0, 0, 0, 2 };
@@ -572,7 +572,7 @@ public class GM : MonoBehaviour
                 new string[] { "Hm, I see you at least tried. This place feels a little more rom...",
                             "!!!",
                             "Oh you have a temple dedicated to the capitoline triad ?! It is so beatiful, it reminds me of Rome's ! Oh I'm looking forward to go back...",
-                            "Trust me, I'll be sure to do so to praise your city before the emperor !" }, // Faire tester cette phrase par madame Jany
+                            "Believe me, I'll be sure to praise your city before the emperor !" },
                 new string[] { "Well, I see you at least tried...","...",
                             "But I think you missed the essential : where are your gods ?",
                             "I'm on my way to Italy, I'll be sure to do so to tell the emperor I have nothing to tell him." },

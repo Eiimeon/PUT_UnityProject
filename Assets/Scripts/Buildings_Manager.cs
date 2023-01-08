@@ -68,6 +68,7 @@ public class Buildings_Manager : MonoBehaviour
                 temp.clip = buildingSound;
                 temp.loop = true;
                 temp.playOnAwake = false;
+                temp.volume = 0.75f;
                 //temp.spatialBlend = 1; //tentative de spatialisation
                 
             }
