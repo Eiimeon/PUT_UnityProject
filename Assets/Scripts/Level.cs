@@ -165,6 +165,7 @@ public class Level
                     temp = GM.Instance.places[GM.Instance.deadKeys[i]];
                     if (i == 0)
                     {
+                        temp.building3D.GetComponent<AudioSource>().loop = false;
                         temp.building3D.GetComponent<AudioSource>().Play();
                     }
                     Buildings_Manager.Instance.StartCoroutine(Buildings_Manager.Instance.Build(temp.building3D));
@@ -180,6 +181,7 @@ public class Level
                     Buildings_Manager.Instance.StartCoroutine(Buildings_Manager.Instance.Build(temp.building3D));
                     Buildings_Manager.Instance.StartCoroutine(Buildings_Manager.Instance.Build(temp.district));
                 }*/
+                UI_Manager.Instance.blackPanel.gameObject.SetActive(false); // On doit désactiver le blackpanel sinon il est considéré par dessus le bouton et on peut pas cliquer
                 UI_Manager.Instance.StartCoroutine(UI_Manager.Instance.SpawnEndingButtonWithDelay(2));
             }
         }

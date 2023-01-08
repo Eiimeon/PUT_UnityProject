@@ -8,6 +8,7 @@ public class Menu : MonoBehaviour
 {
 
     [SerializeField] private Image panel;
+    private bool canLoadGame = true;
 
     public IEnumerator FadeUI(CanvasGroup canvasGroup, float targetAlpha, float fadeSpeed = 10) // Copie de la méthode de l'UI manager, qui n'existe pas au moment du menu parce que le projet il tient avec des bouts de scotch on va pas se mentir
     {
@@ -23,14 +24,16 @@ public class Menu : MonoBehaviour
     public void ButtonPlay_FR()
     {
         MusicAndData_Manager.Instance.isFrench = true;
-        StartCoroutine(FadeUI(panel.GetComponent<CanvasGroup>(),1)); // On black out l'écran pour faire passer le gros freeze pour un temps de chargement
-        SceneManager.LoadScene("S_City_New", LoadSceneMode.Additive);
+        panel.gameObject.SetActive(true);
+        StartCoroutine(FadeUI(panel.GetComponent<CanvasGroup>(),1,3)); // On black out l'écran pour faire passer le gros freeze pour un temps de chargement
+        //SceneManager.LoadScene("S_City_New", LoadSceneMode.Additive);
     }
     public void ButtonPlay_EN()
     {
         MusicAndData_Manager.Instance.isFrench = false;
-        StartCoroutine(FadeUI(panel.GetComponent<CanvasGroup>(), 1)); // On black out l'écran pour faire passer le gros freeze pour un temps de chargement
-        SceneManager.LoadScene("S_City_New", LoadSceneMode.Additive);
+        panel.gameObject.SetActive(true);
+        StartCoroutine(FadeUI(panel.GetComponent<CanvasGroup>(), 1,3)); // On black out l'écran pour faire passer le gros freeze pour un temps de chargement
+        //SceneManager.LoadScene("S_City_New", LoadSceneMode.Additive);
     }
 
     // Start is called before the first frame update
@@ -44,6 +47,10 @@ public class Menu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (panel.GetComponent<CanvasGroup>().alpha > 0.999f && canLoadGame)
+        {
+            canLoadGame = false;
+            SceneManager.LoadScene("S_City_New", LoadSceneMode.Additive);
+        }
     }
 }

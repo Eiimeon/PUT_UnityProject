@@ -204,7 +204,7 @@ public class GM : MonoBehaviour
             currPlace.SetPeople(1);
             places["Théâtre"] = currPlace;
 
-            currTexts = new string[] { "Avec toute cette, nous allons pouvoir cultier de beaux JARDINS ! Ce sera magnifique et les gens pourront s'y prélasser." };
+            currTexts = new string[] { "Avec toute cette eau, nous allons pouvoir cultiver de beaux JARDINS ! Ce sera magnifique et les gens pourront s'y prélasser." };
             currPlace = new Place(currTexts);
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[3]);
             tempRatios = new float[] { 0, 0, 2, 2 };
@@ -263,7 +263,7 @@ public class GM : MonoBehaviour
         //-------------------------------------------------------------------------------------------------------------------
         else
         {
-            string[] currTexts = { "Je vous suggère de construire un FORUM au centre de la ville. C'est un lieu d'échange où les citoyens pourraient se retrouver pour échanger sur les problématiques de la cité." };
+            string[] currTexts = { "I suggest you build a FORUM at the of the town. It's a place of exchage where citizen could meet and debate about the issues of the city." };
             Place currPlace = new Place(currTexts);
             currPlace.SetBuilding3D(buildingsTransforms[0]);
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
@@ -275,7 +275,7 @@ public class GM : MonoBehaviour
             currPlace.SetPeople(0);
             places["Forum"] = currPlace;
 
-            currTexts = new string[] { "La cité est naissante, mais les gens ne savent pas où enterrer leurs morts, s'il vous plait, construisez une NÉCROPOLE juste au delà des limites de la cité."/*,
+            currTexts = new string[] { "The city is dawning, but people doesn't know where they should bury their dead. Please build a NECROPOLIS right outside the city's boundaries."/*,
                                     "La situation devient urgente, ça fait des années que les gens enterrent leurs morts à l'arrache, construisez une NÉCROPOLE bon sang !",
                                     "Le peuple en a marre ! Construisez une NÉCROPOLE ! Ca suffit de devoir enterrer nos morts comme des clochards !"*/ };
             currPlace = new Place(currTexts);
@@ -285,7 +285,7 @@ public class GM : MonoBehaviour
             currPlace.SetPeople(3);
             places["Nécropole"] = currPlace;
 
-            currTexts = new string[] { "Si nous avons installé la nouvelle Tolosa au bord de la Garonne, c'est pour la munir d'un PORT, afin d'avoir un commerce florissant et bonnes relations internationnales." };
+            currTexts = new string[] { "If we've set new Tolosa by the Garonne, it is so we provide it a harbour in order to have flourishing trades and good international relations." };
             currPlace = new Place(currTexts);
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
             tempRatios = new float[] { 2, 2, 0, 0 };
@@ -293,7 +293,7 @@ public class GM : MonoBehaviour
             currPlace.SetPeople(1);
             places["Port"] = currPlace;
 
-            currTexts = new string[] { "Nous pourrions construire un MARCHÉ afin que les habitants puissent commercer et se fournir en ressources de tous les jours." };
+            currTexts = new string[] { "We could build a MARKETPLACE so that people could trade and get the everyday supplies they need." };
             currPlace = new Place(currTexts);
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[2]);
             tempRatios = new float[] { 0, 0, 0, 0 };
@@ -301,7 +301,7 @@ public class GM : MonoBehaviour
             currPlace.SetPeople(3);
             places["Marché"] = currPlace;
 
-            currTexts = new string[] { "Nous avons obtenu les droits pour créer à Toulouse un TEMPLE dédié à la triade capitoline ! C'est extêmement prestigieux ! Ce sont les dieux vénérés à Rome !" };
+            currTexts = new string[] { "We've been allowed to build a TEMPLE dedicated to the capitoline triad ! This is extremely prestigious ! These are the gods worshiped in Rome !" };
             currPlace = new Place(currTexts);
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
             tempRatios = new float[] { 0, 4, 0, 2 };
@@ -309,7 +309,7 @@ public class GM : MonoBehaviour
             currPlace.SetPeople(0);
             places["Temple"] = currPlace;
 
-            currTexts = new string[] {  "Rome propose de nous envoyer des habitants pour notre cité à condition que nous leur construisions des DOMUS, de belles villas romaines, où les installer."
+            currTexts = new string[] {  "Rome offered to send us inhabitants for our city provided that we build them DOMUSES, beautiful roman villas, where they'd live."
                                     /*"Je pense que vous devriez créer un quartier résidentiel autour d'une DOMUS romaine. Ce sont des maisons à la pointe du bon goût !",
                                     "Ce premier quartier avec DOMUS romaine est fabuleux ! Ne nous arrêtons pas en si bon chemin ! Je vous sous entends évidemment d'en créer un deuxième !"*/ };
             currPlace = new Place(currTexts);
@@ -326,7 +326,7 @@ public class GM : MonoBehaviour
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[3]);
             places["Égouts"] = currPlace;
 
-            currTexts = new string[] { "Nous pourrions agrémenter le forum de THERMES. Ces bains publics sont d'une part un lieu de relaxation, mais aussi un excellent lieu dans lequel aborder les discutions politiques." };
+            currTexts = new string[] { "We could enhance the forum with THERMAE. These public baths are on the one hand a relaxation place, and on the other hand, a place to discuss about politics." };
             currPlace = new Place(currTexts);
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
             tempRatios = new float[] { 0, 3, 4, 0 };
@@ -334,7 +334,7 @@ public class GM : MonoBehaviour
             currPlace.SetPeople(1);
             places["Thermes Nord"] = currPlace;
 
-            currTexts = new string[] { "Nous pourrions construire des THERMES au sud de la ville. Ces bains publics sont d'une part un lieu de relaxation, mais aussi un excellent lieu dans lequel aborder les discutions politiques." };
+            currTexts = new string[] { "We could build THERMAE south of the city. These public baths are on the one hand a relaxation place, and on the other hand, a place to discuss about politics." };
             currPlace = new Place(currTexts);
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
             tempRatios = new float[] { 0, 0, 4, 0 };
@@ -342,7 +342,7 @@ public class GM : MonoBehaviour
             currPlace.SetPeople(1);
             places["Thermes Sud"] = currPlace;
 
-            currTexts = new string[] { "Notre forum est très beau ! Mais il le serait encore plus si nous l'agrémentions d'une magnique FONTAINE !" };
+            currTexts = new string[] { "Our forum is pretty ! But it'd be even prettier if we enhanced it with a beautiful FOUNTAIN !" };
             currPlace = new Place(currTexts);
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
             tempRatios = new float[] { 0, 2, 4, 1 };
@@ -350,7 +350,7 @@ public class GM : MonoBehaviour
             currPlace.SetPeople(0);
             places["Fontaine Forum"] = currPlace;
 
-            currTexts = new string[] { "Avec toute cette eau, nous allons pouvoir faire un magnifique FONTAINE MONUMENTALE ! Avec de fort belles sculptures racontant d'héroïques mythes romains !" };
+            currTexts = new string[] { "With all this water, we are able tu build a beautiful MONUMENTAL FOUNTAIN ! With very pretty sculptures telling heroic roman myths." };
             currPlace = new Place(currTexts);
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
             tempRatios = new float[] { 0, 0, 4, 1 };
@@ -358,7 +358,7 @@ public class GM : MonoBehaviour
             currPlace.SetPeople(0);
             places["Fontaine Monumentale"] = currPlace;
 
-            currTexts = new string[] { "Nous pourrions munir l'aqueduc d'un CHATEAU D'EAU afin de stocker l'eau et permettre aux habitants de s'en fournir de façon plus stable." };
+            currTexts = new string[] { "We could enhance the aqueduct with a WATER TOWER to store water and enable people to get some more steadily." };
             currPlace = new Place(currTexts);
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[3]);
             tempRatios = new float[] { 0, 0, 2, 0 };
@@ -366,7 +366,7 @@ public class GM : MonoBehaviour
             currPlace.SetPeople(2);
             places["Chateau D'Eau"] = currPlace;
 
-            currTexts = new string[] { "Notre cité a une population importante désormais, je vous suggère de construire un gigantesque THÉATRE, qui pourrait accueillir la moitié de la population Toulousaine !" };
+            currTexts = new string[] { "Our city is densely populated now. I suggest you build a gigantic THEATER that could host half the toulousian population !" };
             currPlace = new Place(currTexts);
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
             tempRatios = new float[] { 0, 0, 0, 2 };
@@ -374,7 +374,7 @@ public class GM : MonoBehaviour
             currPlace.SetPeople(1);
             places["Théâtre"] = currPlace;
 
-            currTexts = new string[] { "Avec toute cette, nous allons pouvoir cultier de beaux JARDINS ! Ce sera magnifique et les gens pourront s'y prélasser." };
+            currTexts = new string[] { "With a ll this water, we'll be able to cultivate pretty GARDENS ! It'll be beautiful and people could lounge there." };
             currPlace = new Place(currTexts);
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[3]);
             tempRatios = new float[] { 0, 0, 2, 2 };
@@ -382,7 +382,7 @@ public class GM : MonoBehaviour
             currPlace.SetPeople(1);
             places["Jardins"] = currPlace;
 
-            currTexts = new string[] { "Les REMPARTS de Tibère commencent à dater un peu, nous pourrions leur redonner une petite jeunesse en y ajoutant des petites alcoves décoratives ! Ca ne protège de rien, mais ça en jette !" };
+            currTexts = new string[] { "Tiberius' FORTIFICATIONS are getting old, we could give it a new lease of life by adding small decorative alcoves ! Doesn't protect anything but nifty !" };
             currPlace = new Place(currTexts);
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
             tempRatios = new float[] { 0, 0, 0, 3 };
@@ -395,7 +395,7 @@ public class GM : MonoBehaviour
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
             places["Teinturerie"] = currPlace;
 
-            currTexts = new string[] { "Nous pourrions créer un quartier de belles villas romaines, des DOMUS, pour nos habitants les plus aisés. Ils seront content et la ville présentara encore mieux !" };
+            currTexts = new string[] { "We could build a district of beatiful roman villas, DOMUSES, for our richest people. They'll be happy and the town will look even niftier !" };
             currPlace = new Place(currTexts);
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
             tempRatios = new float[] { 0, 0, 0, 2 };
@@ -403,7 +403,7 @@ public class GM : MonoBehaviour
             currPlace.SetPeople(1);
             places["Domus+"] = currPlace;
 
-            currTexts = new string[] { "Et si nous augmentions les capacités de stockage du port ? Nous pourrions développer le commerce et en faire bénéficier le peuple !" };
+            currTexts = new string[] { "What if we increase the storage of the harbour ? We could increase our trading capacity and make people benefit from it." };
             currPlace = new Place(currTexts);
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[2]);
             tempRatios = new float[] { 0, 0, 0, 0 };
@@ -587,7 +587,7 @@ public class GM : MonoBehaviour
                         "How magnanimous !",
                         "Mind you, a nine kilometers long water pipe and a bridge are clearly not affordable for all.",
                         "How exiting, you are going to build a ton of pretty things thanks to all that water !",
-                        "Aren't you ?","Go, on see you in three buildings !" },
+                        "Aren't you ?","Go, see you in three buildings !" },
                 new string[] { "Oh how pretty ! All those buildings are so graceful ...", "... and you even got rid of that rotten rat smell." },
                 new string[] { "This place lacks some water.", "Don't worry, in prison you'll have all the water of your tears." },
                 new string[] { "Oh comme c'est beau ! Tous ces bâtiments sont si grâcieux …", "... et vous avez même enlevé la vieille odeur de rat crevé." },

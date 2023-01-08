@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -348,10 +349,25 @@ public class UI_Manager : MonoBehaviour
         StartCoroutine(FadeUI(blackPanel.GetComponent<CanvasGroup>(), 0, 0.5f));
     }
 
+    public IEnumerator FinalFade()
+    {
+        blackPanel.gameObject.SetActive(true);
+        StartCoroutine(FadeUI(blackPanel.GetComponent<CanvasGroup>(), 1, 0.5f));
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadScene("S_Menu");
+    }
+
+    public void DoFinalFade()
+    {
+        Debug.Log("Clic sur le bouton de fin");
+        StartCoroutine(FinalFade());
+    }
+
     public IEnumerator SpawnEndingButtonWithDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
         EndButton.gameObject.SetActive(true);
+        FadeUI(EndButton.GetComponent<CanvasGroup>(), 1, 3);
     }
 
     #endregion
