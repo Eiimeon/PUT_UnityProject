@@ -241,6 +241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panel: {fileID: 2097259616}
+  bg: {fileID: 1636063318}
 --- !u!1 &317860413
 GameObject:
   m_ObjectHideFlags: 0

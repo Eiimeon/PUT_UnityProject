@@ -63,7 +63,7 @@ public class GM : MonoBehaviour
     public List<string> deadKeys = new List<string>();
 
     public string successState = "success";
-    public readonly string midText = "Appuyez sur un conseiller pour écouter ce qu'il a à vous dire. Restez appuyé(e) pour construire le bâtiment qu'il vous suggère";
+    public string midText;
 
     float QTimer = 0;
     float DTimer = 0;
@@ -93,7 +93,7 @@ public class GM : MonoBehaviour
     {
         if (MusicAndData_Manager.Instance.isFrench)
         {
-            string[] currTexts = { "Je vous suggère de construire un FORUM au centre de la ville. C'est un lieu d'échange où les citoyens pourraient se retrouver pour échanger sur les problématiques de la cité." };
+            string[] currTexts = { "Je vous suggère de construire un FORUM au centre de la ville. C'est un lieu d'échange où les citoyens pourraient se retrouver pour échanger sur la politique de la cité." };
             Place currPlace = new Place(currTexts);
             currPlace.SetBuilding3D(buildingsTransforms[0]);
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
@@ -263,7 +263,7 @@ public class GM : MonoBehaviour
         //-------------------------------------------------------------------------------------------------------------------
         else
         {
-            string[] currTexts = { "I suggest you build a FORUM at the of the town. It's a place of exchage where citizen could meet and debate about the issues of the city." };
+            string[] currTexts = { "I suggest you build a FORUM at the of the town. It's a place of exchage where citizen could meet and debate about the politics the city." };
             Place currPlace = new Place(currTexts);
             currPlace.SetBuilding3D(buildingsTransforms[0]);
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
@@ -285,7 +285,7 @@ public class GM : MonoBehaviour
             currPlace.SetPeople(3);
             places["Nécropole"] = currPlace;
 
-            currTexts = new string[] { "If we've set new Tolosa by the Garonne, it is so we provide it a harbour in order to have flourishing trades and good international relations." };
+            currTexts = new string[] { "If we've set new Tolosa by the Garonne, it is ro provide it with a harbour in order to have flourishing trades and good international relations." };
             currPlace = new Place(currTexts);
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
             tempRatios = new float[] { 2, 2, 0, 0 };
@@ -342,7 +342,7 @@ public class GM : MonoBehaviour
             currPlace.SetPeople(1);
             places["Thermes Sud"] = currPlace;
 
-            currTexts = new string[] { "Our forum is pretty ! But it'd be even prettier if we enhanced it with a beautiful FOUNTAIN !" };
+            currTexts = new string[] { "Our forum is so pretty ! But it'd be even prettier if we enhanced it with a beautiful FOUNTAIN !" };
             currPlace = new Place(currTexts);
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
             tempRatios = new float[] { 0, 2, 4, 1 };
@@ -374,7 +374,7 @@ public class GM : MonoBehaviour
             currPlace.SetPeople(1);
             places["Théâtre"] = currPlace;
 
-            currTexts = new string[] { "With a ll this water, we'll be able to cultivate pretty GARDENS ! It'll be beautiful and people could lounge there." };
+            currTexts = new string[] { "With all this water, we'll be able to cultivate pretty GARDENS ! It'll be beautiful and people could lounge there." };
             currPlace = new Place(currTexts);
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[3]);
             tempRatios = new float[] { 0, 0, 2, 2 };
@@ -382,7 +382,7 @@ public class GM : MonoBehaviour
             currPlace.SetPeople(1);
             places["Jardins"] = currPlace;
 
-            currTexts = new string[] { "Tiberius' FORTIFICATIONS are getting old, we could give it a new lease of life by adding small decorative alcoves ! Doesn't protect anything but nifty !" };
+            currTexts = new string[] { "Tiberius' FORTIFICATIONS are getting old, we could give it a new lease of life by adding small decorative alcoves ! Doesn't protect anything but that's nifty !" };
             currPlace = new Place(currTexts);
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
             tempRatios = new float[] { 0, 0, 0, 3 };
@@ -395,7 +395,7 @@ public class GM : MonoBehaviour
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[0]);
             places["Teinturerie"] = currPlace;
 
-            currTexts = new string[] { "We could build a district of beatiful roman villas, DOMUSES, for our richest people. They'll be happy and the town will look even niftier !" };
+            currTexts = new string[] { "We could build a district of beautiful roman villas, DOMUSES, for our richest people. They'll be happy and the town will look even niftier !" };
             currPlace = new Place(currTexts);
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[1]);
             tempRatios = new float[] { 0, 0, 0, 2 };
@@ -403,7 +403,7 @@ public class GM : MonoBehaviour
             currPlace.SetPeople(1);
             places["Domus+"] = currPlace;
 
-            currTexts = new string[] { "What if we increase the storage of the harbour ? We could increase our trading capacity and make people benefit from it." };
+            currTexts = new string[] { "What if we increased the storage of the harbour ? It could increase our trading capacity and make people benefit from it." };
             currPlace = new Place(currTexts);
             currPlace.SetAdvisor(UI_Manager.Instance.advisors[2]);
             tempRatios = new float[] { 0, 0, 0, 0 };
@@ -485,10 +485,10 @@ public class GM : MonoBehaviour
             new string[] {"Haha ! C'est du bel ouvrage ! Tu vois petit gars, ça c'est les bases d'une grande ville, de grandes routes perpendiculaires, et surtout de grandes portes pour montrer qu'ici, c'est chez nous !",
                             "Tu as de la chance que l'empereur Auguste ait décidé de financer la reconstruction de Tolosa et accepté ma requête de te placer ici.",
                             "Mais ne te méprends pas, superviser l'urbanisme d'une cité est une grande responsabilité.",
-                            "Mais ne t'en fais pas, tu ne seras pas seul. Des conseillers viendront t'aider en te proposant des projets de construction.",
+                            "Ne t'en fais pas, tu ne seras pas seul. Des conseillers viendront t'aider en te proposant des projets de construction.",
                             "Je laisse la ville entre tes mains, je te laisse le temps de construire trois bâtiments.",
                             "J'espère que cette ville sera devenue un vrai cité à mon retour. Développe l'activité politique de Tolosa, et alors l'empereur sera content.",
-                            "Mais fais aussi attention à le pas négliger ton peuple !"},
+                            "Mais fais aussi attention à ne pas négliger ton peuple !"},
             new string[] { "On a reçu des échos jusqu'à Rome ! Tolosa est une vrai petite cité maintenant !",
                             "Je suis fier de toi, maintenant j'en ai le cœur net, je peux valider sans crainte la décision de l'empereur de faire don de remparts à ta ville !" },
             new string[] { "Sérieusement ?! Ta ville ne sera jamais une vraie cité sans forum pour la politique intérieure et sans port pour la politique extérieure !",
@@ -549,17 +549,17 @@ public class GM : MonoBehaviour
         else
         {
             Emissary temp = new Emissary(
-            new string[] {"Haha ! It is beautiful work ! You see that, boy ? This is the basis of a great city-state, two great perpendicular roads, and most importanly great doors to show that here is our home !",
+            new string[] {"Haha ! It is beautiful work ! You see that, boy ? This is the basis of a great city-state, two great perpendicular roads, and moreover great doors to show that here is our home !",
                             "You're lucky the emperor Augustus decided to fund the rebuilding of Tolosa and accepted my request tu put you here.",
                             "But don't be mistaken, oversee a city's urbanism is a great responsability.",
-                            "But don't worry, you won't be alone. Advisors will help you by suggesting buildings you should add to your town.",
+                            "Don't worry, you won't be alone. Advisors will help you by suggesting buildings you should add to your town.",
                             "The town is in your hands now, I leave you enough time to build three buildings.",
                             "I hope this town will have become a real city state when I'll be back. Develop Tolosa's political activity, and the emperor will be pleased.",
                             "But also be careful not to neglect your people !"},
             new string[] { "Rumors have made their way up to rome ! Tolosa's a real city state now !",
                             "I'm proud of you, now I'm sure of it, I can without a doubt approve the emperor's decision to give your town fortifications !" },
-            new string[] { "Seriously ?! Your town will nerver be a real city-state without a forum for domestic policy and a harbour for foreign policy !",
-                            "You undeerstand I cannot lie in my report... The emperor wanted to give your town fortifications,but now that I've seen that, I think he's more likely to send you straight to the foreign legion !" },
+            new string[] { "Seriously ?! Your town will never be a real city-state without a forum for domestic policy and a harbour for foreign policy !",
+                            "You understand I cannot lie in my report... The emperor wanted to give your town fortifications, but now that I've seen that, I think he's more likely to send you straight to the foreign legion !" },
             new string[] { "" },
             0);
             emissaries.Add(temp);
@@ -571,7 +571,7 @@ public class GM : MonoBehaviour
                             "I leave you enough time to build three buildings"},
                 new string[] { "Hm, I see you at least tried. This place feels a little more rom...",
                             "!!!",
-                            "Oh you have a temple dedicated to the capitoline triad ?! It is so beatiful, it reminds me of Rome's ! Oh I'm looking forward to go back...",
+                            "Oh you have a temple dedicated to the capitoline triad ?! It is so beautiful, it reminds me of Rome's ! Oh I'm looking forward to go back...",
                             "Believe me, I'll be sure to praise your city before the emperor !" },
                 new string[] { "Well, I see you at least tried...","...",
                             "But I think you missed the essential : where are your gods ?",
@@ -976,6 +976,17 @@ public class GM : MonoBehaviour
     {
         SceneManager.UnloadSceneAsync("S_Menu");
         SceneManager.SetActiveScene(SceneManager.GetSceneByName("S_City_New"));
+
+        if (MusicAndData_Manager.Instance.isFrench)
+        {
+            midText = "Appuyez sur un conseiller pour écouter ce qu'il a à vous dire. Restez appuyé(e) pour construire le bâtiment qu'il vous suggère." +
+                      "Remplissez la jauge d'objectif avant que la jauge de peuple ne soit vide !";
+        }
+        else
+        {
+            midText = "Tap on an advisor to listen to them. Hold your finger on them to build the building they suggest." +
+                      "Fill the objective gauge before the people gauge goes empty !";
+        }
 
         buildingsTransforms = Buildings_Manager.Instance.buildingsTransform;
         BuildDictionnary();

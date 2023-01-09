@@ -8,6 +8,8 @@ public class Menu : MonoBehaviour
 {
 
     [SerializeField] private Image panel;
+    [SerializeField] public Image bg;
+
     private bool canLoadGame = true;
 
     public IEnumerator FadeUI(CanvasGroup canvasGroup, float targetAlpha, float fadeSpeed = 10) // Copie de la méthode de l'UI manager, qui n'existe pas au moment du menu parce que le projet il tient avec des bouts de scotch on va pas se mentir
@@ -40,6 +42,8 @@ public class Menu : MonoBehaviour
     void Start()
     {
         SceneManager.LoadSceneAsync("S_MusicAndData", LoadSceneMode.Additive);
+        bg.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Screen.width);
+        bg.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Screen.height);
         //SceneManager.SetActiveScene(SceneManager.GetActiveScene());
         //SceneManager.SetActiveScene(SceneManager.GetSceneByName("S_Menu"));
     }
